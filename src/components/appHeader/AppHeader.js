@@ -1,4 +1,4 @@
-import "./appHeader.scss"
+import "./AppHeader.scss"
 
 function AppHeader() {
     return (
