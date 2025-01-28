@@ -1,4 +1,5 @@
 import AppHeader from '../AppHeader/AppHeader';
+import CharList from '../CharList/CharList';
 import RandomChar from '../RandomChar/RandomChar';
 import './App.scss';
 
@@ -8,6 +9,9 @@ function App() {
       <AppHeader />
       <main>
         <RandomChar />
+        <div className='char__content'>
+          <CharList />
+        </div>
       </main>
     </div>
   );
