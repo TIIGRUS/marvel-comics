@@ -9,14 +9,14 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <main>
+      <main className='app__container'>
         <RandomChar />
         <div className='char__content'>
           <CharList />
           <CharInfo />
         </div>
-        <img src={vision} alt='vision' className='bg-decoration' aria-hidden="true" />
       </main>
+      <img src={vision} alt='vision' className='app__decor' aria-hidden="true" />
     </div>
   );
 }
