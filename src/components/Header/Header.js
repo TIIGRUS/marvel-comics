@@ -2,7 +2,7 @@ import "./Header.scss"
 
 function Header() {
     return (
-        <header className="header">
+        <header className="header app__container">
             <h1 className="header__title">
                 <a href="/#">
                     <span>Marvel</span> information portal
