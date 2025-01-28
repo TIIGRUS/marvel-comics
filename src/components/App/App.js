@@ -1,4 +1,4 @@
-import AppHeader from '../AppHeader/AppHeader';
+import Header from '../Header/Header';
 import CharInfo from '../CharInfo/CharInfo';
 import CharList from '../CharList/CharList';
 import RandomChar from '../RandomChar/RandomChar';
@@ -8,7 +8,7 @@ import vision from "../../assets/images/vision.png";
 function App() {
   return (
     <div className="app">
-      <AppHeader />
+      <Header />
       <main>
         <RandomChar />
         <div className='char__content'>
