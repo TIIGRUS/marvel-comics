@@ -1,11 +1,15 @@
 .app {
-    width: 1100px;
-    margin: 0 auto;
     padding: 50px 0 50px 0;
     position: relative;
-    .bg-decoration {
+
+    &__container {
+        max-width: 1100px;
+        margin-inline: auto;
+    }
+
+    &__decor {
         position: absolute;
-        right: -174px;
+        right: 0;
         bottom: -70px;
         z-index: -1;
     }
