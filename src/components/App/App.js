@@ -1,4 +1,5 @@
 import AppHeader from '../AppHeader/AppHeader';
+import RandomChar from '../RandomChar/RandomChar';
 import './App.scss';
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
     <div className="app">
       <AppHeader />
       <main>
-
+        <RandomChar />
       </main>
     </div>
   );
