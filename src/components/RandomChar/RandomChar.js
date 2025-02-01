@@ -7,28 +7,22 @@ import mjolnir from "../../assets/images/mjolnir.png"
 
 class RandomChar extends Component {
     state = {
-        char: {
-            name: null,
-            description: null,
-            thumbnail: null,
-            homepage: null,
-            wiki: null
-        }
+        char: {}
     }
 
     marvelService = new MarvelService();
+
+    onCharLoaded = (char) => {
+        this.setState({
+            char
+        })
+    }
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
 
         this.marvelService.getCharacter(id)
-            .then(res => {
-                this.setState({
-                    char: {
-                        ...res
-                    }
-                })
-            }).catch(e => console.error("Error fethcing character", e));
+            .then(this.onCharLoaded).catch(e => console.error("Error fethcing character", e));
     }
 
     componentDidMount() {
@@ -36,23 +30,25 @@ class RandomChar extends Component {
     }
 
     render() {
-        const { char } = this.state;
+        const { char: { name, description, thumbnail, homepage, wiki } } = this.state;
+        // const { char } = this.state;
         // const { name, description, thumbnail, homepage, wiki } = char;
 
         return (
             <div className="randomchar">
                 <div className="randomchar__block">
-                    <img src={char.thumbnail} alt="Random character" className="randomchar__img" />
+                    <img src={thumbnail || thor} alt={name} className="randomchar__img" />
                     <div className="randomchar__info">
-                        <p className="randomchar__name">{char.name}</p>
+                        <p className="randomchar__name">{name || "Tor"}</p>
                         <p className="randomchar__descr">
-                            {char.description}
+                            {description}
+                            {/* {description ? `${description.slice(0, 210)}...` : "There is no description for this character"} */}
                         </p>
                         <div className="randomchar__btns">
-                            <a href={char.homepage} className="button button__main">
+                            <a href={homepage} className="button button__main">
                                 <div className="inner">homepage</div>
                             </a>
-                            <a href={char.wiki} className="button button__secondary">
+                            <a href={wiki} className="button button__secondary">
                                 <div className="inner">Wiki</div>
                             </a>
                         </div>
