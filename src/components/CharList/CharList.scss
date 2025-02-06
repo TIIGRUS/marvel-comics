@@ -10,7 +10,9 @@
     }
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, 200px);
+        // grid-template-columns: repeat(3, 200px);
+        grid-template-columns: repeat(auto-fit, 200px);
+        justify-content: center;
         column-gap: 25px;
         row-gap: 30px;
     }
@@ -26,6 +28,7 @@
             width: 200px;
             height: 200px;
             object-fit: cover;
+            object-position: left;
             transform: translate(-15px, -15px);
         }
         &_selected {
