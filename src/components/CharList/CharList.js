@@ -31,9 +31,9 @@ class CharList extends Component {
 
     render() {
         const { arrayChars, isLoading } = this.state;
-        const items = arrayChars.map(({ name, thumbnail }) => {
+        const items = arrayChars.map(({ name, thumbnail, id }) => {
             return (
-                <li key={name} className="char__item">
+                <li key={id} className="char__item">
                     <img src={thumbnail} alt={name} />
                     <div className="char__name">{name}</div>
                 </li>

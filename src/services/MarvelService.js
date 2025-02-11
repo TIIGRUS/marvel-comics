@@ -27,11 +27,15 @@ class MarvelService {
     }
 
     #transformCharacter = (char) => {
-        const { name, description, thumbnail, urls } = char;
+        const { name, description, thumbnail, urls, id } = char;
+
+        console.log(char);
+
 
         const getUrl = (typeLink) => (urls.find(({ type }) => type === typeLink))?.url || "#";
 
         return {
+            id,
             name,
             description: description ? `${description.slice(0, 210)}...` : "There is no description for this character",
             thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
