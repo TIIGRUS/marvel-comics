@@ -29,9 +29,6 @@ class MarvelService {
     #transformCharacter = (char) => {
         const { name, description, thumbnail, urls, id } = char;
 
-        console.log(char);
-
-
         const getUrl = (typeLink) => (urls.find(({ type }) => type === typeLink))?.url || "#";
 
         return {
