@@ -24,6 +24,14 @@ class CharInfo extends Component {
         }
     }
 
+    // componentDidCatch(error, errorInfo) {
+    //     console.log(error, errorInfo);
+
+    //     this.setState({
+    //         error: true
+    //     })
+    // }
+
     updateChar = () => {
         const { charId } = this.props;
 
