@@ -6,6 +6,7 @@ import CharList from '../CharList/CharList';
 import RandomChar from '../RandomChar/RandomChar';
 import './App.scss';
 import vision from "../../assets/images/vision.png";
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -23,10 +24,16 @@ class App extends Component {
       <div className="app">
         <Header />
         <main className='app__container'>
-          <RandomChar />
+          <ErrorBoundary>
+            <RandomChar />
+          </ErrorBoundary>
           <div className='char__content'>
-            <CharList onCharSelected={this.onCharSelected} />
-            <CharInfo charId={this.state.selectedChar} />
+            <ErrorBoundary>
+              <CharList onCharSelected={this.onCharSelected} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CharInfo charId={this.state.selectedChar} />
+            </ErrorBoundary>
           </div>
         </main>
         <img src={vision} alt='vision' className='app__decor' aria-hidden="true" />
