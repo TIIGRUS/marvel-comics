@@ -103,17 +103,15 @@ const View = ({ char }) => {
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-                {comics.length > 0 ? null : <span>Comics not found for this character.</span>}
-
-                {comics.map((item, i) => {
-                    if (i < 10 && comics.length > 0) {
-                        return (
-                            <li key={i} className="char__comics-item">
-                                {item.name}
-                            </li>
-                        )
-                    }
-                })}
+                {comics.length > 0 ? (
+                    comics.slice(0, 10).map((item, i) => (
+                        <li key={i} className="char__comics-item">
+                            {item.name}
+                        </li>
+                    ))
+                ) : (
+                    <span>Comics not found for this character.</span>
+                )}
             </ul>
         </>
     )
