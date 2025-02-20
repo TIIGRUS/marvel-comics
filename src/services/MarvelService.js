@@ -1,10 +1,10 @@
 class MarvelService {
     #apiBase = 'https://gateway.marvel.com/v1/public/';
     #apiKey = `${process.env.REACT_APP_MARVEL_API_KEY}`;
-    #baseOffset = 210;
+    #initialOffset = 210;
+    #initialLimit = 9;
     // _baseOffset = 210;
     // _initialLimit = 9;
-    #initialLimit = 9;
 
     getResource = async (url) => {
         url = `${this.#apiBase}${url}apikey=${this.#apiKey}`;
@@ -18,7 +18,7 @@ class MarvelService {
         return await res.json();
     }
 
-    getAllCharacters = async (limit = this.#initialLimit, offset = this.#baseOffset) => {
+    getAllCharacters = async (limit = this.#initialLimit, offset = this.#initialOffset) => {
         const res = await this.getResource(`characters?limit=${limit}&offset=${offset}&`);
 
         return res.data.results.map(this.#transformCharacter);
