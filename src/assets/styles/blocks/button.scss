@@ -98,4 +98,8 @@
             transform: none;
         }
     }
+
+    &_hidden {
+        visibility: hidden;
+    }
 }
