@@ -4,9 +4,9 @@ import Header from '../Header/Header';
 import CharInfo from '../CharInfo/CharInfo';
 import CharList from '../CharList/CharList';
 import RandomChar from '../RandomChar/RandomChar';
-import './App.scss';
 import vision from "../../assets/images/vision.png";
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import './App.scss';
 
 const App = () => {
   const [selectedChar, setSelectedChar] = useState(null);
