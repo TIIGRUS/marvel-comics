@@ -134,11 +134,6 @@ const CharList = ({ id, onCharSelected }) => {
                 {errorMessage}
                 {spinner}
                 {content}
-
-                {/* <li className="char__item">
-                    <img src={abyss} alt="abyss" />
-                    <div className="char__name">Abyss</div>
-                </li> */}
             </ul>
             <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isNewLoading || isCharListEnded} onClick={() => onRequestMoreLoaded(limit, offset)}>
                 <div className="inner">load more</div>
