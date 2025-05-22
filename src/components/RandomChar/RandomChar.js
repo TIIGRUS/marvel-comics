@@ -30,7 +30,7 @@ const RandomChar = () => {
 
     const updateChar = () => {
         // const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        const id = Math.floor(Math.random() * (20 - 1 + 1) + 1);
+        const id = Math.floor(Math.random() * (20 - 1 + 1) + 1); // Include max and min values
 
         onCharLoading();
 
