@@ -27,7 +27,7 @@ const App = () => {
             <CharList onCharSelected={onCharSelected} />
           </ErrorBoundary>
           <ErrorBoundary>
-            <CharInfo charId={selectedChar} />
+            <CharInfo selectedCharId={selectedChar} />
           </ErrorBoundary>
         </div>
       </main>
