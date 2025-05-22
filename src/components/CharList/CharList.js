@@ -1,135 +1,147 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import MarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./CharList.scss"
 // import abyss from '../../assets/images/abyss.jpg';
 
-class CharList extends Component {
-    state = {
-        arrayChars: [],
-        isLoading: true,
-        isNewLoading: false,
-        error: false,
-        offset: 210,
-        limit: 9,
-        isCharListEnded: false,
+const CharList = ({ id, onCharSelected }) => {
+    const [arrayChars, setArrayChars] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isNewLoading, setIsNewLoading] = useState(false);
+    const [error, setError] = useState(false);
+    // const [offset, setOffset] = useState(210);
+    const [offset, setOffset] = useState(3);
+    const [limit, setLimit] = useState(9);
+    const [isCharListEnded, setIsCharListEnded] = useState(false);
+
+    const marvelService = new MarvelService();
+    const itemRefs = [];
+
+    const onRequest = (limit, offset) => {
+        onNewCharsListLoading();
+
+        marvelService.getAllCharacters(limit, offset)
+            .then(onInitialCharsListLoaded)
+            .catch(e => {
+                console.error("Error fetching characters", e)
+                onError();
+            });
     }
 
-    marvelService = new MarvelService();
+    useEffect(() => {
+        onRequest(limit, offset);
+    }, []);
 
-    onInitialCharsListLoaded = (arrayChars) => {
-        this.onIsCharsListEnded(arrayChars);
+    const onInitialCharsListLoaded = (arrayChars) => {
+        onIsCharsListEnded(arrayChars);
 
-        this.setState({
-            arrayChars,
-            isLoading: false,
-            isNewLoading: false,
+        setArrayChars(arrayChars);
+        setIsLoading(false);
+        setIsNewLoading(false);
+    }
+
+    const onMoreCharsListLoaded = (newArrayChars) => {
+        onIsCharsListEnded(newArrayChars);
+
+        setArrayChars((arrayChars) => {
+            console.log("newArrayChars", newArrayChars);
+            console.log("arrayChars", arrayChars);
+
+            return [...arrayChars, ...newArrayChars];
         });
+        setIsLoading(false);
+        setIsNewLoading(false);
     }
 
-    onMoreCharsListLoaded = (newArrayChars) => {
-        this.onIsCharsListEnded(newArrayChars);
-
-        this.setState(({ arrayChars }) => (
-            {
-                arrayChars: [...arrayChars, ...newArrayChars],
-                isLoading: false,
-                isNewLoading: false,
-            }
-        ))
+    const onNewCharsListLoading = () => {
+        setIsNewLoading(true);
+        setIsCharListEnded(false);
     }
 
-    onNewCharsListLoading = () => {
-        this.setState({
-            isNewLoading: true,
-        })
-    }
-
-    onIsCharsListEnded = (arrayChars) => {
-        const { limit } = this.state;
-
+    const onIsCharsListEnded = (arrayChars) => {
         if (arrayChars.length < limit) {
-            this.setState({
-                isCharListEnded: true,
-            })
+            setIsCharListEnded(true);
         }
     }
 
-    onRequest = (limit, offset) => {
-        this.onNewCharsListLoading();
+    const onRequestMoreLoaded = (limit, offset) => {
+        offset = offset + limit;
 
-        this.marvelService.getAllCharacters(limit, offset)
-            .then(this.onInitialCharsListLoaded)
+        onNewCharsListLoading();
+
+        setOffset(offset);
+
+        marvelService.getAllCharacters(limit, offset)
+            .then(onMoreCharsListLoaded)
             .catch(e => {
                 console.error("Error fetching characters", e)
-                this.onError();
+                onError();
             });
     }
 
-    onRequestMoreLoaded = (limit, offset) => {
-        offset = this.state.offset + limit;
-
-        this.onNewCharsListLoading();
-
-        this.setState({
-            offset,
-        })
-
-        this.marvelService.getAllCharacters(limit, offset)
-            .then(this.onMoreCharsListLoaded)
-            .catch(e => {
-                console.error("Error fetching characters", e)
-                this.onError();
-            });
+    const setItemsRef = (ref) => {
+        if (ref && !itemRefs.includes(ref)) {
+            itemRefs.push(ref);
+        }
     }
 
-    onError = () => {
-        this.setState({
-            isLoading: false,
-            error: true,
-        })
+    const onCharSetActive = (index) => {
+        itemRefs.forEach(item => item.classList.remove("char__item_selected"));
+        if (itemRefs[index]) {
+            itemRefs[index].classList.add("char__item_selected");
+            itemRefs[index].focus();
+        }
     }
 
-    componentDidMount() {
-        this.onRequest(this.state.limit, this.state.offset);
+    const onError = () => {
+        setIsLoading(false);
+        setError(true);
     }
 
-    render() {
-        const { arrayChars, isLoading, offset, limit, isNewLoading, error, isCharListEnded } = this.state;
-        const items = arrayChars.map(({ name, thumbnail, id }) => {
-            return (
-                <li key={id} className="char__item" onClick={() => this.props.onCharSelected(id)}>
-                    <img src={thumbnail} alt={name} />
-                    <div className="char__name">{name}</div>
-                </li>
-            )
-        });
-
-        const errorMessage = error ? <li><ErrorMessage /></li> : null;
-        const spinner = isLoading ? <li><Spinner /></li> : null;
-        const content = !(isLoading || error) ? items : null;
-
-        const classNameHideBtn = isCharListEnded ? "button_hidden button_disabled" : "";
-
+    const errorMessage = error ? <li><ErrorMessage /></li> : null;
+    const spinner = isLoading ? <li><Spinner /></li> : null;
+    const classNameHideBtn = isCharListEnded ? "button_hidden button_disabled" : "";
+    const items = arrayChars.map(({ name, thumbnail, id }, index) => {
         return (
-            <div className="char__list">
-                <ul className="char__grid">
-                    {errorMessage}
-                    {spinner}
-                    {content}
-
-                    {/* <li className="char__item">
-                        <img src={abyss} alt="abyss" />
-                        <div className="char__name">Abyss</div>
-                    </li> */}
-                </ul>
-                <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isNewLoading || isCharListEnded} onClick={() => this.onRequestMoreLoaded(limit, offset)}>
-                    <div className="inner">load more</div>
-                </button>
-            </div>
+            <li key={id} className="char__item"
+                onClick={() => {
+                    onCharSelected(id);
+                    onCharSetActive(index);
+                }}
+                ref={setItemsRef} tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === " " || e.key === "Enter") {
+                        onCharSelected(id);
+                        onCharSetActive(index);
+                    }
+                }}
+            >
+                <img src={thumbnail} alt={name} />
+                <div className="char__name">{name}</div>
+            </li>
         )
-    }
+    });
+    const content = !(isLoading || error) ? items : null;
+
+
+    return (
+        <div className="char__list">
+            <ul className="char__grid">
+                {errorMessage}
+                {spinner}
+                {content}
+
+                {/* <li className="char__item">
+                    <img src={abyss} alt="abyss" />
+                    <div className="char__name">Abyss</div>
+                </li> */}
+            </ul>
+            <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isNewLoading || isCharListEnded} onClick={() => onRequestMoreLoaded(limit, offset)}>
+                <div className="inner">load more</div>
+            </button>
+        </div>
+    )
 }
 
 export default CharList;

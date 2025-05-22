@@ -1,5 +1,6 @@
 class MarvelService {
-    #apiBase = 'https://gateway.marvel.com/v1/public/';
+    // #apiBase = 'https://gateway.marvel.com/v1/public/';
+    #apiBase = 'https://marvel-server-zeta.vercel.app/';
     #apiKey = `${process.env.REACT_APP_MARVEL_API_KEY}`;
     #initialOffset = 210;
     #initialLimit = 9;
