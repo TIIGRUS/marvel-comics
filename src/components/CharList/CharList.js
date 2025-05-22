@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -10,13 +10,13 @@ const CharList = ({ id, onCharSelected }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isNewLoading, setIsNewLoading] = useState(false);
     const [error, setError] = useState(false);
-    // const [offset, setOffset] = useState(210);
+    // const [offset, setOffset] = useState(210); // 210 to Marvel API
     const [offset, setOffset] = useState(3);
     const [limit, setLimit] = useState(9);
     const [isCharListEnded, setIsCharListEnded] = useState(false);
+    const arrayRefs = useRef([]);
 
     const marvelService = new MarvelService();
-    const itemRefs = [];
 
     const onRequest = (limit, offset) => {
         onNewCharsListLoading();
@@ -45,11 +45,9 @@ const CharList = ({ id, onCharSelected }) => {
         onIsCharsListEnded(newArrayChars);
 
         setArrayChars((arrayChars) => {
-            console.log("newArrayChars", newArrayChars);
-            console.log("arrayChars", arrayChars);
-
             return [...arrayChars, ...newArrayChars];
         });
+
         setIsLoading(false);
         setIsNewLoading(false);
     }
@@ -80,17 +78,22 @@ const CharList = ({ id, onCharSelected }) => {
             });
     }
 
-    const setItemsRef = (ref) => {
-        if (ref && !itemRefs.includes(ref)) {
-            itemRefs.push(ref);
+    const setItemsRef = (index, ref) => {
+        // if (ref && !itemRefs.includes(ref)) {
+        //     itemRefs.push(ref);
+        // }
+        if (ref && !arrayRefs.current.includes(ref)) {
+            // itemRefs.current.push(ref);
+            arrayRefs.current[index] = ref;
         }
     }
 
     const onCharSetActive = (index) => {
-        itemRefs.forEach(item => item.classList.remove("char__item_selected"));
-        if (itemRefs[index]) {
-            itemRefs[index].classList.add("char__item_selected");
-            itemRefs[index].focus();
+        arrayRefs.current.forEach(item => item.classList.remove("char__item_selected"));
+
+        if (arrayRefs.current[index]) {
+            arrayRefs.current[index].classList.add("char__item_selected");
+            arrayRefs.current[index].focus();
         }
     }
 
@@ -109,7 +112,7 @@ const CharList = ({ id, onCharSelected }) => {
                     onCharSelected(id);
                     onCharSetActive(index);
                 }}
-                ref={setItemsRef} tabIndex={0}
+                ref={(el) => setItemsRef(index, el)} tabIndex={0}
                 onKeyDown={(e) => {
                     if (e.key === " " || e.key === "Enter") {
                         onCharSelected(id);
