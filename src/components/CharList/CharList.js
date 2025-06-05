@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./CharList.scss"
@@ -7,38 +7,31 @@ import "./CharList.scss"
 
 const CharList = ({ id, onCharSelected }) => {
     const [arrayChars, setArrayChars] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isNewLoading, setIsNewLoading] = useState(false);
-    const [error, setError] = useState(false);
     // const [offset, setOffset] = useState(210); // 210 to Marvel API
-    const [offset, setOffset] = useState(3);
+    const [offset, setOffset] = useState(0);
     const [limit, setLimit] = useState(9);
     const [isCharListEnded, setIsCharListEnded] = useState(false);
     const arrayRefs = useRef([]);
 
-    const marvelService = new MarvelService();
+    const { isLoading, error, getAllCharacters } = useMarvelService();
 
-    const onRequest = (limit, offset) => {
-        onNewCharsListLoading();
+    const onRequest = (limit, offset, isInitialLoading) => {
+        isInitialLoading ? setIsNewLoading(false) : setIsNewLoading(true);
 
-        marvelService.getAllCharacters(limit, offset)
-            .then(onInitialCharsListLoaded)
-            .catch(e => {
-                console.error("Error fetching characters", e)
-                onError();
-            });
+        getAllCharacters(limit, offset)
+            .then((arrayChars) => {
+                onInitialCharsListLoaded(arrayChars);
+            })
     }
 
     useEffect(() => {
-        onRequest(limit, offset);
+        onRequest(limit, offset, true);
     }, []);
 
     const onInitialCharsListLoaded = (arrayChars) => {
         onIsCharsListEnded(arrayChars);
-
         setArrayChars(arrayChars);
-        setIsLoading(false);
-        setIsNewLoading(false);
     }
 
     const onMoreCharsListLoaded = (newArrayChars) => {
@@ -47,9 +40,6 @@ const CharList = ({ id, onCharSelected }) => {
         setArrayChars((arrayChars) => {
             return [...arrayChars, ...newArrayChars];
         });
-
-        setIsLoading(false);
-        setIsNewLoading(false);
     }
 
     const onNewCharsListLoading = () => {
@@ -70,12 +60,10 @@ const CharList = ({ id, onCharSelected }) => {
 
         setOffset(offset);
 
-        marvelService.getAllCharacters(limit, offset)
-            .then(onMoreCharsListLoaded)
-            .catch(e => {
-                console.error("Error fetching characters", e)
-                onError();
-            });
+        getAllCharacters(limit, offset)
+            .then((arrayChars) => {
+                onMoreCharsListLoaded(arrayChars);
+            })
     }
 
     const setItemsRef = (index, ref) => {
@@ -97,13 +85,8 @@ const CharList = ({ id, onCharSelected }) => {
         }
     }
 
-    const onError = () => {
-        setIsLoading(false);
-        setError(true);
-    }
-
     const errorMessage = error ? <li><ErrorMessage /></li> : null;
-    const spinner = isLoading ? <li><Spinner /></li> : null;
+    const spinner = isLoading && !isNewLoading ? <li><Spinner /></li> : null;
     const classNameHideBtn = isCharListEnded ? "button_hidden button_disabled" : "";
     const items = arrayChars.map(({ name, thumbnail, id }, index) => {
         return (
@@ -125,17 +108,16 @@ const CharList = ({ id, onCharSelected }) => {
             </li>
         )
     });
-    const content = !(isLoading || error) ? items : null;
-
+    // const content = !(isLoading || error) ? items : null;
 
     return (
         <div className="char__list">
             <ul className="char__grid">
                 {errorMessage}
                 {spinner}
-                {content}
+                {items}
             </ul>
-            <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isNewLoading || isCharListEnded} onClick={() => onRequestMoreLoaded(limit, offset)}>
+            <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isCharListEnded || isLoading} onClick={() => onRequestMoreLoaded(limit, offset)}>
                 <div className="inner">load more</div>
             </button>
         </div>

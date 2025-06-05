@@ -7,22 +7,18 @@ import "./CharInfo.scss";
 
 const CharInfo = ({ selectedCharId }) => {
     const [char, setChar] = useState(null);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const { getCharacter, isLoading, error, clearError } = MarvelService();
 
     useEffect(() => {
-        const marvelService = new MarvelService();
-
         const updateChar = () => {
             if (!selectedCharId) {
                 return;
             }
 
-            onCharLoading();
+            clearError();
 
-            marvelService.getCharacter(selectedCharId)
+            getCharacter(selectedCharId)
                 .then(onCharLoaded)
-                .catch(onCharError);
         }
 
         if (selectedCharId) {
@@ -30,25 +26,14 @@ const CharInfo = ({ selectedCharId }) => {
         }
     }, [selectedCharId]);
 
-
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false);
-    }
-
-    const onCharError = () => {
-        setError(true);
-        setLoading(false);
-    }
-
-    const onCharLoading = () => {
-        setLoading(true);
     }
 
     const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const skeleton = !(loading || error || char) ? <Skeleton /> : null;
-    const content = !(loading || error || !char) ? <View char={char} /> : null;
+    const spinner = isLoading ? <Spinner /> : null;
+    const skeleton = !(isLoading || error || char) ? <Skeleton /> : null;
+    const content = !(isLoading || error || !char) ? <View char={char} /> : null;
 
     return (
         <div className="char__info" >

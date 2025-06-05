@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 
 import thor from "../../assets/images/thor.jpeg"
 import mjolnir from "../../assets/images/mjolnir.png"
@@ -10,35 +10,20 @@ import "./RandomChar.scss"
 
 const RandomChar = () => {
     const [char, setChar] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const marvelService = new MarvelService();
+    const { getCharacter, error, isLoading, clearError } = useMarvelService();
+
 
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false);
-    }
-
-    const onError = () => {
-        setError(true);
-        setLoading(false);
-    }
-
-    const onCharLoading = () => {
-        setLoading(true);
     }
 
     const updateChar = () => {
         // const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         const id = Math.floor(Math.random() * (20 - 1 + 1) + 1); // Include max and min values
+        clearError(); // Clear any previous error before making a new request
 
-        onCharLoading();
-
-        marvelService.getCharacter(id)
-            .then(onCharLoaded).catch(e => {
-                onError(e);
-                console.error("Error fethcing character", e)
-            });
+        getCharacter(id)
+            .then(onCharLoaded)
     }
 
     useEffect(() => {
@@ -46,8 +31,8 @@ const RandomChar = () => {
     }, []);
 
     const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <View char={char} /> : null;
+    const spinner = isLoading ? <Spinner /> : null;
+    const content = !(isLoading || error) ? <View char={char} /> : null;
     const classNamesButton = error ? "button_disabled" : "";
     // const { char: { name, description, thumbnail, homepage, wiki }, loading } = this.state;
     // const { char } = this.state;
