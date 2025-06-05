@@ -1,37 +1,36 @@
-class MarvelService {
+import { useHTTP } from "../hooks";
+
+const useMarvelService = () => {
     // #apiBase = 'https://gateway.marvel.com/v1/public/';
-    #apiBase = 'https://marvel-server-zeta.vercel.app/';
-    #apiKey = `${process.env.REACT_APP_MARVEL_API_KEY}`;
-    #initialOffset = 210;
-    #initialLimit = 9;
+    const _apiBase = 'https://marvel-server-zeta.vercel.app/';
+    const _apiKey = `${process.env.REACT_APP_MARVEL_API_KEY}`;
+    const _initialOffset = 210;
+    const _initialLimit = 9;
     // _baseOffset = 210;
     // _initialLimit = 9;
+    const { isLoading, error, request, clearError } = useHTTP();
 
-    getResource = async (url) => {
-        url = `${this.#apiBase}${url}apikey=${this.#apiKey}`;
+    const getResource = async (url) => {
+        url = `${_apiBase}${url}apikey=${_apiKey}`;
 
-        const res = await fetch(url);
+        const res = await request({ url, headers: {} });
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, received ${res.status}`);
-        }
-
-        return await res.json();
+        return res;
     }
 
-    getAllCharacters = async (limit = this.#initialLimit, offset = this.#initialOffset) => {
-        const res = await this.getResource(`characters?limit=${limit}&offset=${offset}&`);
+    const getAllCharacters = async (limit = _initialLimit, offset = _initialOffset) => {
+        const res = await getResource(`characters?limit=${limit}&offset=${offset}&`);
 
-        return res.data.results.map(this.#transformCharacter);
+        return res.data.results.map(transformCharacter);
     }
 
-    getCharacter = async (id) => {
-        const { data } = await this.getResource(`characters/${id}?`);
+    const getCharacter = async (id) => {
+        const { data } = await getResource(`characters/${id}?`);
 
-        return this.#transformCharacter(data.results[0]);
+        return transformCharacter(data.results[0]);
     }
 
-    #transformCharacter = (char) => {
+    const transformCharacter = (char) => {
         const { name, description, thumbnail, urls, id, comics } = char;
 
         const getUrl = (typeLink) => (urls.find(({ type }) => type === typeLink))?.url || "#";
@@ -46,6 +45,8 @@ class MarvelService {
             comics: comics.items
         }
     }
+
+    return { isLoading, error, getAllCharacters, getCharacter, clearError };
 }
 
-export default MarvelService;
+export default useMarvelService;
