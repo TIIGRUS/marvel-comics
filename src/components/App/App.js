@@ -1,38 +1,28 @@
-import { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from '../Header/Header';
-import CharInfo from '../CharInfo/CharInfo';
-import CharList from '../CharList/CharList';
-import RandomChar from '../RandomChar/RandomChar';
+import { MainPage, ComicsPage } from "../pages";
 import vision from "../../assets/images/vision.png";
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './App.scss';
 
 const App = () => {
-  const [selectedChar, setSelectedChar] = useState(null);
-
-  const onCharSelected = (id) => {
-    setSelectedChar(id);
-  }
-
   return (
-    <div className="app">
-      <Header />
-      <main className='app__container'>
-        <ErrorBoundary>
-          <RandomChar />
-        </ErrorBoundary>
-        <div className='char__content'>
-          <ErrorBoundary>
-            <CharList onCharSelected={onCharSelected} />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <CharInfo selectedCharId={selectedChar} />
-          </ErrorBoundary>
-        </div>
-      </main>
-      <img src={vision} alt='vision' className='app__decor' aria-hidden="true" />
-    </div>
+    <Router>
+      <div className="app">
+        <Header />
+        <main className='app__container'>
+          <Switch>
+            <Route exact path="/">
+              <MainPage />
+            </Route>
+            <Route exact path="/comics">
+              <ComicsPage />
+            </Route>
+          </Switch>
+        </main>
+        <img src={vision} alt='vision' className='app__decor' aria-hidden="true" />
+      </div>
+    </Router>
   );
 }
 
