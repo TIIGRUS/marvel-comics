@@ -1,5 +1,6 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.scss"
+import NavLink from "../NavLink/NavLink";
 
 function Header() {
     return (
@@ -12,11 +13,11 @@ function Header() {
             <nav className="header__menu">
                 <ul className="header__menu-list">
                     <li>
-                        <NavLink exact className="header__menu-item" activeClassName="header__menu-item_active" to="/">Characters</NavLink>
+                        <NavLink end className="header__menu-item" activeClassName="header__menu-item_active" to="/">Characters</NavLink>
                     </li>
                     /
                     <li>
-                        <NavLink exact className="header__menu-item" activeClassName="header__menu-item_active" to="/comics">Comics</NavLink>
+                        <NavLink end className="header__menu-item" activeClassName="header__menu-item_active" to="/comics">Comics</NavLink>
                     </li>
                 </ul>
             </nav>
