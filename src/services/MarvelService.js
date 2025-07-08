@@ -74,6 +74,12 @@ const useMarvelService = () => {
         return transformCharacter(data.results[0]);
     }
 
+    const getComic = async (id) => {
+        const { data } = await getResource(`comics/${id}?`);
+
+        return transformComic(data.results[0]);
+    }
+
     const _checkIsEndOfList = (array, limit = initialLimit) => {
         if (array.length < limit) {
             setIsEndOfList(true);
@@ -160,6 +166,7 @@ const useMarvelService = () => {
         getCharacter,
         clearError,
         getAll,
+        getComic
     };
 }
 
