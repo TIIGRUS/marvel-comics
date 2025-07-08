@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Header from '../Header/Header';
-import { MainPage, ComicsPage } from "../pages";
+import { MainPage, ComicsPage, NoMatch } from "../pages";
 import vision from "../../assets/images/vision.png";
 import './App.scss';
 
@@ -14,6 +14,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<MainPage />}></Route>
             <Route path="/comics" element={<ComicsPage />}></Route>
+            <Route path="*" element={<NoMatch />}></Route>
           </Routes>
         </main>
         <img src={vision} alt='vision' className='app__decor' aria-hidden="true" />
