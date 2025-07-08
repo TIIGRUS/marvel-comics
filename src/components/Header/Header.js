@@ -17,7 +17,7 @@ function Header() {
                     </li>
                     /
                     <li>
-                        <NavLink end className="header__menu-item" activeClassName="header__menu-item_active" to="/comics">Comics</NavLink>
+                        <NavLink className="header__menu-item" activeClassName="header__menu-item_active" to="/comics">Comics</NavLink>
                     </li>
                 </ul>
             </nav>
