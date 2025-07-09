@@ -33,7 +33,7 @@ const RandomChar = () => {
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = isLoading ? <Spinner /> : null;
     const content = !(isLoading || error) ? <View char={char} /> : null;
-    const classNamesButton = error ? "button_disabled" : "";
+    // const classNamesButton = error ? "button_disabled" : "";
     // const { char: { name, description, thumbnail, homepage, wiki }, loading } = this.state;
     // const { char } = this.state;
     // const { name, description, thumbnail, homepage, wiki } = char;
@@ -58,7 +58,11 @@ const RandomChar = () => {
                 <p className="randomchar__title">
                     Or choose another one
                 </p>
-                <button className={`button button__main ${classNamesButton}`} disabled={error} onClick={updateChar}>
+                <button className={`button button__main`}
+                    onClick={updateChar}
+                // ${classNamesButton}
+                // disabled={error} 
+                >
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
