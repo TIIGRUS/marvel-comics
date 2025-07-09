@@ -16,11 +16,20 @@ export const useHTTP = () => {
             }
 
             const data = await response.json();
-            setIsLoading(false);
+
+            if (data.error) {
+                throw new Error(`Error: ${data.error} at ${url}`);
+            }
+
             return data;
         } catch (error) {
-            setError(error.message);
-            throw error; // Re-throw the error to be handled by the caller
+            if (error instanceof Error) {
+                setError(error.message);
+                throw error; // Re-throw the error to be handled by the caller
+            } else {
+                const message = String(error);
+                setError(message);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -28,5 +37,5 @@ export const useHTTP = () => {
 
     const clearError = useCallback(() => setError(null), []);
 
-    return { isLoading, error, request, clearError };
+    return { isLoading, error, request, clearError, setError };
 }

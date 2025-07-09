@@ -3,30 +3,33 @@ import { useHTTP } from "../hooks";
 
 const useMarvelService = () => {
     // #apiBase = 'https://gateway.marvel.com/v1/public/';
-    const _apiBase = 'https://marvel-server-zeta.vercel.app/';
-    const _apiKey = `${process.env.REACT_APP_MARVEL_API_KEY}`;
+    const API_BASE = 'https://marvel-server-zeta.vercel.app/';
+    const API_KEY = `${process.env.REACT_APP_MARVEL_API_KEY}`;
     const _initialOffsetCharacters = 210;
     const _initialLimitCharacters = 9;
     const _initialLimitComics = 8;
     const _initialOffsetComics = 4;
     // _baseOffset = 210;
     // _initialLimit = 9;
-    const { isLoading, error, request, clearError } = useHTTP();
+    const { isLoading, error, request, clearError, setError } = useHTTP();
     const [isEndOfList, setIsEndOfList] = useState(false);
     const [initialLimit, setInitialLimit] = useState(0);
     const [nextOffset, setNextOffset] = useState(0);
     const [isNewLoading, setIsNewLoading] = useState(false);
 
-    const getResource = async (url) => {
-        url = `${_apiBase}${url}apikey=${_apiKey}`;
-
+    const _getResource = async (url) => {
+        url = `${API_BASE}${url}apikey=${API_KEY}`;
         const res = await request({ url, headers: {} });
+
+        if (!res.data) {
+            throw new Error(`Empty response data from ${url}`);
+        }
 
         return res;
     }
 
     const getAllCharacters = async (limit = _initialLimitCharacters, offset = _initialOffsetCharacters) => {
-        const res = await getResource(`characters?limit=${limit}&offset=${offset}&`);
+        const res = await _getResource(`characters?limit=${limit}&offset=${offset}&`);
 
         return res.data.results.map(transformCharacter);
     }
@@ -48,7 +51,7 @@ const useMarvelService = () => {
 
     const getAllComics = async ({ limit = initialLimit, offset = nextOffset, isInitialLoading = false } = { limit: _initialLimitComics, offset: _initialOffsetComics }) => {
 
-        const res = await getResource(`comics?limit=${limit}&offset=${offset}&`);
+        const res = await _getResource(`comics?limit=${limit}&offset=${offset}&`);
         const dataArray = res.data.results.map(transformComic);
 
         handlePagination({
@@ -68,16 +71,30 @@ const useMarvelService = () => {
         _checkIsEndOfList(dataArray, limit)
     }
 
-    const getCharacter = async (id) => {
-        const { data } = await getResource(`characters/${id}?`);
+    const _getSingleResource = async (url, transformFunc, notFoundMessage) => {
+        const { data } = await _getResource(url);
 
-        return transformCharacter(data.results[0]);
+        if (!data.results || data.results.length === 0) {
+            throw new Error(notFoundMessage);
+        }
+
+        return transformFunc(data.results[0]);
+    }
+
+    const getCharacter = async (id) => {
+        return _getSingleResource(
+            `characters/${id}?`,
+            transformCharacter,
+            `Character with id ${id} not found`
+        );
     }
 
     const getComic = async (id) => {
-        const { data } = await getResource(`comics/${id}?`);
-
-        return transformComic(data.results[0]);
+        return _getSingleResource(
+            `comics/${id}?`,
+            transformComic,
+            `Comic with id ${id} not found`
+        );
     }
 
     const _checkIsEndOfList = (array, limit = initialLimit) => {
@@ -142,7 +159,7 @@ const useMarvelService = () => {
         const actualLimit = limit ?? config.limit;
         const actualOffset = typeof (offset) === "number" ? offset : nextOffset || config.offset;
 
-        const res = await getResource(`${type}?limit=${actualLimit}&offset=${actualOffset}&`);
+        const res = await _getResource(`${type}?limit=${actualLimit}&offset=${actualOffset}&`);
         const dataArray = res.data.results.map(config.transform);
 
         handlePagination({
