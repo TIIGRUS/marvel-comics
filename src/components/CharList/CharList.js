@@ -3,7 +3,6 @@ import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./CharList.scss"
-// import abyss from '../../assets/images/abyss.jpg';
 
 const CharList = ({ id, onCharSelected }) => {
     const [arrayChars, setArrayChars] = useState([]);
