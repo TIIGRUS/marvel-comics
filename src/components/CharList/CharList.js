@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createRef } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../Spinner/Spinner";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -84,27 +85,49 @@ const CharList = ({ id, onCharSelected }) => {
         }
     }
 
+    // const onBlurItem = (ref) => {
+    //     ref.current.classList.remove("char__item_selected");
+    //     ref.current.tabIndex = -1;
+    //     ref.current.blur();
+    // }
+
+    // const onFocusItem = (ref) => {
+    //     ref.current.classList.add("char__item_selected");
+    //     ref.current.tabIndex = 0;
+    //     ref.current.focus();
+    // }
+
     const errorMessage = error ? <li><ErrorMessage /></li> : null;
     const spinner = isLoading && !isNewLoading ? <li><Spinner /></li> : null;
     const classNameHideBtn = isCharListEnded ? "button_hidden button_disabled" : "";
     const items = arrayChars.map(({ name, thumbnail, id }, index) => {
+        const nodeRef = createRef();
+
         return (
-            <li key={id} className="char__item"
-                onClick={() => {
-                    onCharSelected(id);
-                    onCharSetActive(index);
-                }}
-                ref={(el) => setItemsRef(index, el)} tabIndex={0}
-                onKeyDown={(e) => {
-                    if (e.key === " " || e.key === "Enter") {
+            <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="char__item">
+                <li className="char__item"
+                    tabIndex={0}
+                    ref={(el) => {
+                        nodeRef.current = el;
+                        setItemsRef(index, el)
+                    }}
+                    onClick={() => {
                         onCharSelected(id);
+                        // onFocusItem(nodeRef);
                         onCharSetActive(index);
-                    }
-                }}
-            >
-                <img src={thumbnail} alt={name} />
-                <div className="char__name">{name}</div>
-            </li>
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === " " || e.key === "Enter") {
+                            onCharSelected(id);
+                            // onFocusItem(nodeRef);
+                            onCharSetActive(index);
+                        }
+                    }}
+                >
+                    <img src={thumbnail} alt={name} />
+                    <div className="char__name">{name}</div>
+                </li>
+            </CSSTransition>
         )
     });
     // const content = !(isLoading || error) ? items : null;
@@ -114,7 +137,9 @@ const CharList = ({ id, onCharSelected }) => {
             <ul className="char__grid">
                 {errorMessage}
                 {spinner}
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
             <button className={`button button__main button__long ${classNameHideBtn}`} disabled={isCharListEnded || isLoading || error} onClick={() => onRequestMoreLoaded(limit, offset)}>
                 <div className="inner">load more</div>
