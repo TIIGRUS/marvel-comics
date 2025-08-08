@@ -13,3 +13,31 @@
         opacity: 1;
     }
 }
+
+.transition {
+    &-enter {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    &-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity $transition-duration,
+            transform $transition-duration;
+    }
+
+    &-exit {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &-exit-active {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+            opacity $transition-duration,
+            transform $transition-duration;
+    }
+}

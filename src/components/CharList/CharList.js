@@ -104,7 +104,7 @@ const CharList = ({ id, onCharSelected }) => {
         const nodeRef = createRef();
 
         return (
-            <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="char__item">
+            <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="transition">
                 <li className="char__item"
                     tabIndex={0}
                     ref={(el) => {

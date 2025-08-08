@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../Spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -27,15 +28,18 @@ const ComicsList = () => {
     const renderItems = (arr) => {
         return arr.map((item, i) => {
             const { id, title, thumbnail, price } = item;
+            const nodeRef = createRef();
 
             return (
-                <li className="comics__item" key={id}>
-                    <Link to={`/comics/${id}`}>
-                        <img src={thumbnail} alt={title} className="comics__item-img" />
-                        <div className="comics__item-name">{title}</div>
-                        <div className="comics__item-price">{price}$</div>
-                    </Link>
-                </li>
+                <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="transition">
+                    <li className="comics__item" key={id} ref={(el) => nodeRef.current = el}>
+                        <Link to={`/comics/${id}`}>
+                            <img src={thumbnail} alt={title} className="comics__item-img" />
+                            <div className="comics__item-name">{title}</div>
+                            <div className="comics__item-price">{price}$</div>
+                        </Link>
+                    </li>
+                </CSSTransition>
             );
         });
     }
@@ -45,7 +49,9 @@ const ComicsList = () => {
             {spinner}
             {errorMessage}
             <ul className="comics__grid">
-                {renderItems(comics)}
+                <TransitionGroup component={null}>
+                    {renderItems(comics)}
+                </TransitionGroup>
             </ul>
             <button className="button button__main button__long" onClick={onRequestMoreLoaded} disabled={isLoading || isEndOfList || error}>
                 <div className="inner">load more</div>
