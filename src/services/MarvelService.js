@@ -97,6 +97,20 @@ const useMarvelService = () => {
         );
     }
 
+    const searchCharacter = async (name) => {
+        try {
+            const res = await _getResource(`characters?name=${name}&`);
+            if (res.data.results.length === 0) {
+                throw new Error(`Character with name "${name}" not found`);
+            }
+            return res.data.results.map(transformCharacter);
+        } catch (error) {
+            console.error(error);
+            throw error; // Re-throw the error to be handled by the caller
+            // setError(error);
+        }
+    }
+
     const _checkIsEndOfList = (array, limit = initialLimit) => {
         if (array.length < limit) {
             setIsEndOfList(true);
@@ -183,7 +197,8 @@ const useMarvelService = () => {
         getCharacter,
         clearError,
         getAll,
-        getComic
+        getComic,
+        searchCharacter
     };
 }
 
