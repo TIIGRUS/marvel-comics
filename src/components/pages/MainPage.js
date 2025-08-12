@@ -15,16 +15,20 @@ const MainPage = () => {
 
     return (
         <>
-            <ErrorBoundary>
-                <RandomChar />
-                <div className='char__content'>
+            <RandomChar />
+            <div className='char__content'>
+                <ErrorBoundary>
                     <CharList onCharSelected={onCharSelected} />
-                    <div>
+                </ErrorBoundary>
+                <div>
+                    <ErrorBoundary>
                         <CharInfo selectedCharId={selectedChar} />
+                    </ErrorBoundary>
+                    <ErrorBoundary>
                         <CharSearchForm />
-                    </div>
+                    </ErrorBoundary>
                 </div>
-            </ErrorBoundary>
+            </div>
         </>
     )
 }
