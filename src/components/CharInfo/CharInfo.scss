@@ -8,8 +8,8 @@
         z-index: 5;
         background-color: #fff;
 
-        &:not(:first-child) {
-            margin-top: 25px;
+        &:not(:last-child) {
+            margin-bottom: 25px;
         }
 
         &-name {
