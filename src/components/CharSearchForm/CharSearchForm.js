@@ -16,7 +16,7 @@ const CharSearchForm = () => {
             const results = await searchCharacter(name);
             setChars(results);
         } catch (error) {
-            console.error("Search error:", error);
+            console.error("Search error:", error.message);
             setChars([]);
         }
     };
