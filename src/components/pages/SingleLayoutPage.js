@@ -41,8 +41,7 @@ const SingleLayoutPage = ({ Component }) => {
     const spinner = isLoading ? <Spinner /> : null;
 
     const errorMessage = error ? <ErrorMessage
-        textLink="Go back to comics list"
-        pathLink="/comics"
+        {...(comicId ? { textLink: "Go back to comics list", pathLink: "/comics" } : { textLink: "Go back to characters list", pathLink: "/" })}
     >
         <h1>Not found</h1>
         <p>We couldn't find the requested item.</p>
