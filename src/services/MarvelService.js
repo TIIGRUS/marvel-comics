@@ -18,14 +18,24 @@ const useMarvelService = () => {
     const [isNewLoading, setIsNewLoading] = useState(false);
 
     const _getResource = async (url) => {
-        url = `${API_BASE}${url}apikey=${API_KEY}`;
-        const res = await request({ url, headers: {} });
+        const fullUrl = `${API_BASE}${url}apikey=${API_KEY}`;
 
-        if (!res.data) {
-            throw new Error(`Empty response data from ${url}`);
+        try {
+            const res = await request({ url: fullUrl, headers: {} });
+
+            if (!res || res.status >= 400) {
+                throw new Error(`HTTP error ${res?.status || 'unknown'} for ${fullUrl}`);
+            }
+
+            if (!res.data) {
+                throw new Error(`Empty response data from ${fullUrl}`);
+            }
+
+            return res;
+        } catch (error) {
+            console.error(`Failed to fetch resource from ${fullUrl}`, error);
+            throw error;
         }
-
-        return res;
     }
 
     const getAllCharacters = async (limit = _initialLimitCharacters, offset = _initialOffsetCharacters) => {
@@ -99,13 +109,16 @@ const useMarvelService = () => {
 
     const searchCharacter = async (name) => {
         try {
-            const res = await _getResource(`characters?name=${name}&`);
-            if (res.data.results.length === 0) {
+            const res = await _getResource(`characters?name=${encodeURIComponent(name)}&`);
+
+            if (!Array.isArray(res.data.results) || res.data.results.length === 0) {
                 throw new Error(`Character with name "${name}" not found`);
             }
+
             return res.data.results.map(transformCharacter);
         } catch (error) {
-            console.error(error);
+            console.error(`Error searching character "${name}":`, error.message);
+
             throw error; // Re-throw the error to be handled by the caller
             // setError(error);
         }
