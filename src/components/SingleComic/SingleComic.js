@@ -1,7 +1,7 @@
 import SingleItemLayout from '../SingleItemLayout/SingleItemLayout';
 
-const SingleComic = ({ comic }) => {
-    const { title, description, pageCount, language, price, thumbnail } = comic || {};
+const SingleComic = ({ data }) => {
+    const { title, description, pageCount, language, price, thumbnail } = data || {};
 
     return (
         <SingleItemLayout

@@ -10,7 +10,9 @@ import './App.scss';
 const MainPage = lazy(() => import('../pages/MainPage'));
 const ComicsPage = lazy(() => import('../pages/ComicsPage'));
 const NoMatch = lazy(() => import('../pages/NoMatch'));
-const SingleComicPage = lazy(() => import('../pages/SingleComicPage'));
+const SingleLayoutPage = lazy(() => import('../pages/SingleLayoutPage'));
+const SingleComic = lazy(() => import("../SingleComic/SingleComic"));
+const SingleChar = lazy(() => import("../SingleChar/SingleChar"));
 
 const App = () => {
   return (
@@ -22,7 +24,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainPage />}></Route>
               <Route path="/comics" element={<ComicsPage />} />
-              <Route path="/comics/:comicId" element={<SingleComicPage />} />
+              <Route path="/comics/:comicId" element={<SingleLayoutPage Component={SingleComic} />} />
+              <Route path="/characters/:charId" element={<SingleLayoutPage Component={SingleChar} />} />
               <Route path="*" element={<NoMatch />}></Route>
             </Routes>
           </Suspense>

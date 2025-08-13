@@ -1,12 +1,13 @@
 import SingleItemLayout from "../SingleItemLayout/SingleItemLayout"
 
-const SingleChar = ({ title, description, thumbnail }) => {
+const SingleChar = ({ data }) => {
+    const { name, description, thumbnail } = data || {};
+
     return (
         <SingleItemLayout
-            title={title}
+            title={name}
             description={description}
             thumbnail={thumbnail}
-            backLink="/characters"
         >
         </SingleItemLayout>
     )
