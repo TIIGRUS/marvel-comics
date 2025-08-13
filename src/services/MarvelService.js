@@ -135,14 +135,16 @@ const useMarvelService = () => {
     }
 
     const transformComic = (comic) => {
-        const { title, description, thumbnail, prices, id } = comic;
+        const { title, description, thumbnail, prices, id, pageCount, textObjects } = comic;
 
         return {
             id,
             title,
             description: description ? `${description.slice(0, 210)}...` : "There is no description for this comic",
             thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
-            price: prices[0]?.price || "NOT AVAILABLE"
+            price: prices[0]?.price || "NOT AVAILABLE",
+            pageCount: pageCount || 0,
+            language: textObjects.languages || "en-US"
         }
     }
 
