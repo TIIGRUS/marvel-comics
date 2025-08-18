@@ -7,7 +7,7 @@ import "./CharInfo.scss";
 
 const CharInfo = ({ selectedCharId }) => {
     const [char, setChar] = useState(null);
-    const { getCharacter, isLoading, error, clearError } = MarvelService();
+    const { status, getCharacter, clearError } = MarvelService();
 
     useEffect(() => {
         const updateChar = () => {
@@ -30,17 +30,28 @@ const CharInfo = ({ selectedCharId }) => {
         setChar(char);
     }
 
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = isLoading ? <Spinner /> : null;
-    const skeleton = !(isLoading || error || char) ? <Skeleton /> : null;
-    const content = !(isLoading || error || !char) ? <View char={char} /> : null;
+
+    const setContent = (process, char) => {
+        switch (process) {
+            case 'waiting':
+                return <Skeleton />;
+
+            case 'loading':
+                return <Spinner />;
+
+            case 'confirmed':
+                return <View char={char} />;
+
+            case 'error':
+                return <ErrorMessage />;
+            default:
+                throw new Error(`Unexpected process state: ${process}`);
+        }
+    }
 
     return (
-        <div className="char__info" >
-            {errorMessage}
-            {spinner}
-            {skeleton}
-            {content}
+        <div className="char__info">
+            {setContent(status, char)}
         </div>
     )
 }
