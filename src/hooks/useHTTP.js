@@ -14,12 +14,14 @@ export const useHTTP = () => {
             const response = await fetch(url, { method, body, headers });
 
             if (!response.ok) {
+                setStatus('error');
                 throw new Error(`Could not fetch ${url}, status: ${response.status}`);
             }
 
             const data = await response.json();
 
             if (data.error) {
+                setStatus('error');
                 throw new Error(`Error: ${data.error} at ${url}`);
             }
 
@@ -51,6 +53,7 @@ export const useHTTP = () => {
         status,
         request,
         clearError,
-        setError
+        setError,
+        setStatus
     };
 }

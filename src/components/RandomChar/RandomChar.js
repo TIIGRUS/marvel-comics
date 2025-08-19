@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react"
 import useMarvelService from "../../services/MarvelService";
-
+import setContent from "../../utils/setContent";
 import thor from "../../assets/images/thor.jpeg"
 import mjolnir from "../../assets/images/mjolnir.png"
-import Spinner from "../Spinner/Spinner";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./RandomChar.scss"
 
 
 const RandomChar = () => {
     const [char, setChar] = useState({});
-    const { getCharacter, error, isLoading, clearError } = useMarvelService();
-
+    const { status, getCharacter, clearError } = useMarvelService();
+    let isLoading = status === "loading";
 
     const onCharLoaded = (char) => {
         setChar(char);
@@ -30,9 +28,9 @@ const RandomChar = () => {
         updateChar();
     }, []);
 
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = isLoading ? <Spinner /> : null;
-    const content = !(isLoading || error) ? <View char={char} /> : null;
+    // const errorMessage = error ? <ErrorMessage /> : null;
+    // const spinner = isLoading ? <Spinner /> : null;
+    // const content = !(isLoading || error) ? <View char={char} /> : null;
     // const classNamesButton = error ? "button_disabled" : "";
     // const { char: { name, description, thumbnail, homepage, wiki }, loading } = this.state;
     // const { char } = this.state;
@@ -44,11 +42,17 @@ const RandomChar = () => {
 
     return (
         <div className="randomchar">
+            {setContent(
+                {
+                    process: status,
+                    Component: <View char={char} />,
+                }
+            )}
 
             {/* {loading ? <Spinner /> : <View char={char} />} */}
-            {spinner}
+            {/* {spinner}
             {errorMessage}
-            {content}
+            {content} */}
 
             <div className="randomchar__static">
                 <p className="randomchar__title">
@@ -59,9 +63,7 @@ const RandomChar = () => {
                     Or choose another one
                 </p>
                 <button className={`button button__main`}
-                    onClick={updateChar}
-                // ${classNamesButton}
-                // disabled={error} 
+                    onClick={updateChar} disabled={isLoading}
                 >
                     <div className="inner">try it</div>
                 </button>

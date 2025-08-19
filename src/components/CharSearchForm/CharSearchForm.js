@@ -1,12 +1,13 @@
 import { useState, Fragment } from "react";
 import { Form, Field, ErrorMessage as FormikErrorMessage, Formik } from "formik";
 import { Link } from "react-router-dom";
-import "./CharSearchForm.scss";
 import useMarvelService from "../../services/MarvelService";
 import { ErrorMessage } from "formik";
+import "./CharSearchForm.scss";
+
 
 const CharSearchForm = () => {
-    const { searchCharacter, isLoading, error, clearError } = useMarvelService();
+    const { status, searchCharacter } = useMarvelService();
     const [chars, setChars] = useState(null);
 
     const handleSearch = async (name) => {
@@ -22,15 +23,16 @@ const CharSearchForm = () => {
     };
 
     const handleClear = () => {
-        clearError();
+        // clearError();
         setChars(null);
     }
 
-    const errorMessage = error ? (
-        <ErrorMessage>{error.message}</ErrorMessage>
+    // const errorMessage = error ? (
+    //     <ErrorMessage>{error.message}</ErrorMessage>
+    // ) : null;
+    const errorMessage = status === 'error' ? (
+        <ErrorMessage></ErrorMessage>
     ) : null;
-
-    console.log("Chars:", chars);
 
     const results = !chars ? null : chars.length > 0 ? (
         chars.map(char => (
@@ -90,7 +92,7 @@ const CharSearchForm = () => {
                                 <button
                                     type='submit'
                                     className="button button__main"
-                                    disabled={isLoading}
+                                    disabled={status === "loading"}
                                 >
                                     <div className="inner">find</div>
                                 </button>

@@ -1,14 +1,13 @@
 import { createRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useMarvelService from '../../services/MarvelService';
-import Spinner from '../Spinner/Spinner';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import setContent from '../../utils/setContent';
 import './ComicsList.scss';
-import { Link } from 'react-router-dom';
 
 const ComicsList = () => {
     const [comics, setComics] = useState([]);
-    const { getAllComics, isLoading, error, isEndOfList, isNewLoading, getAll } = useMarvelService();
+    const { isLoading, error, isEndOfList, isNewLoading, status, getAllComics, getAll } = useMarvelService();
 
     // Initial loading
     useEffect(() => {
@@ -23,8 +22,8 @@ const ComicsList = () => {
         });
     }
 
-    const spinner = isLoading && !isNewLoading ? <Spinner /> : null;
-    const errorMessage = error ? <ErrorMessage /> : null;
+    // const spinner = isLoading && !isNewLoading ? <Spinner /> : null;
+    // const errorMessage = error ? <ErrorMessage /> : null;
     const renderItems = (arr) => {
         return arr.map((item, i) => {
             const { id, title, thumbnail, price } = item;
@@ -46,13 +45,26 @@ const ComicsList = () => {
 
     return (
         <div className="comics__list">
-            {spinner}
+            {/* {spinner}
             {errorMessage}
             <ul className="comics__grid">
                 <TransitionGroup component={null}>
                     {renderItems(comics)}
                 </TransitionGroup>
-            </ul>
+            </ul> */}
+            {
+                setContent({
+                    process: status,
+                    paginationLoading: isNewLoading,
+                    Component: (
+                        <ul className="comics__grid">
+                            <TransitionGroup component={null}>
+                                {renderItems(comics)}
+                            </TransitionGroup>
+                        </ul>
+                    )
+                })
+            }
             <button className="button button__main button__long" onClick={onRequestMoreLoaded} disabled={isLoading || isEndOfList || error}>
                 <div className="inner">load more</div>
             </button>

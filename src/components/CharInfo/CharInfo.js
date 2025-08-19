@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import MarvelService from "../../services/MarvelService";
-import Spinner from "../Spinner/Spinner";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import Skeleton from "../Skeleton/Skeleton";
+import setContent from "../../utils/setContent";
 import "./CharInfo.scss";
 
 const CharInfo = ({ selectedCharId }) => {
@@ -30,28 +28,9 @@ const CharInfo = ({ selectedCharId }) => {
         setChar(char);
     }
 
-
-    const setContent = (process, char) => {
-        switch (process) {
-            case 'waiting':
-                return <Skeleton />;
-
-            case 'loading':
-                return <Spinner />;
-
-            case 'confirmed':
-                return <View char={char} />;
-
-            case 'error':
-                return <ErrorMessage />;
-            default:
-                throw new Error(`Unexpected process state: ${process}`);
-        }
-    }
-
     return (
         <div className="char__info">
-            {setContent(status, char)}
+            {setContent({ process: status, data: char, Component: <View char={char} /> })}
         </div>
     )
 }
