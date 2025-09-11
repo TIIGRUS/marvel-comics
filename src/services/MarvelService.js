@@ -4,7 +4,7 @@ import { useHTTP } from "../hooks";
 const useMarvelService = () => {
     // #apiBase = 'https://gateway.marvel.com/v1/public/';
     const API_BASE = 'https://marvel-server-zeta.vercel.app/';
-    const API_KEY = `${process.env.REACT_APP_MARVEL_API_KEY}`;
+    const API_KEY = `${import.meta.env.VITE_REACT_APP_MARVEL_API_KEY}`;
     const _initialOffsetCharacters = 210;
     const _initialLimitCharacters = 9;
     const _initialLimitComics = 8;
