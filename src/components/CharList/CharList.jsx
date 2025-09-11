@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, createRef } from "react";
+import { useState, useEffect, useRef, createRef, useMemo } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
@@ -85,36 +85,40 @@ const CharList = ({ onCharSelected }) => {
     }
 
     const classNameHideBtn = isCharListEnded ? "button_hidden button_disabled" : "";
-    const items = arrayChars.map(({ name, thumbnail, id }, index) => {
-        const nodeRef = createRef();
+    const items = useMemo(() => {
+        return arrayChars.map(({ name, thumbnail, id }, index) => {
+            const nodeRef = createRef();
 
-        return (
-            <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="transition">
-                <li className="char__item"
-                    tabIndex={0}
-                    ref={(el) => {
-                        nodeRef.current = el;
-                        setItemsRef(index, el)
-                    }}
-                    onClick={() => {
-                        onCharSelected(id);
-                        // onFocusItem(nodeRef);
-                        onCharSetActive(index);
-                    }}
-                    onKeyDown={(e) => {
-                        if (e.key === " " || e.key === "Enter") {
+            console.log('render items')
+
+            return (
+                <CSSTransition key={id} nodeRef={nodeRef} timeout={500} classNames="transition">
+                    <li className="char__item"
+                        tabIndex={0}
+                        ref={(el) => {
+                            nodeRef.current = el;
+                            setItemsRef(index, el)
+                        }}
+                        onClick={() => {
                             onCharSelected(id);
                             // onFocusItem(nodeRef);
                             onCharSetActive(index);
-                        }
-                    }}
-                >
-                    <img src={thumbnail} alt={name} />
-                    <div className="char__name">{name}</div>
-                </li>
-            </CSSTransition>
-        )
-    });
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === " " || e.key === "Enter") {
+                                onCharSelected(id);
+                                // onFocusItem(nodeRef);
+                                onCharSetActive(index);
+                            }
+                        }}
+                    >
+                        <img src={thumbnail} alt={name} />
+                        <div className="char__name">{name}</div>
+                    </li>
+                </CSSTransition>
+            )
+        })
+    }, [arrayChars]);
 
     return (
         <div className="char__list">
