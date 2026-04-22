@@ -30,6 +30,7 @@ export interface MarvelApiThumbnail {
 
 export interface MarvelApiUrl {
     url: string;
+    type: string;
 }
 
 export interface MarvelApiCharacter {
@@ -37,7 +38,7 @@ export interface MarvelApiCharacter {
     name: string;
     description: string;
     thumbnail: MarvelApiThumbnail;
-    urls: MarvelApiUrl;
+    urls: MarvelApiUrl[];
     comics: {
         items: string[];
     }
@@ -52,7 +53,15 @@ export interface MarvelApiComic {
         price: number | string;
     }[];
     pageCount: number;
-    textObjects: {
-        language: string;
+    language: {
+        textObjects: {
+            language: string;
+        };
+    }
+}
+
+export interface MarvelApiResponse<T> {
+    data: {
+        results: T[];
     };
 }

@@ -1,11 +1,29 @@
 import { useCallback, useState } from 'react';
+import { AsyncStatus } from '../types';
 
-export const useHTTP = () => {
+interface RequestOptions {
+    url: string;
+    method?: string;
+    body?: BodyInit | null;
+    headers?: HeadersInit;
+}
+
+interface UseHTTPResult {
+    isLoading: boolean;
+    error: string | null;
+    status: AsyncStatus;
+    request: (options: RequestOptions) => Promise<any>;
+    clearError: () => void;
+    setError: React.Dispatch<React.SetStateAction<string | null>>;
+    setStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
+}
+
+export const useHTTP = (): UseHTTPResult => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [status, setStatus] = useState('waiting');
+    const [error, setError] = useState<string | null>(null);
+    const [status, setStatus] = useState<AsyncStatus>('waiting');
 
-    const request = async ({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }) => {
+    const request = async ({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }: RequestOptions) => {
         setIsLoading(true);
         setError(null);
         setStatus('loading');
@@ -26,6 +44,7 @@ export const useHTTP = () => {
             }
 
             setStatus('confirmed');
+
             return data;
         } catch (error) {
             if (error instanceof Error) {

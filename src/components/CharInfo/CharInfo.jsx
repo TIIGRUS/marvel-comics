@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import "./CharInfo.scss";
 
 const CharInfo = ({ selectedCharId }) => {
     const [char, setChar] = useState(null);
-    const { status, getCharacter, clearError } = MarvelService();
+    const { status, getCharacter, clearError } = useMarvelService();
 
     useEffect(() => {
         const updateChar = () => {

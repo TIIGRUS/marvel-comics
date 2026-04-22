@@ -1,5 +1,13 @@
+import { Character, Comic, MarvelApiCharacter, MarvelApiComic, AsyncStatus } from "../types";
 import { useState } from "react";
 import { useHTTP } from "../hooks";
+
+interface PaginationConfig {
+    limit: number;
+    offset: number;
+    isInitialLoading: boolean;
+    dataArray: any[];
+}
 
 const useMarvelService = () => {
     // #apiBase = 'https://gateway.marvel.com/v1/public/';
@@ -17,7 +25,7 @@ const useMarvelService = () => {
     const [nextOffset, setNextOffset] = useState(0);
     const [isNewLoading, setIsNewLoading] = useState(false);
 
-    const _getResource = async (url) => {
+    const _getResource = async (url: string) => {
         const fullUrl = `${API_BASE}${url}apikey=${API_KEY}`;
 
         try {
@@ -74,14 +82,14 @@ const useMarvelService = () => {
         return dataArray;
     }
 
-    const handlePagination = ({ limit, offset, isInitialLoading, dataArray }) => {
+    const handlePagination = ({ limit, offset, isInitialLoading, dataArray }: PaginationConfig) => {
         setInitialLimit(limit)
         setNextOffset(offset + limit)
         isInitialLoading ? setIsNewLoading(false) : setIsNewLoading(true)
         _checkIsEndOfList(dataArray, limit)
     }
 
-    const _getSingleResource = async (url, transformFunc, notFoundMessage) => {
+    const _getSingleResource = async (url: string, transformFunc: (data: any) => any, notFoundMessage: string) => {
         const { data } = await _getResource(url);
 
         if (!data.results || data.results.length === 0) {
@@ -91,7 +99,7 @@ const useMarvelService = () => {
         return transformFunc(data.results[0]);
     }
 
-    const getCharacter = async (id) => {
+    const getCharacter = async (id: number) => {
         return _getSingleResource(
             `characters/${id}?`,
             transformCharacter,
@@ -99,7 +107,7 @@ const useMarvelService = () => {
         );
     }
 
-    const getComic = async (id) => {
+    const getComic = async (id: number) => {
         return _getSingleResource(
             `comics/${id}?`,
             transformComic,
@@ -107,7 +115,7 @@ const useMarvelService = () => {
         );
     }
 
-    const searchCharacter = async (name) => {
+    const searchCharacter = async (name: string) => {
         try {
             const res = await _getResource(`characters?name=${encodeURIComponent(name)}&`);
 
@@ -116,7 +124,7 @@ const useMarvelService = () => {
             }
 
             return res.data.results.map(transformCharacter);
-        } catch (error) {
+        } catch (error: any) {
             console.error(`Error searching character "${name}":`, error.message);
 
             throw error; // Re-throw the error to be handled by the caller
@@ -124,7 +132,7 @@ const useMarvelService = () => {
         }
     }
 
-    const _checkIsEndOfList = (array, limit = initialLimit) => {
+    const _checkIsEndOfList = (array: any[], limit: number = initialLimit) => {
         if (array.length < limit) {
             setIsEndOfList(true);
             return true;
@@ -134,8 +142,8 @@ const useMarvelService = () => {
         }
     }
 
-    const transformComic = (comic) => {
-        const { title, description, thumbnail, prices, id, pageCount, textObjects } = comic;
+    const transformComic = (comic: MarvelApiComic): Comic => {
+        const { title, description, thumbnail, prices, id, pageCount, language } = comic;
 
         return {
             id,
@@ -144,14 +152,14 @@ const useMarvelService = () => {
             thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
             price: prices[0]?.price || "NOT AVAILABLE",
             pageCount: pageCount || 0,
-            language: textObjects.languages || "en-US"
+            language: language?.textObjects?.language || "en-US"
         }
     }
 
-    const transformCharacter = (char) => {
+    const transformCharacter = (char: MarvelApiCharacter): Character => {
         const { name, description, thumbnail, urls, id, comics } = char;
 
-        const getUrl = (typeLink) => (urls.find(({ type }) => type === typeLink))?.url || "#";
+        const getUrl = (typeLink: string) => (urls.find(({ type }) => type === typeLink))?.url || "#";
 
         return {
             id,
@@ -182,7 +190,7 @@ const useMarvelService = () => {
         limit,
         offset,
         isInitialLoading = false,
-    } = {}) => {
+    }: { type?: "characters" | "comics"; limit?: number; offset?: number; isInitialLoading?: boolean } = {}) => {
         const config = _defaults[type];
 
         const actualLimit = limit ?? config.limit;
