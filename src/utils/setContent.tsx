@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 import { AsyncStatus } from "../types";
-import Spinner from "../components/Spinner/Spinner.tsx";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage.tsx";
-import Skeleton from "../components/Skeleton/Skeleton.tsx";
+import Spinner from "../components/Spinner/Spinner";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
+import Skeleton from "../components/Skeleton/Skeleton";
 
 interface SetContentProps {
   process: AsyncStatus;
