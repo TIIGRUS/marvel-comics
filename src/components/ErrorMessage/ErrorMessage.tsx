@@ -1,10 +1,10 @@
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import classnames from "classnames";
 import "./ErrorMessage.scss";
 import { Link } from "react-router-dom";
 
 interface ErrorMessageProps {
-  children?: ReactElement;
+  children?: ReactNode;
   textLink?: string;
   pathLink?: string;
 }
