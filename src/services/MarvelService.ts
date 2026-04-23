@@ -1,4 +1,4 @@
-import { Character, Comic, MarvelApiCharacter, MarvelApiComic, AsyncStatus } from "../types";
+import { Character, Comic, MarvelApiCharacter, MarvelApiComic } from "../types";
 import { useState } from "react";
 import { useHTTP } from "../hooks";
 
@@ -19,7 +19,7 @@ const useMarvelService = () => {
     const _initialOffsetComics = 4;
     // _baseOffset = 210;
     // _initialLimit = 9;
-    const { isLoading, error, status, request, clearError, setStatus, setError } = useHTTP();
+    const { isLoading, error, status, request, clearError, setStatus } = useHTTP();
     const [isEndOfList, setIsEndOfList] = useState(false);
     const [initialLimit, setInitialLimit] = useState(0);
     const [nextOffset, setNextOffset] = useState(0);
