@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, Dispatch, SetStateAction } from 'react';
 import { AsyncStatus } from '../types';
 
 interface RequestOptions {
@@ -14,8 +14,8 @@ interface UseHTTPResult {
     status: AsyncStatus;
     request: (options: RequestOptions) => Promise<any>;
     clearError: () => void;
-    setError: React.Dispatch<React.SetStateAction<string | null>>;
-    setStatus: React.Dispatch<React.SetStateAction<AsyncStatus>>;
+    setError: Dispatch<SetStateAction<string | null>>;
+    setStatus: Dispatch<SetStateAction<AsyncStatus>>;
 }
 
 export const useHTTP = (): UseHTTPResult => {
