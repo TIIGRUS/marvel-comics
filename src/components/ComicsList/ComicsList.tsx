@@ -40,7 +40,7 @@ const ComicsList = () => {
 
       return (
         <CSSTransition
-          key={id}
+          key={id + i}
           nodeRef={nodeRef}
           timeout={500}
           classNames="transition"
