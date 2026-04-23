@@ -14,7 +14,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
   const [isNewLoading, setIsNewLoading] = useState(false);
   // const [offset, setOffset] = useState(210); // 210 to Marvel API
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(9);
+  let limit = 9;
   const [isCharListEnded, setIsCharListEnded] = useState(false);
   const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
   const { status, getAllCharacters } = useMarvelService();
