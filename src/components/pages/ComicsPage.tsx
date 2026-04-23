@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import CommicsList from "../ComicsList/ComicsList";

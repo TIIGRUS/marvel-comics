@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import SingleItemLayout from "../SingleItemLayout/SingleItemLayout";
 import { Comic } from "../../types";
 
