@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Header from '../Header/Header';
+import Header from '../Header/Header.tsx';
 // import { MainPage, ComicsPage, NoMatch, SingleComicPage } from '../pages';
 import Spinner from "../Spinner/Spinner";
 import vision from '../../assets/images/vision.png';
