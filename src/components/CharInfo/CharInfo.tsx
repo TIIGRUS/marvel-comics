@@ -26,7 +26,7 @@ const CharInfo = ({ selectedCharId }: CharInfoProps) => {
     if (selectedCharId) {
       updateChar();
     }
-  }, [selectedCharId, clearError]);
+  }, [selectedCharId, clearError, getCharacter]);
 
   const onCharLoaded = (char: Character) => {
     setChar(char);

@@ -85,7 +85,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
         </CSSTransition>
       );
     });
-  }, [arrayChars]);
+  }, [arrayChars, onCharSelected]);
 
   return (
     <div className="char__list">

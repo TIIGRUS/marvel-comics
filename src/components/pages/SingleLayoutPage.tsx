@@ -41,7 +41,7 @@ const SingleLayoutPage = ({ Component }: Props) => {
     return () => {
       setIsMounted(false);
     };
-  }, [comicId, charId]);
+  }, [comicId, charId, getComic, getCharacter, isMounted]);
 
   // const spinner = isLoading ? <Spinner /> : null;
   // const errorMessage = error ? <ErrorMessage

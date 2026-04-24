@@ -1,5 +1,5 @@
 import { Character, Comic, MarvelApiCharacter, MarvelApiComic, MarvelApiResponse } from "../types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useHTTP } from "../hooks";
 
 interface PaginationConfig {
@@ -7,6 +7,36 @@ interface PaginationConfig {
     offset: number;
     isInitialLoading: boolean;
     dataArray: (Character | Comic)[];
+}
+
+const transformComic = (comic: MarvelApiComic): Comic => {
+    const { title, description, thumbnail, prices, id, pageCount, language } = comic;
+
+    return {
+        id,
+        title,
+        description: description ? `${description.slice(0, 210)}...` : "There is no description for this comic",
+        thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
+        price: prices[0]?.price || "NOT AVAILABLE",
+        pageCount: pageCount || 0,
+        language: language?.textObjects?.language || "en-US"
+    }
+}
+
+const transformCharacter = (char: MarvelApiCharacter): Character => {
+    const { name, description, thumbnail, urls, id, comics } = char;
+
+    const getUrl = (typeLink: string) => (urls.find(({ type }) => type === typeLink))?.url || "#";
+
+    return {
+        id,
+        name,
+        description: description ? `${description.slice(0, 210)}...` : "There is no description for this character",
+        thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
+        homepage: getUrl("detail"),
+        wiki: getUrl("wiki"),
+        comics: comics.items
+    }
 }
 
 const useMarvelService = () => {
@@ -25,7 +55,7 @@ const useMarvelService = () => {
     const [nextOffset, setNextOffset] = useState(0);
     const [isNewLoading, setIsNewLoading] = useState(false);
 
-    const _getResource = async <T>(url: string): Promise<MarvelApiResponse<T>> => {
+    const _getResource = useCallback(async <T>(url: string): Promise<MarvelApiResponse<T>> => {
         const fullUrl = `${API_BASE}${url}apikey=${API_KEY}`;
 
         try {
@@ -40,13 +70,13 @@ const useMarvelService = () => {
             console.error(`Failed to fetch resource from ${fullUrl}`, error);
             throw error;
         }
-    }
+    }, [request, API_BASE, API_KEY]);
 
-    const getAllCharacters = async ({ limit = _initialLimitCharacters, offset = _initialOffsetCharacters } = {}) => {
+    const getAllCharacters = useCallback(async ({ limit = _initialLimitCharacters, offset = _initialOffsetCharacters } = {}) => {
         const res = await _getResource<MarvelApiCharacter>(`characters?limit=${limit}&offset=${offset}&`);
 
         return res.data.results.map(transformCharacter);
-    }
+    }, [_getResource]);
 
     // const getAllCharacters = async ({ limit = initialLimit, offset = nextOffset, isInitialLoading = false } = { limit: _initialLimitCharacters, offset: _initialOffsetCharacters }) => {
     //     const res = await getResource(`characters?limit=${limit}&offset=${offset}&`);
@@ -62,9 +92,30 @@ const useMarvelService = () => {
 
     //     return dataArray;
     // }
+    const _checkIsEndOfList = useCallback((array: (Character | Comic)[], limit: number = initialLimit) => {
+        if (array.length < limit) {
+            setIsEndOfList(true);
+            return true;
+        } else {
+            setIsEndOfList(false);
+            return false;
+        }
+    }, [initialLimit]);
 
-    const getAllComics = async ({ limit = initialLimit, offset = nextOffset, isInitialLoading = false } = { limit: _initialLimitComics, offset: _initialOffsetComics }) => {
+    const handlePagination = useCallback(({ limit = _initialLimitComics,
+        offset = _initialOffsetComics,
+        isInitialLoading = false, dataArray }: PaginationConfig) => {
+        setInitialLimit(limit)
+        setNextOffset(offset + limit)
+        setIsNewLoading(!isInitialLoading);
+        _checkIsEndOfList(dataArray, limit)
+    }, [_checkIsEndOfList]);
 
+    const getAllComics = useCallback(async ({
+        limit = _initialLimitComics, // Используем константу вместо стейта initialLimit
+        offset = _initialOffsetComics, // Используем константу вместо стейта nextOffset
+        isInitialLoading = false
+    } = {}) => { // Убираем объект по умолчанию со стейтом
         const res = await _getResource<MarvelApiComic>(`comics?limit=${limit}&offset=${offset}&`);
         const dataArray = res.data.results.map(transformComic);
 
@@ -73,19 +124,13 @@ const useMarvelService = () => {
             offset,
             isInitialLoading,
             dataArray
-        })
+        });
 
         return dataArray;
-    }
+    }, [_getResource, handlePagination]); // Теперь стейт не в зависимостях, и ссылка стабильна!
 
-    const handlePagination = ({ limit, offset, isInitialLoading, dataArray }: PaginationConfig) => {
-        setInitialLimit(limit)
-        setNextOffset(offset + limit)
-        setIsNewLoading(!isInitialLoading);
-        _checkIsEndOfList(dataArray, limit)
-    }
 
-    const _getSingleResource = async <T, R>(url: string, transformFunc: (data: T) => R, notFoundMessage: string) => {
+    const _getSingleResource = useCallback(async <T, R>(url: string, transformFunc: (data: T) => R, notFoundMessage: string) => {
         const { data } = await _getResource<T>(url);
 
         if (!data.results || data.results.length === 0) {
@@ -93,23 +138,23 @@ const useMarvelService = () => {
         }
 
         return transformFunc(data.results[0]);
-    }
+    }, [_getResource]);
 
-    const getCharacter = async (id: number) => {
+    const getCharacter = useCallback(async (id: number) => {
         return _getSingleResource(
             `characters/${id}?`,
             transformCharacter,
             `Character with id ${id} not found`
         );
-    }
+    }, [_getSingleResource]);
 
-    const getComic = async (id: number) => {
+    const getComic = useCallback(async (id: number) => {
         return _getSingleResource(
             `comics/${id}?`,
             transformComic,
             `Comic with id ${id} not found`
         );
-    }
+    }, [_getSingleResource]);
 
     const searchCharacter = async (name: string) => {
         try {
@@ -127,46 +172,6 @@ const useMarvelService = () => {
 
             throw error; // Re-throw the error to be handled by the caller
             // setError(error);
-        }
-    }
-
-    const _checkIsEndOfList = (array: (Character | Comic)[], limit: number = initialLimit) => {
-        if (array.length < limit) {
-            setIsEndOfList(true);
-            return true;
-        } else {
-            setIsEndOfList(false);
-            return false;
-        }
-    }
-
-    const transformComic = (comic: MarvelApiComic): Comic => {
-        const { title, description, thumbnail, prices, id, pageCount, language } = comic;
-
-        return {
-            id,
-            title,
-            description: description ? `${description.slice(0, 210)}...` : "There is no description for this comic",
-            thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
-            price: prices[0]?.price || "NOT AVAILABLE",
-            pageCount: pageCount || 0,
-            language: language?.textObjects?.language || "en-US"
-        }
-    }
-
-    const transformCharacter = (char: MarvelApiCharacter): Character => {
-        const { name, description, thumbnail, urls, id, comics } = char;
-
-        const getUrl = (typeLink: string) => (urls.find(({ type }) => type === typeLink))?.url || "#";
-
-        return {
-            id,
-            name,
-            description: description ? `${description.slice(0, 210)}...` : "There is no description for this character",
-            thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
-            homepage: getUrl("detail"),
-            wiki: getUrl("wiki"),
-            comics: comics.items
         }
     }
 

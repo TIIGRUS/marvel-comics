@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import thor from "../../assets/images/thor.jpeg";
@@ -15,17 +15,17 @@ const RandomChar = () => {
     setChar(char);
   };
 
-  const updateChar = () => {
+  const updateChar = useCallback(() => {
     // const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     const id = Math.floor(Math.random() * (20 - 1 + 1) + 1); // Include max and min values
     clearError(); // Clear any previous error before making a new request
 
     getCharacter(id).then(onCharLoaded);
-  };
+  }, [clearError, getCharacter]);
 
   useEffect(() => {
     updateChar();
-  }, []);
+  }, [updateChar]);
 
   // const errorMessage = error ? <ErrorMessage /> : null;
   // const spinner = isLoading ? <Spinner /> : null;

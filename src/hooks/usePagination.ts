@@ -22,9 +22,9 @@ export const usePagination = <T>({
     const [isNewLoading, setIsNewLoading] = useState(false);
     const [isEnded, setIsEnded] = useState(false);
 
-    const checkIsEnd = (data: T[], currentLimit: number) => {
+    const checkIsEnd = useCallback((data: T[], currentLimit: number) => {
         if (data.length < currentLimit) setIsEnded(true);
-    }
+    }, []);
 
     // Initial load
     useEffect(() => {
@@ -32,7 +32,7 @@ export const usePagination = <T>({
             setItems(data);
             checkIsEnd(data, limit);
         })
-    }, []);
+    }, [fetchFn, initialOffset, limit, checkIsEnd]);
 
     const loadMore = useCallback(() => {
         const nextOffset = offset + limit;
@@ -44,7 +44,7 @@ export const usePagination = <T>({
             checkIsEnd(newItems, limit);
             setIsNewLoading(false);
         });
-    }, [offset, limit, fetchFn]);
+    }, [offset, limit, fetchFn, checkIsEnd]);
 
     return {
         items,
