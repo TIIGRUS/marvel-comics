@@ -46,7 +46,7 @@ const useMarvelService = () => {
         }
     }
 
-    const getAllCharacters = async (limit = _initialLimitCharacters, offset = _initialOffsetCharacters) => {
+    const getAllCharacters = async ({ limit = _initialLimitCharacters, offset = _initialOffsetCharacters } = {}) => {
         const res = await _getResource(`characters?limit=${limit}&offset=${offset}&`);
 
         return res.data.results.map(transformCharacter);

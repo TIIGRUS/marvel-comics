@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, createRef, useMemo } from "react";
+import { useRef, createRef, useMemo } from "react";
+import { usePagination } from "../../hooks";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
@@ -10,67 +11,18 @@ interface CharListProps {
 }
 
 const CharList = ({ onCharSelected }: CharListProps) => {
-  const [arrayChars, setArrayChars] = useState<Character[]>([]);
-  const [isNewLoading, setIsNewLoading] = useState(false);
-  // const [offset, setOffset] = useState(210); // 210 to Marvel API
-  const [offset, setOffset] = useState(0);
-  let limit = 9;
-  const [isCharListEnded, setIsCharListEnded] = useState(false);
-  const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
   const { status, getAllCharacters } = useMarvelService();
-  const disabled = isCharListEnded || status === "loading";
-
-  const onRequest = (
-    limit: number,
-    offset: number,
-    isInitialLoading: boolean,
-  ) => {
-    isInitialLoading ? setIsNewLoading(false) : setIsNewLoading(true);
-
-    getAllCharacters(limit, offset).then((arrayChars) => {
-      onInitialCharsListLoaded(arrayChars);
-    });
-  };
-
-  useEffect(() => {
-    onRequest(limit, offset, true);
-  }, []);
-
-  const onInitialCharsListLoaded = (arrayChars: Character[]) => {
-    onIsCharsListEnded(arrayChars);
-    setArrayChars(arrayChars);
-  };
-
-  const onMoreCharsListLoaded = (newArrayChars: Character[]) => {
-    onIsCharsListEnded(newArrayChars);
-
-    setArrayChars((arrayChars) => {
-      return [...arrayChars, ...newArrayChars];
-    });
-  };
-
-  const onNewCharsListLoading = () => {
-    setIsNewLoading(true);
-    setIsCharListEnded(false);
-  };
-
-  const onIsCharsListEnded = (arrayChars: Character[]) => {
-    if (arrayChars.length < limit) {
-      setIsCharListEnded(true);
-    }
-  };
-
-  const onRequestMoreLoaded = (limit: number, offset: number) => {
-    offset = offset + limit;
-
-    onNewCharsListLoading();
-
-    setOffset(offset);
-
-    getAllCharacters(limit, offset).then((arrayChars) => {
-      onMoreCharsListLoaded(arrayChars);
-    });
-  };
+  const {
+    items: arrayChars,
+    isNewLoading,
+    isEnded,
+    loadMore,
+  } = usePagination<Character>({
+    fetchFn: getAllCharacters,
+    limit: 9,
+  });
+  const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const disabled = isEnded || status === "loading";
 
   const setItemsRef = (index: number, ref: HTMLLIElement | null) => {
     // if (ref && !itemRefs.includes(ref)) {
@@ -93,9 +45,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
     }
   };
 
-  const classNameHideBtn = isCharListEnded
-    ? "button_hidden button_disabled"
-    : "";
+  const classNameHideBtn = isEnded ? "button_hidden button_disabled" : "";
   const items = useMemo(() => {
     return arrayChars.map(({ name, thumbnail, id }, index) => {
       const nodeRef = createRef<HTMLLIElement>();
@@ -157,7 +107,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
       <button
         className={`button button__main button__long ${classNameHideBtn}`}
         disabled={disabled}
-        onClick={() => onRequestMoreLoaded(limit, offset)}
+        onClick={loadMore}
       >
         <div className="inner">load more</div>
       </button>

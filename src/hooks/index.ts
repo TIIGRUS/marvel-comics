@@ -1,3 +1,4 @@
 import { useHTTP } from "./useHTTP";
+import { usePagination } from "./usePagination";
 
-export { useHTTP };
+export { useHTTP, usePagination };

@@ -1,35 +1,27 @@
-import { createRef, useEffect, useState } from "react";
+import { createRef } from "react";
 import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import { Comic } from "../../types";
+import { usePagination } from "../../hooks";
 import "./ComicsList.scss";
 
 const ComicsList = () => {
-  const [comics, setComics] = useState<Comic[]>([]);
   const {
-    isLoading,
-    error,
-    isEndOfList,
-    isNewLoading,
     status,
     getAllComics,
     // getAll,
   } = useMarvelService();
-
-  // Initial loading
-  useEffect(() => {
-    getAllComics({ limit: 8 }).then((data) => setComics(data));
-    // getAll({ type: "comics", limit: 8 }).then(data => setComics(data));
-  }, []);
-
-  const onRequestMoreLoaded = () => {
-    // getAll({ type: "comics", limit: 4 }).then(newComics => {
-    getAllComics({ limit: 4 }).then((newComics) => {
-      setComics((prevComics) => [...prevComics, ...newComics]);
-    });
-  };
+  const {
+    items: arrayComics,
+    isNewLoading,
+    isEnded,
+    loadMore,
+  } = usePagination<Comic>({
+    fetchFn: getAllComics,
+    limit: 8,
+  });
 
   // const spinner = isLoading && !isNewLoading ? <Spinner /> : null;
   // const errorMessage = error ? <ErrorMessage /> : null;
@@ -77,15 +69,15 @@ const ComicsList = () => {
         Component: (
           <ul className="comics__grid">
             <TransitionGroup component={null}>
-              {renderItems(comics)}
+              {renderItems(arrayComics)}
             </TransitionGroup>
           </ul>
         ),
       })}
       <button
         className="button button__main button__long"
-        onClick={onRequestMoreLoaded}
-        disabled={isLoading || isEndOfList || !!error}
+        onClick={loadMore}
+        disabled={isNewLoading || isEnded}
       >
         <div className="inner">load more</div>
       </button>
