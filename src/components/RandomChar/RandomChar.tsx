@@ -9,7 +9,7 @@ import "./RandomChar.scss";
 const RandomChar = () => {
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
-  let isLoading = status === "loading";
+  const isLoading = status === "loading";
 
   const onCharLoaded = (char: Character) => {
     setChar(char);

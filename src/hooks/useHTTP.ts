@@ -12,7 +12,7 @@ interface UseHTTPResult {
     isLoading: boolean;
     error: string | null;
     status: AsyncStatus;
-    request: (options: UseHTTPOptions) => Promise<any>;
+    request: <T = unknown>(options: UseHTTPOptions) => Promise<T>;
     clearError: () => void;
     setError: Dispatch<SetStateAction<string | null>>;
     setStatus: Dispatch<SetStateAction<AsyncStatus>>;
@@ -23,7 +23,7 @@ export const useHTTP = (): UseHTTPResult => {
     const [error, setError] = useState<string | null>(null);
     const [status, setStatus] = useState<AsyncStatus>('waiting');
 
-    const request = async ({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }: UseHTTPOptions) => {
+    const request = async <T = unknown>({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }: UseHTTPOptions): Promise<T> => {
         setIsLoading(true);
         setError(null);
         setStatus('loading');
@@ -45,17 +45,12 @@ export const useHTTP = (): UseHTTPResult => {
 
             setStatus('confirmed');
 
-            return data;
+            return data as T;
         } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-                throw error; // Re-throw the error to be handled by the caller
-            } else {
-                const message = String(error);
-                setError(message);
-            }
-
+            const message = error instanceof Error ? error.message : String(error);
+            setError(message);
             setStatus('error');
+            throw error instanceof Error ? error : new Error(message);
         } finally {
             setIsLoading(false);
         }

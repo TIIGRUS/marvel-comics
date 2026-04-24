@@ -1,4 +1,4 @@
-import { Character, Comic, MarvelApiCharacter, MarvelApiComic } from "../types";
+import { Character, Comic, MarvelApiCharacter, MarvelApiComic, MarvelApiResponse } from "../types";
 import { useState } from "react";
 import { useHTTP } from "../hooks";
 
@@ -6,7 +6,7 @@ interface PaginationConfig {
     limit: number;
     offset: number;
     isInitialLoading: boolean;
-    dataArray: any[];
+    dataArray: (Character | Comic)[];
 }
 
 const useMarvelService = () => {
@@ -25,15 +25,11 @@ const useMarvelService = () => {
     const [nextOffset, setNextOffset] = useState(0);
     const [isNewLoading, setIsNewLoading] = useState(false);
 
-    const _getResource = async (url: string) => {
+    const _getResource = async <T>(url: string): Promise<MarvelApiResponse<T>> => {
         const fullUrl = `${API_BASE}${url}apikey=${API_KEY}`;
 
         try {
-            const res = await request({ url: fullUrl, headers: {} });
-
-            if (!res || res.status >= 400) {
-                throw new Error(`HTTP error ${res?.status || 'unknown'} for ${fullUrl}`);
-            }
+            const res = await request<MarvelApiResponse<T>>({ url: fullUrl, headers: {} });
 
             if (!res.data) {
                 throw new Error(`Empty response data from ${fullUrl}`);
@@ -47,7 +43,7 @@ const useMarvelService = () => {
     }
 
     const getAllCharacters = async ({ limit = _initialLimitCharacters, offset = _initialOffsetCharacters } = {}) => {
-        const res = await _getResource(`characters?limit=${limit}&offset=${offset}&`);
+        const res = await _getResource<MarvelApiCharacter>(`characters?limit=${limit}&offset=${offset}&`);
 
         return res.data.results.map(transformCharacter);
     }
@@ -69,7 +65,7 @@ const useMarvelService = () => {
 
     const getAllComics = async ({ limit = initialLimit, offset = nextOffset, isInitialLoading = false } = { limit: _initialLimitComics, offset: _initialOffsetComics }) => {
 
-        const res = await _getResource(`comics?limit=${limit}&offset=${offset}&`);
+        const res = await _getResource<MarvelApiComic>(`comics?limit=${limit}&offset=${offset}&`);
         const dataArray = res.data.results.map(transformComic);
 
         handlePagination({
@@ -85,12 +81,12 @@ const useMarvelService = () => {
     const handlePagination = ({ limit, offset, isInitialLoading, dataArray }: PaginationConfig) => {
         setInitialLimit(limit)
         setNextOffset(offset + limit)
-        isInitialLoading ? setIsNewLoading(false) : setIsNewLoading(true)
+        setIsNewLoading(!isInitialLoading);
         _checkIsEndOfList(dataArray, limit)
     }
 
-    const _getSingleResource = async (url: string, transformFunc: (data: any) => any, notFoundMessage: string) => {
-        const { data } = await _getResource(url);
+    const _getSingleResource = async <T, R>(url: string, transformFunc: (data: T) => R, notFoundMessage: string) => {
+        const { data } = await _getResource<T>(url);
 
         if (!data.results || data.results.length === 0) {
             throw new Error(notFoundMessage);
@@ -117,22 +113,24 @@ const useMarvelService = () => {
 
     const searchCharacter = async (name: string) => {
         try {
-            const res = await _getResource(`characters?name=${encodeURIComponent(name)}&`);
+            const res = await _getResource<MarvelApiCharacter>(`characters?name=${encodeURIComponent(name)}&`);
 
             if (!Array.isArray(res.data.results) || res.data.results.length === 0) {
                 throw new Error(`Character with name "${name}" not found`);
             }
 
             return res.data.results.map(transformCharacter);
-        } catch (error: any) {
-            console.error(`Error searching character "${name}":`, error.message);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(`Error searching character "${name}":`, error.message);
+            }
 
             throw error; // Re-throw the error to be handled by the caller
             // setError(error);
         }
     }
 
-    const _checkIsEndOfList = (array: any[], limit: number = initialLimit) => {
+    const _checkIsEndOfList = (array: (Character | Comic)[], limit: number = initialLimit) => {
         if (array.length < limit) {
             setIsEndOfList(true);
             return true;
@@ -196,8 +194,8 @@ const useMarvelService = () => {
         const actualLimit = limit ?? config.limit;
         const actualOffset = typeof (offset) === "number" ? offset : nextOffset || config.offset;
 
-        const res = await _getResource(`${type}?limit=${actualLimit}&offset=${actualOffset}&`);
-        const dataArray = res.data.results.map(config.transform);
+        const res = await _getResource<MarvelApiCharacter | MarvelApiComic>(`${type}?limit=${actualLimit}&offset=${actualOffset}&`);
+        const dataArray = res.data.results.map(config.transform as (item: MarvelApiCharacter | MarvelApiComic) => Character | Comic);
 
         handlePagination({
             limit: actualLimit,
