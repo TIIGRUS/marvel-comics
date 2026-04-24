@@ -1,7 +1,7 @@
 import { useCallback, useState, Dispatch, SetStateAction } from 'react';
 import { AsyncStatus } from '../types';
 
-interface RequestOptions {
+interface UseHTTPOptions {
     url: string;
     method?: string;
     body?: BodyInit | null;
@@ -12,7 +12,7 @@ interface UseHTTPResult {
     isLoading: boolean;
     error: string | null;
     status: AsyncStatus;
-    request: (options: RequestOptions) => Promise<any>;
+    request: (options: UseHTTPOptions) => Promise<any>;
     clearError: () => void;
     setError: Dispatch<SetStateAction<string | null>>;
     setStatus: Dispatch<SetStateAction<AsyncStatus>>;
@@ -23,7 +23,7 @@ export const useHTTP = (): UseHTTPResult => {
     const [error, setError] = useState<string | null>(null);
     const [status, setStatus] = useState<AsyncStatus>('waiting');
 
-    const request = async ({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }: RequestOptions) => {
+    const request = async ({ url, method = "GET", body = null, headers = { 'Content-Type': 'application/json' } }: UseHTTPOptions) => {
         setIsLoading(true);
         setError(null);
         setStatus('loading');
