@@ -40,7 +40,7 @@ const RandomChar = () => {
   // }
 
   return (
-    <div className="randomchar">
+    <section className="randomchar">
       {setContent({
         process: status,
         Component: <View char={char} />,
@@ -52,22 +52,23 @@ const RandomChar = () => {
             {content} */}
 
       <div className="randomchar__static">
-        <p className="randomchar__title">
+        <h3 className="randomchar__title">
           Random character for today!
           <br />
           Do you want to get to know him better?
-        </p>
-        <p className="randomchar__title">Or choose another one</p>
+        </h3>
+        <h3 className="randomchar__title">Or choose another one</h3>
         <button
           className={`button button__main`}
           onClick={updateChar}
           disabled={isLoading}
+          type="button"
         >
-          <div className="inner">try it</div>
+          <span className="inner">try it</span>
         </button>
         <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -84,7 +85,7 @@ const View = ({ char }: ViewProps) => {
     <div className="randomchar__block">
       <img src={thumbnail || thor} alt={name} className="randomchar__img" />
       <div className="randomchar__info">
-        <p className="randomchar__name">{name || "Tor"}</p>
+        <h2 className="randomchar__name">{name || "Tor"}</h2>
         <p className="randomchar__descr">
           {description}
           {/* {description ? `${description.slice(0, 210)}...` : "There is no description for this character"} */}
