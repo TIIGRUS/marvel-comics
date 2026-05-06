@@ -20,7 +20,7 @@ const App = () => {
     <Router>
       <div className="app">
         <Header />
-        <main className="app__container">
+        <main className="app__main app__container">
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<MainPage />}></Route>

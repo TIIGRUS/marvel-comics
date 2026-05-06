@@ -1,12 +1,24 @@
+@use "../../assets/styles/variables.scss" as *;
+
 .app {
     padding: 50px 0 50px 0;
     position: relative;
     min-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: $main-gap;
 
     &__container {
         max-width: 1100px;
         margin-inline: auto;
         width: calc(100% - 15px);
+        container-type: inline-size;
+    }
+
+    &__main {
+        display: flex;
+        flex-direction: column;
+        gap: $main-gap;
     }
 
     &__decor {

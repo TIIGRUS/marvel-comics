@@ -1,7 +1,7 @@
 .comics {
-    &__list {
-        margin-top: 45px;
-    }
+    // &__list {
+    //     margin-top: 45px;
+    // }
     &__grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

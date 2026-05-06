@@ -2,7 +2,7 @@
 
 .char {
     &__content {
-        margin-top: 50px;
+        // margin-top: 50px;
         display: grid;
         // grid-template-columns: 650px 425px;
         grid-template-columns: minmax(200px, 1fr) minmax(300px, 425px);
@@ -64,7 +64,7 @@
         display: grid;
         // grid-template-columns: repeat(3, 200px);
         // grid-template-columns: repeat(auto-fit, 200px);
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         justify-content: center;
         column-gap: 25px;
         row-gap: 30px;
