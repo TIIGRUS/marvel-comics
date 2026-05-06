@@ -1,0 +1,6 @@
+// Функция для создания fluid value
+@function fluid($min-size, $max-size, $min-breakpoint: 375px, $max-breakpoint: 768px) {
+    $slope: ($max-size - $min-size) / ($max-breakpoint - $min-breakpoint);
+    $intercept: $min-size - ($slope * $min-breakpoint);
+    @return clamp(#{$min-size}, #{$slope * 100vw} + #{$intercept}, #{$max-size});
+}
