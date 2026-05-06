@@ -41,6 +41,10 @@ const CharList = ({ onCharSelected }: CharListProps) => {
 
     if (arrayRefs.current[index]) {
       arrayRefs.current[index]?.classList.add("char__item_selected");
+      arrayRefs.current[index]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
       arrayRefs.current[index]?.focus();
     }
   };

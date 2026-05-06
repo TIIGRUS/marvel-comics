@@ -4,32 +4,62 @@
     &__content {
         margin-top: 50px;
         display: grid;
-        grid-template-columns: 650px 425px;
+        // grid-template-columns: 650px 425px;
+        grid-template-columns: minmax(200px, 1fr) minmax(300px, 425px);
         column-gap: 25px;
         align-items: start;
+
+        aside {
+            position: sticky;
+            top: 10px;
+        }
+
+        @media (width <= 768px) {
+            grid-template-columns: 1fr;
+
+            aside {
+                position: fixed;
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: min(425px, 85%);
+                overflow-y: auto;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 100;
+                background: #fff;
+
+                &.aside_open {
+                    transform: translateX(0);
+                }
+            }
+        }
     }
     &__grid {
         display: grid;
         // grid-template-columns: repeat(3, 200px);
-        grid-template-columns: repeat(auto-fit, 200px);
+        // grid-template-columns: repeat(auto-fit, 200px);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         justify-content: center;
         column-gap: 25px;
         row-gap: 30px;
     }
     &__item {
-        width: 200px;
+        // width: 200px;
         height: 318px;
         background-color: $dark;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-        padding: 15px;
+        // padding: 15px;
         cursor: pointer;
         transition: 0.3s transform;
         img {
-            width: 200px;
+            // width: 200px;
+            width: 100%;
             height: 200px;
             object-fit: cover;
-            object-position: left;
-            transform: translate(-15px, -15px);
+            object-position: center top;
+            // object-position: left;
+            // transform: translate(-15px, -15px);
         }
         &_selected {
             box-shadow: 0 5px 20px $main-color;
@@ -42,5 +72,32 @@
         line-height: 29px;
         text-transform: uppercase;
         color: #fff;
+        padding: 15px;
+    }
+}
+
+.char__overlay {
+    display: none;
+
+    @media (width <= 768px) {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+
+        &_visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+}
+
+body {
+    &:has(.char__overlay_visible) {
+        overflow: hidden;
     }
 }

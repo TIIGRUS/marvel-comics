@@ -3,11 +3,11 @@
 .header {
     display: flex;
     justify-content: space-between;
+    line-height: 1.2;
 
     &__title {
         font-weight: bold;
-        font-size: 28px;
-        line-height: 37px;
+        font-size: clamp(18px, 4vw, 28px);
         span {
             color: $main-color;
         }
@@ -18,8 +18,7 @@
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 24px;
-            line-height: 32px;
+            font-size: clamp(16px, 4vw, 24px);
         }
         &-item {
             margin: 0 8px;
