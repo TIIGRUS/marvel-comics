@@ -24,6 +24,10 @@
 
         @media (width <= 768px) {
             padding: 15px;
+
+            &-name {
+                max-width: calc(100% - 32px);
+            }
         }
     }
     &__basics {

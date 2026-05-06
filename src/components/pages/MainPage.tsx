@@ -46,6 +46,14 @@ const MainPage = () => {
           <CharList onCharSelected={onCharSelected} />
         </ErrorBoundary>
         <aside className={isAsideVisible ? "aside_open" : ""}>
+          <button
+            className="char__aside-close"
+            type="button"
+            onClick={toggleAside}
+            aria-label="Close panel"
+          >
+            &#x2715;
+          </button>
           <ErrorBoundary>
             <CharInfo selectedCharId={selectedChar} />
           </ErrorBoundary>
