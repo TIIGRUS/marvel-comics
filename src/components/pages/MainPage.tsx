@@ -1,3 +1,4 @@
+import vision from "../../assets/images/vision.png";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -65,6 +66,12 @@ const MainPage = () => {
           className={`char__overlay ${isAsideVisible ? "char__overlay_visible" : ""}`}
           onClick={toggleAside}
         ></div>
+        <img
+          src={vision}
+          alt="vision"
+          className="app__decor"
+          aria-hidden="true"
+        />
       </div>
     </>
   );

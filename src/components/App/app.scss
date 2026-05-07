@@ -26,5 +26,9 @@
         right: 0;
         bottom: -70px;
         z-index: -1;
+
+        @media (width <= 768px) {
+            height: 125px;
+        }
     }
 }

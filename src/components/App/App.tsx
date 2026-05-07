@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "../Header/Header.tsx";
 // import { MainPage, ComicsPage, NoMatch, SingleComicPage } from '../pages';
 import Spinner from "../Spinner/Spinner";
-import vision from "../../assets/images/vision.png";
 import "./App.scss";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
@@ -49,12 +48,6 @@ const App = () => {
             </Routes>
           </Suspense>
         </main>
-        <img
-          src={vision}
-          alt="vision"
-          className="app__decor"
-          aria-hidden="true"
-        />
       </div>
     </Router>
   );
