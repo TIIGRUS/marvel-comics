@@ -17,38 +17,34 @@ import { Comic, Character } from "../../types/index.ts";
 const App = () => {
   return (
     <Router>
-      <div className="app">
-        <Header />
-        <main className="app__main app__container">
-          <Suspense fallback={<Spinner />}>
-            <Routes>
-              <Route path="/" element={<MainPage />}></Route>
-              <Route path="/comics" element={<ComicsPage />} />
-              <Route
-                path="/comics/:comicId"
-                element={
-                  <SingleLayoutPage
-                    Component={({ data }) => (
-                      <SingleComic data={data as Comic} />
-                    )}
-                  />
-                }
-              />
-              <Route
-                path="/characters/:charId"
-                element={
-                  <SingleLayoutPage
-                    Component={({ data }) => (
-                      <SingleChar data={data as Character} />
-                    )}
-                  />
-                }
-              />
-              <Route path="*" element={<NoMatch />}></Route>
-            </Routes>
-          </Suspense>
-        </main>
-      </div>
+      <Header />
+      <main className="app__main app__container">
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route path="/" element={<MainPage />}></Route>
+            <Route path="/comics" element={<ComicsPage />} />
+            <Route
+              path="/comics/:comicId"
+              element={
+                <SingleLayoutPage
+                  Component={({ data }) => <SingleComic data={data as Comic} />}
+                />
+              }
+            />
+            <Route
+              path="/characters/:charId"
+              element={
+                <SingleLayoutPage
+                  Component={({ data }) => (
+                    <SingleChar data={data as Character} />
+                  )}
+                />
+              }
+            />
+            <Route path="*" element={<NoMatch />}></Route>
+          </Routes>
+        </Suspense>
+      </main>
     </Router>
   );
 };
