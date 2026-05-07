@@ -42,7 +42,7 @@ const MainPage = () => {
         <title>Marvel information portal</title>
       </Helmet>
       <RandomChar />
-      <div className="char__content">
+      <section className="char__content">
         <ErrorBoundary>
           <CharList onCharSelected={onCharSelected} />
         </ErrorBoundary>
@@ -72,7 +72,7 @@ const MainPage = () => {
           className="app__decor"
           aria-hidden="true"
         />
-      </div>
+      </section>
     </>
   );
 };
