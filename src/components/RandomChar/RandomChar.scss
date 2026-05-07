@@ -3,6 +3,7 @@
 .randomchar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-auto-rows: 1fr;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
     // container: randomchar / inline-size;
     container-type: inline-size;
