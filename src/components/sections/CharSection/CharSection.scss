@@ -1,0 +1,115 @@
+@use "../../../assets/styles/variables.scss" as *;
+
+.char-section {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(200px, 425px);
+    column-gap: 25px;
+    align-items: start;
+
+    @media (width < 1024px) {
+        grid-template-columns: 1fr minmax(200px, 350px);
+    }
+
+    @media (width < 768px) {
+        grid-template-columns: 1fr;
+    }
+
+    &__aside {
+        position: sticky;
+        top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        @media (width < 768px) {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: min(425px, 85%);
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+            background: #fff;
+
+            &_open {
+                transform: translateX(0);
+            }
+        }
+    }
+
+    &__aside-inner {
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+        position: relative;
+        z-index: 5;
+        background-color: #fff;
+        padding: 25px;
+
+        @media (width <= 768px) {
+            padding: 15px;
+        }
+    }
+
+    &__overlay {
+        display: none;
+
+        @media (width < 768px) {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+
+            &_open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    }
+
+    &__aside-close {
+        display: none;
+
+        @media (width < 768px) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: $dark;
+            z-index: 101;
+
+            &:hover {
+                color: $main-color;
+            }
+        }
+    }
+
+    &__decor {
+        position: absolute;
+        right: 0;
+        bottom: -70px;
+        z-index: -1;
+
+        @media (width < 768px) {
+            height: 125px;
+        }
+    }
+}
+
+// body {
+//     &:has(.char-section__overlay_visible) {
+//         overflow: hidden;
+//     }
+// }

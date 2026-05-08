@@ -36,11 +36,11 @@ const CharList = ({ onCharSelected }: CharListProps) => {
 
   const onCharSetActive = (index: number) => {
     arrayRefs.current.forEach((item) =>
-      item?.classList.remove("char__item_selected"),
+      item?.classList.remove("char-list__item_selected"),
     );
 
     if (arrayRefs.current[index]) {
-      arrayRefs.current[index]?.classList.add("char__item_selected");
+      arrayRefs.current[index]?.classList.add("char-list__item_selected");
       arrayRefs.current[index]?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -64,7 +64,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
           classNames="transition"
         >
           <li
-            className="char__item"
+            className="char-list__item"
             tabIndex={0}
             ref={(el) => {
               nodeRef.current = el;
@@ -83,8 +83,8 @@ const CharList = ({ onCharSelected }: CharListProps) => {
               }
             }}
           >
-            <img src={thumbnail} alt={name} />
-            <div className="char__name">{name}</div>
+            <img src={thumbnail} alt={name} className="char-list__item-img" />
+            <div className="char-list__item-name">{name}</div>
           </li>
         </CSSTransition>
       );
@@ -92,8 +92,8 @@ const CharList = ({ onCharSelected }: CharListProps) => {
   }, [arrayChars, onCharSelected]);
 
   return (
-    <div className="char__list">
-      <ul className="char__grid">
+    <div className="char-list">
+      <ul className="char-list__items">
         {/* {errorMessage}
                 {spinner}
                 <TransitionGroup component={null}>

@@ -84,7 +84,7 @@ const CharSearchForm = () => {
       {({ handleChange }) => {
         return (
           <>
-            <Form className="char__info">
+            <Form className="char-section__aside-inner">
               <label className="char__search-label" htmlFor="charName">
                 Or find a character by name:
               </label>

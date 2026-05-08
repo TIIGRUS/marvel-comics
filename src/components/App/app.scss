@@ -20,15 +20,4 @@
         flex-direction: column;
         gap: $main-gap;
     }
-
-    &__decor {
-        position: absolute;
-        right: 0;
-        bottom: -70px;
-        z-index: -1;
-
-        @media (width <= 768px) {
-            height: 125px;
-        }
-    }
 }

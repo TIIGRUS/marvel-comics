@@ -6,10 +6,10 @@ import Header from "../Header/Header.tsx";
 import Spinner from "../Spinner/Spinner";
 import "./App.scss";
 
-const MainPage = lazy(() => import("../pages/MainPage"));
-const ComicsPage = lazy(() => import("../pages/ComicsPage"));
+const MainPage = lazy(() => import("../pages/MainPage.tsx"));
+const ComicsPage = lazy(() => import("../pages/ComicsPage.tsx"));
 const NoMatch = lazy(() => import("../pages/NoMatch.tsx"));
-const SingleLayoutPage = lazy(() => import("../pages/SingleLayoutPage"));
+const SingleLayoutPage = lazy(() => import("../pages/SingleLayoutPage.tsx"));
 const SingleComic = lazy(() => import("../SingleComic/SingleComic"));
 const SingleChar = lazy(() => import("../SingleChar/SingleChar"));
 import { Comic, Character } from "../../types/index.ts";
