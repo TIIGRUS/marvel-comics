@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import classNames from "classnames";
 
 import CharInfo from "../../CharInfo/CharInfo";
@@ -13,7 +13,7 @@ const CharSection = () => {
   const [selectedChar, setSelectedChar] = useState<number | null>(null);
   const [isAsideVisible, setIsAsideVisible] = useState(false);
 
-  const onCharSelected = (id: number) => {
+  const onCharSelected = useCallback((id: number) => {
     setSelectedChar(id);
 
     if (window.innerWidth < 768) {
@@ -23,7 +23,9 @@ const CharSection = () => {
       setIsAsideVisible(false);
       document.body.style.overflow = "";
     }
-  };
+  }, []);
+
+  console.log("render CharSection");
 
   const toggleAside = () => {
     setIsAsideVisible(!isAsideVisible);

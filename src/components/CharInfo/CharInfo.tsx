@@ -6,15 +6,23 @@ import setContent from "../../utils/setContent";
 import { Character } from "../../types";
 
 import "./CharInfo.scss";
-
 interface CharInfoProps {
   selectedCharId: number | null;
   className?: string;
+  onStatusChange?: (status: string) => void;
 }
 
-const CharInfo = ({ selectedCharId, className }: CharInfoProps) => {
+const CharInfo = ({
+  selectedCharId,
+  className,
+  onStatusChange,
+}: CharInfoProps) => {
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
+
+  const onCharLoaded = (char: Character) => {
+    setChar(char);
+  };
 
   useEffect(() => {
     const updateChar = () => {
@@ -32,9 +40,10 @@ const CharInfo = ({ selectedCharId, className }: CharInfoProps) => {
     }
   }, [selectedCharId, clearError, getCharacter]);
 
-  const onCharLoaded = (char: Character) => {
-    setChar(char);
-  };
+  useEffect(
+    () => onStatusChange && onStatusChange(status),
+    [status, onStatusChange],
+  );
 
   return (
     <article className={classNames("char-info", className)}>
