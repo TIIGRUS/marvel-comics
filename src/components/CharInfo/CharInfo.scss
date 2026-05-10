@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: minmax(0, 150px) 1fr;
     grid-template-rows: min-content 1fr min-content;
+    align-content: center;
     column-gap: 25px;
     grid-template-areas:
         "img name"
@@ -11,11 +12,11 @@
         "descr descr"
         "comics comics";
 
-    &:has(.skeleton, .spinner) {
+    &:has(.skeleton, .spinner, .error-message) {
         grid-template-columns: 1fr;
         grid-template-rows: min-content;
         column-gap: 0;
-        grid-template-areas: "loader";
+        grid-template-areas: none;
     }
 
     &__img {

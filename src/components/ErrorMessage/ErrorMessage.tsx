@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
-import classnames from "classnames";
-import "./ErrorMessage.scss";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
+import errorImg from "./error.gif";
+import "./ErrorMessage.scss";
 
 interface ErrorMessageProps {
   children?: ReactNode;
@@ -18,7 +19,7 @@ const ErrorMessage = ({ children, textLink, pathLink }: ErrorMessageProps) => {
   return (
     <div className={classNamesError}>
       <img
-        src={`${process.env.PUBLIC_URL}/error.gif`}
+        src={errorImg}
         className="error-message__img"
         alt="Robot and it system is error"
       />

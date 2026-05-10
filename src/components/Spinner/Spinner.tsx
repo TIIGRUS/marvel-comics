@@ -4,8 +4,8 @@ const Spinner = () => {
       xmlns="http://www.w3.org/2000/svg"
       className="spinner"
       style={{ margin: "auto", background: "none", display: "block" }}
-      width="200px"
-      height="200px"
+      width="180px"
+      height="180px"
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
     >
