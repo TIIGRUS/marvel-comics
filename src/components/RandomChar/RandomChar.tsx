@@ -15,7 +15,11 @@ const RandomChar = () => {
   const updateChar = () => {
     // const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     // const id = Math.floor(Math.random() * (20 - 1 + 1) + 1); // Include max and min values
-    setSelectedCharId(getRandomId());
+    setSelectedCharId((prev) => {
+      let id = getRandomId();
+      while (id === prev) id = getRandomId();
+      return id;
+    });
   };
 
   const onStatusChange = useCallback((status: string) => setStatus(status), []);
