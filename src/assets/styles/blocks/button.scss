@@ -6,10 +6,24 @@
     text-align: center;
     text-transform: uppercase;
     font-size: 14px;
-    transition: 0.3s transform;
+    transition: all 0.3s ease;
     border: none;
     background-color: transparent;
     cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        &.button__main {
+            filter: drop-shadow(0 0 5px rgba(variables.$main-color, 0.9));
+        }
+        &.button__secondary {
+            filter: drop-shadow(0 0 5px rgba(variables.$grey, 0.9));
+        }
+    }
+
     &__long {
         display: block;
         width: 170px;
@@ -87,8 +101,14 @@
     &.button__secondary::after {
         background-color: variables.$grey;
     }
-    &:hover {
+
+    &:hover:not(:disabled) {
         transform: translateY(-5px);
+        filter: brightness(1.2);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(-2px);
     }
 
     &_disabled,

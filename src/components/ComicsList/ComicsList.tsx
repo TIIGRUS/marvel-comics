@@ -41,7 +41,7 @@ const ComicsList = () => {
             // ref={(el) => (nodeRef.current = el)}
             ref={nodeRef}
           >
-            <Link to={`/comics/${id}`}>
+            <Link to={`/comics/${id}`} className="comics-list__item-link">
               <img
                 src={thumbnail}
                 alt={title}

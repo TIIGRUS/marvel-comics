@@ -14,11 +14,35 @@
         background-color: $dark;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
         cursor: pointer;
-        transition: 0.3s transform;
+        transition: 0.3s all;
+        outline: 2px solid transparent;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $main-color;
+            outline-offset: 4px;
+            z-index: 2;
+        }
+
+        // Подъём для ховера (только не выбранных) и для фокуса (всех)
+        &:not(&_selected):hover,
+        &:focus-visible {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+        }
 
         &_selected {
             box-shadow: 0 5px 20px $main-color;
             transform: translateY(-8px);
+            cursor: default;
+
+            // Чтобы при табе на выбранный он не "падал" до -5px
+            &:focus-visible {
+                transform: translateY(-8px);
+            }
         }
 
         &-img {
