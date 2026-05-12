@@ -1,4 +1,4 @@
-import { useRef, createRef, useMemo } from "react";
+import { useRef, createRef, useMemo, useEffect } from "react";
 import { usePagination } from "../../hooks";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
@@ -10,6 +10,8 @@ interface CharListProps {
   onCharSelected: (id: number) => void;
 }
 
+const LIMIT = 9;
+
 const CharList = ({ onCharSelected }: CharListProps) => {
   const { status, getAllCharacters } = useMarvelService();
   const {
@@ -19,9 +21,30 @@ const CharList = ({ onCharSelected }: CharListProps) => {
     loadMore,
   } = usePagination<Character>({
     fetchFn: getAllCharacters,
-    limit: 9,
+    limit: LIMIT,
   });
   const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const prevCharsLength = useRef(arrayChars.length);
+
+  useEffect(() => {
+    if (
+      arrayChars.length > LIMIT &&
+      arrayChars.length > prevCharsLength.current &&
+      status !== "loading"
+    ) {
+      const firstNewItemIndex = prevCharsLength.current;
+      if (arrayRefs.current[firstNewItemIndex]) {
+        const firstNewItem = arrayRefs.current[firstNewItemIndex];
+        firstNewItem?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+        firstNewItem?.focus();
+      }
+    }
+    prevCharsLength.current = arrayChars.length;
+  }, [arrayChars.length, status]);
+
   const disabled = isEnded || status === "loading";
 
   const setItemsRef = (index: number, ref: HTMLLIElement | null) => {
@@ -53,8 +76,6 @@ const CharList = ({ onCharSelected }: CharListProps) => {
   const items = useMemo(() => {
     return arrayChars.map(({ name, thumbnail, id }, index) => {
       const nodeRef = createRef<HTMLLIElement>();
-
-      console.log("render items");
 
       return (
         <CSSTransition
