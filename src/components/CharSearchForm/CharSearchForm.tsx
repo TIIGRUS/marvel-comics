@@ -43,7 +43,7 @@ const CharSearchForm = () => {
   const results = !chars ? null : chars.length > 0 ? (
     chars.map((char) => (
       <Fragment key={char.id}>
-        <div className="char__search-success">
+        <div className="char-search__message char-search__message_success">
           There is! Visit {char.name} page?
         </div>
         <Link
@@ -55,7 +55,7 @@ const CharSearchForm = () => {
       </Fragment>
     ))
   ) : (
-    <div className="char__search-error">
+    <div className="char-search__message char-search__message_error">
       The character was not found. Check the name and try again.
     </div>
   );
@@ -84,36 +84,35 @@ const CharSearchForm = () => {
       {({ handleChange }) => {
         return (
           <>
-            <Form className="char-section__aside-inner">
-              <label className="char__search-label" htmlFor="charName">
+            <Form className="char-search char-section__aside-inner">
+              <label className="char-search__label" htmlFor="charName">
                 Or find a character by name:
               </label>
-              <div className="char__search-wrapper">
-                <Field
-                  id="charName"
-                  name="charName"
-                  type="text"
-                  placeholder="Enter name"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e);
-                    handleClear();
-                  }}
-                />
-                <button
-                  type="submit"
-                  className="button button__main"
-                  disabled={status === "loading"}
-                >
-                  <div className="inner">find</div>
-                </button>
-                <FormikErrorMessage
-                  component="div"
-                  className="char__search-error"
-                  name="charName"
-                />
+              <Field
+                id="charName"
+                name="charName"
+                type="text"
+                placeholder="Enter name"
+                className="char-search__input"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleChange(e);
+                  handleClear();
+                }}
+              />
+              <button
+                type="submit"
+                className="button button__main"
+                disabled={status === "loading"}
+              >
+                <div className="inner">find</div>
+              </button>
+              <FormikErrorMessage
+                component="div"
+                className="char-search__message char-search__message_error"
+                name="charName"
+              />
 
-                {results}
-              </div>
+              {results}
             </Form>
             {errorMessage}
           </>

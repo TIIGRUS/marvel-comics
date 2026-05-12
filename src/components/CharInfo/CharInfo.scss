@@ -12,6 +12,10 @@
         "descr descr"
         "comics comics";
 
+    @media (width <= 768px) {
+        column-gap: 15px;
+    }
+
     &:has(.skeleton, .spinner, .error-message) {
         grid-template-columns: 1fr;
         grid-template-rows: min-content;
