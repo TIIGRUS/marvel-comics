@@ -23,8 +23,6 @@ const ComicsList = () => {
     limit: 8,
   });
 
-  // const spinner = isLoading && !isNewLoading ? <Spinner /> : null;
-  // const errorMessage = error ? <ErrorMessage /> : null;
   const renderItems = (arr: Comic[]) => {
     return arr.map((item, i) => {
       const { id, title, thumbnail, price } = item;
@@ -38,15 +36,19 @@ const ComicsList = () => {
           classNames="transition"
         >
           <li
-            className="comics__item"
+            className="comics-list__item"
             key={id}
             // ref={(el) => (nodeRef.current = el)}
             ref={nodeRef}
           >
             <Link to={`/comics/${id}`}>
-              <img src={thumbnail} alt={title} className="comics__item-img" />
-              <div className="comics__item-name">{title}</div>
-              <div className="comics__item-price">{price}$</div>
+              <img
+                src={thumbnail}
+                alt={title}
+                className="comics-list__item-img"
+              />
+              <div className="comics-list__item-name">{title}</div>
+              <div className="comics-list__item-price">{price}$</div>
             </Link>
           </li>
         </CSSTransition>
@@ -55,19 +57,12 @@ const ComicsList = () => {
   };
 
   return (
-    <div className="comics__list">
-      {/* {spinner}
-            {errorMessage}
-            <ul className="comics__grid">
-                <TransitionGroup component={null}>
-                    {renderItems(comics)}
-                </TransitionGroup>
-            </ul> */}
+    <div className="comics-list">
       {setContent({
         process: status,
         paginationLoading: isNewLoading,
         Component: (
-          <ul className="comics__grid">
+          <ul className="comics-list__grid">
             <TransitionGroup component={null}>
               {renderItems(arrayComics)}
             </TransitionGroup>

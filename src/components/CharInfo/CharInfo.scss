@@ -99,7 +99,7 @@
         margin-top: 30px;
     }
 
-    &_random {
+    &_short {
         grid-template-columns: minmax(130px, 180px) minmax(170px, 1fr);
         grid-template-areas:
             "img name"

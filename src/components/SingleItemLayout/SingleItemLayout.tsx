@@ -18,11 +18,11 @@ const SingleItemLayout = ({
   children,
 }: SingleItemLayoutProps) => {
   return (
-    <div className="single-item">
+    <section className="single-item">
       <img src={thumbnail} alt={title} className="single-item__img" />
-      <div className="single-item__info">
+      <div className="single-item__content">
         <h2 className="single-item__name">{title}</h2>
-        <p className="single-item__descr">{description}</p>
+        <p>{description}</p>
         {children}
       </div>
       {backLink && (
@@ -30,7 +30,7 @@ const SingleItemLayout = ({
           Back to all
         </Link>
       )}
-    </div>
+    </section>
   );
 };
 

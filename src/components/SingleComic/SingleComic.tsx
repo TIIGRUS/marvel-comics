@@ -22,8 +22,8 @@ const SingleComic = ({ data }: SingleComicProps) => {
         thumbnail={thumbnail}
         backLink="/comics"
       >
-        <p className="single-item__descr">{pageCount} pages</p>
-        <p className="single-item__descr">Language: {language}</p>
+        <p>{pageCount} pages</p>
+        <p>Language: {language}</p>
         <div className="single-item__price">{price}$</div>
       </SingleItemLayout>
     </>

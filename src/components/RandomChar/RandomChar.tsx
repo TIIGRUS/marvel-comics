@@ -25,14 +25,14 @@ const RandomChar = () => {
   const onStatusChange = useCallback((status: string) => setStatus(status), []);
 
   return (
-    <section className="randomchar">
+    <section className="randomchar" aria-labelledby="randomchar-title">
       <CharInfo
-        className="char-info_random randomchar__column"
+        className="char-info_short randomchar__column"
         selectedCharId={selectedCharId}
         onStatusChange={onStatusChange}
       />
-      <div className="randomchar__static randomchar__column">
-        <h3 className="randomchar__title">
+      <div className="randomchar__banner randomchar__column">
+        <h3 className="randomchar__title" id="randomchar-title">
           Random character for today!
           <br />
           Do you want to get to know him better?
