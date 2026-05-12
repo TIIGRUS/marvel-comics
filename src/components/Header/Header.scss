@@ -8,8 +8,17 @@
     &__title {
         font-weight: bold;
         font-size: clamp(18px, 4vw, 28px);
+        transition: opacity 0.3s ease;
+
         span {
             color: $main-color;
+        }
+
+        &:has(span) {
+            &:hover {
+                cursor: pointer;
+                opacity: 0.6;
+            }
         }
     }
 
@@ -17,11 +26,25 @@
         &-list {
             display: flex;
             justify-content: space-between;
+            gap: $menu-gap;
             font-weight: bold;
             font-size: clamp(16px, 4vw, 24px);
         }
+
         &-item {
-            margin: 0 8px;
+            &:not(:last-child) {
+                &::after {
+                    content: "/";
+                    margin-left: $menu-gap;
+                    color: inherit;
+                    display: inline-block;
+                }
+            }
+        }
+
+        &-link {
+            transition: color 0.3s ease;
+
             &:hover {
                 color: $main-color;
             }

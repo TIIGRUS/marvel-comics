@@ -12,21 +12,20 @@ function Header() {
       </h1>
       <nav className="header__menu">
         <ul className="header__menu-list">
-          <li>
+          <li className="header__menu-item">
             <NavLink
               end
-              className="header__menu-item"
-              activeClassName="header__menu-item_active"
+              className="header__menu-link"
+              activeClassName="header__menu-link_active"
               to="/"
             >
               Characters
             </NavLink>
           </li>
-          /
-          <li>
+          <li className="header__menu-item">
             <NavLink
-              className="header__menu-item"
-              activeClassName="header__menu-item_active"
+              className="header__menu-link"
+              activeClassName="header__menu-link_active"
               to="/comics"
             >
               Comics
