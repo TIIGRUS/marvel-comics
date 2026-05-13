@@ -6,6 +6,7 @@ import setContent from "../../utils/setContent";
 import { Comic } from "../../types";
 import { usePagination } from "../../hooks";
 import "./ComicsList.scss";
+import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
 
 const ComicsList = () => {
   const {
@@ -21,6 +22,11 @@ const ComicsList = () => {
   } = usePagination<Comic>({
     fetchFn: getAllComics,
     limit: 8,
+  });
+  const { setFocusRef } = useFocusOnNewItems({
+    currentLength: arrayComics.length,
+    limit: 8,
+    status,
   });
 
   const renderItems = (arr: Comic[]) => {
@@ -39,9 +45,15 @@ const ComicsList = () => {
             className="comics-list__item"
             key={id}
             // ref={(el) => (nodeRef.current = el)}
-            ref={nodeRef}
+            ref={(el) => {
+              nodeRef.current = el;
+            }}
           >
-            <Link to={`/comics/${id}`} className="comics-list__item-link">
+            <Link
+              to={`/comics/${id}`}
+              className="comics-list__item-link"
+              ref={setFocusRef(i)}
+            >
               <img
                 src={thumbnail}
                 alt={title}

@@ -1,9 +1,10 @@
-import { useRef, createRef, useMemo, useEffect } from "react";
+import { useRef, createRef, useMemo } from "react";
 import { usePagination } from "../../hooks";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import { Character } from "../../types";
+import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
 import "./CharList.scss";
 
 interface CharListProps {
@@ -24,26 +25,11 @@ const CharList = ({ onCharSelected }: CharListProps) => {
     limit: LIMIT,
   });
   const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const prevCharsLength = useRef(arrayChars.length);
-
-  useEffect(() => {
-    if (
-      arrayChars.length > LIMIT &&
-      arrayChars.length > prevCharsLength.current &&
-      status !== "loading"
-    ) {
-      const firstNewItemIndex = prevCharsLength.current;
-      if (arrayRefs.current[firstNewItemIndex]) {
-        const firstNewItem = arrayRefs.current[firstNewItemIndex];
-        firstNewItem?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-        firstNewItem?.focus();
-      }
-    }
-    prevCharsLength.current = arrayChars.length;
-  }, [arrayChars.length, status]);
+  const { setFocusRef } = useFocusOnNewItems({
+    currentLength: arrayChars.length,
+    limit: LIMIT,
+    status,
+  });
 
   const disabled = isEnded || status === "loading";
 
@@ -90,6 +76,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
             ref={(el) => {
               nodeRef.current = el;
               setItemsRef(index, el);
+              setFocusRef(index)(el);
             }}
             onClick={() => {
               onCharSelected(id);
