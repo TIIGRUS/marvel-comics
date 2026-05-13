@@ -49,6 +49,13 @@
                     outline-offset: 3px;
                 }
             }
+
+            &_selected {
+                .comics-list__item-img {
+                    outline: 3px solid $main-color;
+                    outline-offset: 3px;
+                }
+            }
         }
 
         &-img {

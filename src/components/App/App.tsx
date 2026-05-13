@@ -13,37 +13,45 @@ const SingleLayoutPage = lazy(() => import("../pages/SingleLayoutPage.tsx"));
 const SingleComic = lazy(() => import("../SingleComic/SingleComic"));
 const SingleChar = lazy(() => import("../SingleChar/SingleChar"));
 import { Comic, Character } from "../../types/index.ts";
+import { CharactersProvider } from "../../contexts/CharactersContext.tsx";
+import { ComicsProvider } from "../../contexts/ComicsContext.tsx";
 
 const App = () => {
   return (
     <Router>
       <Header />
       <main className="app__main app__container">
-        <Suspense fallback={<Spinner />}>
-          <Routes>
-            <Route path="/" element={<MainPage />}></Route>
-            <Route path="/comics" element={<ComicsPage />} />
-            <Route
-              path="/comics/:comicId"
-              element={
-                <SingleLayoutPage
-                  Component={({ data }) => <SingleComic data={data as Comic} />}
+        <CharactersProvider>
+          <ComicsProvider>
+            <Suspense fallback={<Spinner />}>
+              <Routes>
+                <Route path="/" element={<MainPage />}></Route>
+                <Route path="/comics" element={<ComicsPage />} />
+                <Route
+                  path="/comics/:comicId"
+                  element={
+                    <SingleLayoutPage
+                      Component={({ data }) => (
+                        <SingleComic data={data as Comic} />
+                      )}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/characters/:charId"
-              element={
-                <SingleLayoutPage
-                  Component={({ data }) => (
-                    <SingleChar data={data as Character} />
-                  )}
+                <Route
+                  path="/characters/:charId"
+                  element={
+                    <SingleLayoutPage
+                      Component={({ data }) => (
+                        <SingleChar data={data as Character} />
+                      )}
+                    />
+                  }
                 />
-              }
-            />
-            <Route path="*" element={<NoMatch />}></Route>
-          </Routes>
-        </Suspense>
+                <Route path="*" element={<NoMatch />}></Route>
+              </Routes>
+            </Suspense>
+          </ComicsProvider>
+        </CharactersProvider>
       </main>
     </Router>
   );

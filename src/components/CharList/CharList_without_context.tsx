@@ -1,20 +1,29 @@
 import { useRef, createRef, useMemo } from "react";
+import { usePagination } from "../../hooks";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
+import { Character } from "../../types";
 import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
-import {
-  useCharactersContext,
-  CHARS_LIMIT,
-} from "../../hooks/useCharactersContext";
 import "./CharList.scss";
 
 interface CharListProps {
   onCharSelected: (id: number, el: HTMLLIElement | null) => void;
 }
 
+const CHARS_LIMIT = 9;
+
 const CharList = ({ onCharSelected }: CharListProps) => {
-  const { arrayChars, loadMore, isNewLoading, isEnded, status } =
-    useCharactersContext();
+  const { status, getAllCharacters } = useMarvelService();
+  const {
+    items: arrayChars,
+    isNewLoading,
+    isEnded,
+    loadMore,
+  } = usePagination<Character>({
+    fetchFn: getAllCharacters,
+    limit: CHARS_LIMIT,
+  });
   const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
   // можно убрать дублирование, вернув itemRefs из хука и используя его в onCharSetActive вместо arrayRefs. Тогда arrayRefs и setItemsRef можно будет удалить:
   const { setFocusRef } = useFocusOnNewItems({

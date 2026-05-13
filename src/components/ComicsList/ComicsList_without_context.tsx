@@ -1,42 +1,33 @@
-import { createRef, useEffect, useRef } from "react";
+import { createRef } from "react";
 import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import { Comic } from "../../types";
-import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
-import { useComicsContext, COMICS_LIMIT } from "../../hooks/useComicsContext";
+import { usePagination } from "../../hooks";
 import "./ComicsList.scss";
+import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
 
 const ComicsList = () => {
   const {
-    arrayComics,
+    status,
+    getAllComics,
+    // getAll,
+  } = useMarvelService();
+  const {
+    items: arrayComics,
     isNewLoading,
     isEnded,
     loadMore,
-    status,
-    lastClickedIndex,
-    setLastClickedIndex,
-  } = useComicsContext();
-  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-
+  } = usePagination<Comic>({
+    fetchFn: getAllComics,
+    limit: 8,
+  });
   const { setFocusRef } = useFocusOnNewItems({
     currentLength: arrayComics.length,
-    limit: COMICS_LIMIT,
+    limit: 8,
     status,
   });
-
-  useEffect(() => {
-    if (lastClickedIndex === null) return;
-
-    linkRefs.current[lastClickedIndex]?.focus();
-
-    linkRefs.current.forEach((el) =>
-      el?.classList.remove("comics-list__item-link_selected"),
-    );
-    const target = linkRefs.current[lastClickedIndex];
-    target?.classList.add("comics-list__item-link_selected");
-    target?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, []);
 
   const renderItems = (arr: Comic[]) => {
     return arr.map((item, i) => {
@@ -61,19 +52,7 @@ const ComicsList = () => {
             <Link
               to={`/comics/${id}`}
               className="comics-list__item-link"
-              ref={(el) => {
-                setFocusRef(i)(el);
-                linkRefs.current[i] = el;
-              }}
-              onClick={() => {
-                linkRefs.current.forEach((el) =>
-                  el?.classList.remove("comics-list__item-link_selected"),
-                );
-                linkRefs.current[i]?.classList.add(
-                  "comics-list__item-link_selected",
-                );
-                setLastClickedIndex(i);
-              }}
+              ref={setFocusRef(i)}
             >
               <img
                 src={thumbnail}
