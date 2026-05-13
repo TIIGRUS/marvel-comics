@@ -25,6 +25,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
     limit: LIMIT,
   });
   const arrayRefs = useRef<(HTMLLIElement | null)[]>([]);
+  // можно убрать дублирование, вернув itemRefs из хука и используя его в onCharSetActive вместо arrayRefs. Тогда arrayRefs и setItemsRef можно будет удалить:
   const { setFocusRef } = useFocusOnNewItems({
     currentLength: arrayChars.length,
     limit: LIMIT,
@@ -56,6 +57,13 @@ const CharList = ({ onCharSelected }: CharListProps) => {
       });
       arrayRefs.current[index]?.focus();
     }
+    // А тут можно будет упросить код, убрав логику работы с arrayRefs и используя itemRefs из хука, например:
+    //itemRefs.current.forEach((item) =>
+    //   item?.classList.remove("char-list__item_selected"),
+    // );
+    // // ...
+    // itemRefs.current[index]?.classList.add("char-list__item_selected");
+    // // ...
   };
 
   const classNameHideBtn = isEnded ? "button_hidden button_disabled" : "";
