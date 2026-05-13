@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import classNames from "classnames";
 
 import CharInfo from "../../CharInfo/CharInfo";
@@ -12,9 +12,12 @@ import "./CharSection.scss";
 const CharSection = () => {
   const [selectedChar, setSelectedChar] = useState<number | null>(null);
   const [isAsideVisible, setIsAsideVisible] = useState(false);
+  const charInfoRef = useRef<HTMLElement>(null);
+  const selectedElRef = useRef<HTMLLIElement | null>(null);
 
-  const onCharSelected = useCallback((id: number) => {
+  const onCharSelected = useCallback((id: number, el: HTMLLIElement | null) => {
     setSelectedChar(id);
+    selectedElRef.current = el;
 
     if (window.innerWidth < 768) {
       setIsAsideVisible(true);
@@ -24,8 +27,6 @@ const CharSection = () => {
       document.body.style.overflow = "";
     }
   }, []);
-
-  console.log("render CharSection");
 
   const toggleAside = () => {
     setIsAsideVisible(!isAsideVisible);
@@ -58,8 +59,13 @@ const CharSection = () => {
         </button>
         <ErrorBoundary>
           <CharInfo
+            ref={charInfoRef}
             className="char-section__aside-inner"
             selectedCharId={selectedChar}
+            onStatusChange={(status) => {
+              if (status === "confirmed") charInfoRef.current?.focus();
+            }}
+            onReturnFocus={() => selectedElRef.current?.focus()}
           />
         </ErrorBoundary>
         <ErrorBoundary>

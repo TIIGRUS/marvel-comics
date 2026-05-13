@@ -8,7 +8,7 @@ import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
 import "./CharList.scss";
 
 interface CharListProps {
-  onCharSelected: (id: number) => void;
+  onCharSelected: (id: number, el: HTMLLIElement | null) => void;
 }
 
 const LIMIT = 9;
@@ -87,14 +87,12 @@ const CharList = ({ onCharSelected }: CharListProps) => {
               setFocusRef(index)(el);
             }}
             onClick={() => {
-              onCharSelected(id);
-              // onFocusItem(nodeRef);
+              onCharSelected(id, arrayRefs.current[index]);
               onCharSetActive(index);
             }}
             onKeyDown={(e: React.KeyboardEvent<HTMLLIElement>) => {
               if (e.key === " " || e.key === "Enter") {
-                onCharSelected(id);
-                // onFocusItem(nodeRef);
+                onCharSelected(id, arrayRefs.current[index]);
                 onCharSetActive(index);
               }
             }}

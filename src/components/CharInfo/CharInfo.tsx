@@ -6,16 +6,21 @@ import setContent from "../../utils/setContent";
 import { Character } from "../../types";
 
 import "./CharInfo.scss";
+
 interface CharInfoProps {
   selectedCharId: number | null;
   className?: string;
   onStatusChange?: (status: string) => void;
+  onReturnFocus?: () => void;
+  ref?: React.Ref<HTMLElement>;
 }
 
 const CharInfo = ({
   selectedCharId,
   className,
   onStatusChange,
+  onReturnFocus,
+  ref,
 }: CharInfoProps) => {
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
@@ -26,12 +31,8 @@ const CharInfo = ({
 
   useEffect(() => {
     const updateChar = () => {
-      if (!selectedCharId) {
-        return;
-      }
-
+      if (!selectedCharId) return;
       clearError();
-
       getCharacter(selectedCharId).then(onCharLoaded);
     };
 
@@ -46,7 +47,14 @@ const CharInfo = ({
   );
 
   return (
-    <article className={classNames("char-info", className)}>
+    <article
+      ref={ref}
+      tabIndex={-1}
+      className={classNames("char-info", className)}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onReturnFocus?.();
+      }}
+    >
       {setContent({
         process: status,
         Component: <View char={char!} />,
@@ -81,7 +89,6 @@ const View = ({ char }: ViewProps) => {
           {comics.length > 0 ? (
             comics.slice(0, 10).map((item, i) => (
               <li key={i} className="char-info__comics-item">
-                {/* {item.name}  This to Marvel API*/}
                 {item}
               </li>
             ))
