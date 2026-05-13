@@ -16,11 +16,12 @@
     }
 
     &:focus-visible {
+        // Комбинируем фильтры: яркость + контрастный контур + цветное свечение
         &.button__main {
-            filter: drop-shadow(0 0 5px rgba(variables.$main-color, 0.9));
+            filter: brightness(1.2) drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px variables.$main-color);
         }
         &.button__secondary {
-            filter: drop-shadow(0 0 5px rgba(variables.$grey, 0.9));
+            filter: brightness(1.2) drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px variables.$grey);
         }
     }
 
