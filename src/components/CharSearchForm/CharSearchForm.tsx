@@ -65,6 +65,7 @@ const CharSearchForm = () => {
       initialValues={{
         charName: "",
       }}
+      validateOnBlur={false}
       validate={(values) => {
         const errors: { charName?: string } = {};
 
