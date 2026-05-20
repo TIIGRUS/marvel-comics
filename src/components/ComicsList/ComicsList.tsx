@@ -16,6 +16,7 @@ const ComicsList = () => {
     status,
     lastClickedIndex,
     setLastClickedIndex,
+    initComicsFetch,
   } = useComicsContext();
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -37,6 +38,8 @@ const ComicsList = () => {
     target?.classList.add("comics-list__item-link_selected");
     target?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
+
+  useEffect(() => initComicsFetch(), [initComicsFetch]);
 
   const renderItems = (arr: Comic[]) => {
     return arr.map((item, i) => {

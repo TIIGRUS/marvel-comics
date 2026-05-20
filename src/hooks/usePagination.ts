@@ -4,6 +4,7 @@ interface UsePaginationOptions<T> {
     fetchFn: ({ limit, offset }: { limit: number; offset: number }) => Promise<T[]>;
     limit: number;
     initialOffset?: number;
+    enableAutoLoad?: boolean;
 }
 interface UsePaginationResult<T> {
     items: T[];
@@ -16,11 +17,13 @@ export const usePagination = <T>({
     fetchFn,
     limit,
     initialOffset = 0,
+    enableAutoLoad = true,
 }: UsePaginationOptions<T>): UsePaginationResult<T> => {
     const [items, setItems] = useState<T[]>([]);
     const [offset, setOffset] = useState(initialOffset);
     const [isNewLoading, setIsNewLoading] = useState(false);
     const [isEnded, setIsEnded] = useState(false);
+    const [hasFetched, setHasFetched] = useState(false);
 
     const checkIsEnd = useCallback((data: T[], currentLimit: number) => {
         if (data.length < currentLimit) setIsEnded(true);
@@ -28,11 +31,15 @@ export const usePagination = <T>({
 
     // Initial load
     useEffect(() => {
+        // Запускаем ТОЛЬКО если enabled===true и мы еще не загружали данные (не путать с loadMore)
+        if (!enableAutoLoad || hasFetched) return;
+
         fetchFn({ limit, offset: initialOffset }).then(data => {
             setItems(data);
             checkIsEnd(data, limit);
+            setHasFetched(true);
         })
-    }, [fetchFn, initialOffset, limit, checkIsEnd]);
+    }, [fetchFn, initialOffset, limit, checkIsEnd, enableAutoLoad, hasFetched]);
 
     const loadMore = useCallback(() => {
         const nextOffset = offset + limit;

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useCallback, useState } from "react";
 import useMarvelService from "../services/MarvelService";
 import { usePagination } from "../hooks";
 import { Comic } from "../types";
@@ -16,6 +16,7 @@ interface ComicsContextType {
   status: ReturnType<typeof useMarvelService>["status"];
   lastClickedIndex: number | null;
   setLastClickedIndex: (id: number | null) => void;
+  initComicsFetch: () => void;
 }
 
 // 2. Создаём контекст (undefined — чтобы поймать использование вне провайдера)
@@ -26,6 +27,8 @@ export const ComicsContext = createContext<ComicsContextType | undefined>(
 // 3. Провайдер — здесь живёт стейт
 export const ComicsProvider = ({ children }: { children: ReactNode }) => {
   const { status, getAllComics } = useMarvelService();
+  const [shouldInitFetch, setShouldInitFetch] = useState(false);
+
   const {
     items: arrayComics,
     isNewLoading,
@@ -34,8 +37,14 @@ export const ComicsProvider = ({ children }: { children: ReactNode }) => {
   } = usePagination<Comic>({
     fetchFn: getAllComics,
     limit: COMICS_LIMIT,
+    enableAutoLoad: shouldInitFetch,
   });
+
   const [lastClickedIndex, setLastClickedIndex] = useState<number | null>(null);
+
+  const initComicsFetch = useCallback(() => {
+    setShouldInitFetch(true);
+  }, []);
 
   return (
     <ComicsContext.Provider
@@ -47,6 +56,7 @@ export const ComicsProvider = ({ children }: { children: ReactNode }) => {
         status,
         lastClickedIndex,
         setLastClickedIndex,
+        initComicsFetch,
       }}
     >
       {children}
