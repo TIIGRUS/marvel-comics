@@ -188,12 +188,6 @@ Checks code with ESLint
 - **Integration setup** with MSW for API mocking
 - **28+ tests** covering core functionality
 
-Run tests with coverage:
-
-```bash
-npm test -- --coverage
-```
-
 ## Live Demo
 
 🔗 [marvel-comics.vercel.app](https://marvel-comics.vercel.app) _(coming soon)_
