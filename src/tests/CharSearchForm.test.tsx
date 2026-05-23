@@ -25,7 +25,7 @@ describe("CharSearchForm", () => {
     mockedMarvelService.mockReturnValue({
       status: "waiting",
       searchCharacter: vi.fn().mockResolvedValue([mockCharacter]),
-    } as any);
+    } as unknown as ReturnType<typeof useMarvelService>);
   });
 
   afterEach(() => vi.clearAllMocks());
@@ -98,7 +98,7 @@ describe("CharSearchForm", () => {
     mockedMarvelService.mockReturnValue({
       status: "waiting",
       searchCharacter: vi.fn().mockResolvedValue([]),
-    } as any);
+    } as unknown as ReturnType<typeof useMarvelService>);
 
     renderForm();
 
