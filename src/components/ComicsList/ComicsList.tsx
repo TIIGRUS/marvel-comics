@@ -37,7 +37,7 @@ const ComicsList = () => {
     const target = linkRefs.current[lastClickedIndex];
     target?.classList.add("comics-list__item-link_selected");
     target?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, []);
+  }, [lastClickedIndex]);
 
   useEffect(() => initComicsFetch(), [initComicsFetch]);
 

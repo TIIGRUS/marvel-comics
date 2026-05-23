@@ -50,7 +50,9 @@ describe('useHTTP', () => {
         await act(async () => {
             try {
                 await result.current.request({ url: TEST_URL });
-            } catch { }
+            } catch (e) {
+                console.error(e);
+            }
         });
 
         expect(result.current.status).toBe('error');
