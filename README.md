@@ -190,7 +190,7 @@ Checks code with ESLint
 
 ## Live Demo
 
-🔗 [marvel-comics.vercel.app](https://marvel-comics.vercel.app) _(coming soon)_
+🔗 [marvel-comics.vercel.app](https://marvel-comics-i7ia.vercel.app)
 
 ## API Data
 
