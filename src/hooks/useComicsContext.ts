@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ComicsContext, COMICS_LIMIT } from "../contexts/ComicsContext";
+import { ComicsContext } from "../contexts/ComicsContext";
 
 // 4. Хук для удобного доступа
 export const useComicsContext = () => {
@@ -11,5 +11,3 @@ export const useComicsContext = () => {
     }
     return context;
 };
-
-export { COMICS_LIMIT };

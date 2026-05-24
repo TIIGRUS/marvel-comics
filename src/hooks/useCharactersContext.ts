@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CharactersContext, CHARS_LIMIT } from "../contexts/CharactersContext";
+import { CharactersContext } from "../contexts/CharactersContext";
 
 
 // 4. Хук для удобного доступа
@@ -10,5 +10,4 @@ export const useCharactersContext = () => {
     }
     return context;
 };
-
-export { CHARS_LIMIT };
+

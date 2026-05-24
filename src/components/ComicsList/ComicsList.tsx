@@ -4,7 +4,8 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import setContent from "../../utils/setContent";
 import { Comic } from "../../types";
 import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
-import { useComicsContext, COMICS_LIMIT } from "../../hooks/useComicsContext";
+import { useComicsContext } from "../../hooks/useComicsContext";
+import { COMICS_LIMIT } from "../../contexts/ComicsContext";
 import "./ComicsList.scss";
 
 const ComicsList = () => {

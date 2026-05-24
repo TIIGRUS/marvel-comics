@@ -2,10 +2,8 @@ import { useRef, createRef, useMemo } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import setContent from "../../utils/setContent";
 import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
-import {
-  useCharactersContext,
-  CHARS_LIMIT,
-} from "../../hooks/useCharactersContext";
+import { useCharactersContext } from "../../hooks/useCharactersContext";
+import { CHARS_LIMIT } from "../../contexts/CharactersContext";
 import "./CharList.scss";
 
 interface CharListProps {
