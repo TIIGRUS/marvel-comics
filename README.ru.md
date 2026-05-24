@@ -206,7 +206,7 @@ npm run lint
 
 ## Демо
 
-🔗 [marvel-comics.vercel.app](https://marvel-comics-i7ia.vercel.app)
+🔗 [https://marvel-comics-i7ia.vercel.app](https://marvel-comics-i7ia.vercel.app)
 
 ## Данные API
 
