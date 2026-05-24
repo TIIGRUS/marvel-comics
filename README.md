@@ -1,3 +1,5 @@
+[Read in English](README.md) | [Читать на русском](README.ru.md)
+
 # Marvel Comics Portal
 
 A modern Marvel Comics browser built with React, TypeScript, and Vite. Explore characters, view details, and discover comics from the Marvel Universe.
@@ -7,6 +9,8 @@ A modern Marvel Comics browser built with React, TypeScript, and Vite. Explore c
 ![Vite](https://img.shields.io/badge/Vite-7.1-green?logo=vite)
 ![Vitest](https://img.shields.io/badge/Vitest-4.1-green?logo=vitest)
 
+🎨 **Design Mockup:** [Marvel DB on Figma](https://www.figma.com/design/xiC1B6ZlHvbiUK6FO3caxN/Marvel-DB?node-id=1883-212&t=AzJ8LTDqg8Q8G9mv-1)
+
 ## Features
 
 - 🔍 **Search Characters** — Find Marvel characters by name with Formik validation
@@ -15,6 +19,18 @@ A modern Marvel Comics browser built with React, TypeScript, and Vite. Explore c
 - 🛡️ **Error Handling** — Retry mechanism for failed requests
 - 🧪 **Full Test Coverage** — 28+ unit tests with Vitest & React Testing Library
 - ⚡ **Fast Development** — HMR with Vite, TypeScript strict mode
+- 📱 **Responsive Design** — Mobile-friendly layout with adaptive character info panel
+- ⚙️ **Context API** — Shared state to avoid redundant API calls between page switches
+
+## Key Enhancements
+
+A log of notable improvements made during development:
+
+- 🔷 **TypeScript Migration** — Entire project converted to TypeScript for type safety and improved developer experience
+- 🖼️ **Image Optimization** — Configured Vite Image Optimizer plugin to automatically compress and optimize assets on build
+- 📱 **Responsive / Adaptive Layout** — Added adaptive behavior across breakpoints; character info now displays in an overlay panel on mobile when a character is selected
+- 🎨 **BEM Styling & Refactoring** — Refined BEM naming conventions, removed duplicate CSS, and consolidated reusable style blocks
+- ⚙️ **Context API Integration** — Implemented React Context to share character data across pages, eliminating redundant API requests and creating a smoother user experience
 
 ## Tech Stack
 
