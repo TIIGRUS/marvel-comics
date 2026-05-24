@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" />
+    <style>
+      :root {
+        --main-color: #9f0013;
+        --dark: #232222;
+        --grey: #5c5c5c;
+        --main-gap: 50px;
+        --menu-gap: 8px;
+      }
+
+      * {
+        font-family: "Roboto Condensed", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #ffffff;
+        color: #232222;
+      }
+
+      ul, li {
+        list-style-type: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: inline-block;
+      }
+
+      .app {
+        padding: 50px 0 50px 0;
+        position: relative;
+        min-width: 360px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--main-gap);
+      }
+
+      .app__container {
+        max-width: 1100px;
+        margin-inline: auto;
+        width: calc(100% - 15px);
+      }
+
+      .app__main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--main-gap);
+      }
+
+      /* Header styles */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.2;
+      }
+
+      .header__title {
+        font-weight: bold;
+        font-size: clamp(18px, 4vw, 28px);
+        transition: opacity 0.3s ease;
+      }
+
+      .header__title span {
+        color: var(--main-color);
+      }
+
+      .header__title a:hover {
+        opacity: 0.6;
+      }
+
+      .header__menu-list {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--menu-gap);
+        font-weight: bold;
+        font-size: clamp(16px, 4vw, 24px);
+      }
+
+      .header__menu-item:not(:last-child)::after {
+        content: "/";
+        margin-left: var(--menu-gap);
+        color: inherit;
+        display: inline-block;
+      }
+
+      .header__menu-link {
+        transition: color 0.3s ease;
+      }
+
+      .header__menu-link:hover {
+        color: var(--main-color);
+      }
+
+      /* Error Message styles */
+      .error-message {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px 10px;
+      }
+
+      .error-message__img {
+        width: 180px;
+        max-height: 180px;
+        margin-bottom: 10px;
+      }
+
+      .error-message__text {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .error-message__text h1 {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .error-message__text p {
+        font-size: 18px;
+        color: var(--grey);
+        margin: 0;
+      }
+
+      /* Button styles */
+      .button {
+        min-width: 101px;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 10px;
+      }
+
+      .button::before {
+        content: "";
+        display: block;
+        height: 10px;
+        margin-left: 10px;
+        background-color: var(--main-color);
+      }
+
+      .button::after {
+        content: "";
+        display: block;
+        height: 10px;
+        margin-right: 10px;
+        background-color: var(--main-color);
+      }
+
+      .button .inner {
+        position: relative;
+        background-color: var(--main-color);
+        line-height: 18px;
+        padding: 0 18px;
+        display: block;
+      }
+
+      .button .inner::before {
+        border-color: var(--main-color) transparent;
+        border-style: solid;
+        border-width: 0 0 10px 10px;
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: -10px;
+      }
+
+      .button .inner::after {
+        border-color: var(--main-color) transparent;
+        border-style: solid;
+        border-width: 0 0 10px 10px;
+        content: "";
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+        transform: rotate(180deg);
+      }
+
+      .button:hover {
+        transform: translateY(-5px);
+        filter: brightness(1.2);
+      }
+
+      .button:active {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header app__container">
+        <h1 class="header__title">
+          <a href="/"><span>Marvel</span> information portal</a>
+        </h1>
+        <nav class="header__menu">
+          <ul class="header__menu-list">
+            <li class="header__menu-item">
+              <a class="header__menu-link" href="/">Characters</a>
+            </li>
+            <li class="header__menu-item">
+              <a class="header__menu-link" href="/comics">Comics</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="app__main app__container">
+        <div class="error-message">
+          <img src="/error.gif" class="error-message__img" alt="Robot and its system is in error" />
+          <div class="error-message__text">
+            <h1>404 - Page Not Found</h1>
+            <p>Sorry, the page you are looking for does not exist.</p>
+            <a href="/" class="button">
+              <span class="inner">Go back to main page</span>
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

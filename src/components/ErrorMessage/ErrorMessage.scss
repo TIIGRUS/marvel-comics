@@ -19,6 +19,7 @@
     }
 
     &_has-text {
+        display: flex;
         flex-direction: column;
     }
 }
