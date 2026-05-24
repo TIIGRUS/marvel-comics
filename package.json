@@ -13,6 +13,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "classnames": "^2.5.1",
     "formik": "^2.4.6",
     "react": "^19.1.1",
