@@ -1,17 +1,15 @@
-@use "../../assets/styles/variables.scss" as *;
-
 .single-item {
     display: grid;
     grid-template-columns: auto minmax(200px, 1fr) auto;
-    column-gap: 50px;
+    column-gap: var(--gap-lg);
     align-items: start;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
 
     &__content {
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: var(--gap-md);
     }
 
     &__img {
@@ -21,34 +19,34 @@
     }
     &__name {
         font-weight: bold;
-        font-size: 22px;
-        line-height: 29px;
+        font-size: var(--fs-lg);
+        line-height: var(--lh-lg);
     }
     &__price {
         font-weight: bold;
-        font-size: 24px;
-        line-height: 32px;
-        color: $main-color;
+        font-size: var(--fs-xl);
+        line-height: var(--lh-xl);
+        color: var(--color-main);
     }
     &__back {
         justify-self: end;
         font-weight: bold;
 
         &:hover {
-            color: $main-color;
+            color: var(--color-main);
         }
     }
 
     @media (width <= 768px) {
-        gap: 25px;
+        gap: var(--gap-md);
     }
 
     @container (width <= 600px) {
         grid-template-columns: auto;
-        gap: 15px;
+        gap: var(--gap-sm);
 
         &__content {
-            gap: 15px;
+            gap: var(--gap-sm);
         }
 
         &__img {

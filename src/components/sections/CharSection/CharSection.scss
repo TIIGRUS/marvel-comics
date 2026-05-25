@@ -1,9 +1,7 @@
-@use "../../../assets/styles/variables.scss" as *;
-
 .char-section {
     display: grid;
     grid-template-columns: minmax(200px, 1fr) minmax(200px, 425px);
-    column-gap: 25px;
+    column-gap: var(--gap-md);
     align-items: start;
 
     @media (width < 1024px) {
@@ -16,10 +14,10 @@
 
     &__aside {
         position: sticky;
-        top: 10px;
+        top: var(--gap-xs);
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: var(--gap-md);
 
         @media (width < 768px) {
             position: fixed;
@@ -29,9 +27,9 @@
             width: min(425px, 85%);
             overflow-y: auto;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-fast);
             z-index: 100;
-            background: #fff;
+            background: var(--color-bg);
 
             &_open {
                 transform: translateX(0);
@@ -40,14 +38,14 @@
     }
 
     &__aside-inner {
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+        box-shadow: var(--shadow-section);
         position: relative;
         z-index: 5;
-        background-color: #fff;
-        padding: 25px;
+        background-color: var(--color-bg);
+        padding: var(--gap-md);
 
         @media (width <= 768px) {
-            padding: 15px;
+            padding: var(--gap-sm);
         }
     }
 
@@ -58,7 +56,7 @@
             display: block;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: var(--overlay-color);
             z-index: 99;
             opacity: 0;
             pointer-events: none;
@@ -79,19 +77,19 @@
             align-items: center;
             justify-content: center;
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: var(--gap-xs);
+            right: var(--gap-xs);
             width: 32px;
             height: 32px;
             background: none;
             border: none;
             font-size: 20px;
             cursor: pointer;
-            color: $dark;
+            color: var(--color-dark);
             z-index: 101;
 
             &:hover {
-                color: $main-color;
+                color: var(--color-main);
             }
         }
     }

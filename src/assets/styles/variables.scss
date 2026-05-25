@@ -1,6 +1,69 @@
-$main-color: #9f0013;
-$dark: #232222;
-$grey: #5c5c5c;
-$transition-duration: 500ms;
-$main-gap: 50px;
-$menu-gap: 8px;
+// ============================================
+// SCSS Variables (только для @media breakpoints)
+// ============================================
+$bp-sm: 768px;
+$bp-md: 1024px;
+$bp-lg: 1100px;
+$bp-xl: 1200px;
+
+// ============================================
+// Native CSS Custom Properties
+// ============================================
+:root {
+    // --- Colors ---
+    --color-main: #9f0013;
+    --color-dark: #232222;
+    --color-grey: #5c5c5c;
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-skeleton: #c4c4c4;
+    --color-success: #03710e;
+    --color-bg: #fff;
+
+    // --- Shadow colors ---
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --overlay-color: rgba(0, 0, 0, 0.5);
+
+    // --- Shadows ---
+    --shadow-card: 5px 5px 10px var(--shadow-color);
+    --shadow-input: 0px 4px 4px var(--shadow-color);
+    --shadow-lg: 5px 5px 20px var(--shadow-color);
+    --shadow-section: 0px 0px 20px var(--shadow-color);
+
+    // --- Typography ---
+    --font-family: "Roboto Condensed", sans-serif;
+    --fs-sm: 14px;
+    --fs-md: 18px;
+    --fs-lg: 22px;
+    --fs-xl: 24px;
+    --lh-sm: 18px;
+    --lh-md: 24px;
+    --lh-lg: 29px;
+    --lh-xl: 32px;
+
+    // --- Spacing ---
+    --gap-xs: 10px;
+    --gap-sm: 15px;
+    --gap-md: 25px;
+    --gap-lg: 50px;
+    --gap-menu: 8px;
+
+    // --- Transitions ---
+    --transition-fast: 0.3s ease;
+    --transition-duration: 500ms;
+
+    // --- Layout ---
+    --container-max-width: 1100px;
+
+    // --- Interactive ---
+    --hover-lift: -5px;
+
+    // --- Button Component Variables ---
+    --button-text-color: var(--color-white);
+    --button-main-bg: var(--color-main);
+    --button-main-border: var(--color-main);
+    --button-secondary-bg: var(--color-grey);
+    --button-secondary-border: var(--color-grey);
+    --button-focus-shadow-color: var(--color-white);
+    --button-hover-brightness: 1.2;
+}

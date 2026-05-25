@@ -1,20 +1,18 @@
-@use "../../assets/styles/variables.scss" as *;
-
 .char-list {
     &__items {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         justify-content: center;
-        column-gap: 25px;
+        column-gap: var(--gap-md);
         row-gap: 30px;
     }
 
     &__item {
         height: 318px;
-        background-color: $dark;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+        background-color: var(--color-dark);
+        box-shadow: var(--shadow-card);
         cursor: pointer;
-        transition: 0.3s all;
+        transition: all var(--transition-fast);
         outline: 2px solid transparent;
 
         &:focus {
@@ -22,7 +20,7 @@
         }
 
         &:focus-visible {
-            outline: 2px solid $main-color;
+            outline: 2px solid var(--color-main);
             outline-offset: 4px;
             z-index: 2;
         }
@@ -30,12 +28,12 @@
         // Подъём для ховера (только не выбранных) и для фокуса (всех)
         &:not(&_selected):hover,
         &:focus-visible {
-            transform: translateY(-5px);
+            transform: translateY(var(--hover-lift));
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
         }
 
         &_selected {
-            box-shadow: 0 5px 20px $main-color;
+            box-shadow: 0 5px 20px var(--color-main);
             transform: translateY(-8px);
             cursor: default;
 
@@ -54,11 +52,11 @@
 
         &-name {
             font-weight: bold;
-            font-size: 22px;
-            line-height: 29px;
+            font-size: var(--fs-lg);
+            line-height: var(--lh-lg);
             text-transform: uppercase;
-            color: #fff;
-            padding: 15px;
+            color: var(--color-white);
+            padding: var(--gap-sm);
         }
     }
 }

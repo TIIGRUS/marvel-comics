@@ -1,14 +1,12 @@
-@use "../../assets/styles/variables.scss" as *;
-
 .char-search {
     display: grid;
     justify-content: space-between;
     align-items: center;
     grid-template-columns: 1fr auto;
-    gap: 15px;
+    gap: var(--gap-sm);
     font-weight: bold;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
 
     &__label {
         display: block;
@@ -17,17 +15,17 @@
     }
 
     &__input {
-        padding: 0 10px;
+        padding: 0 var(--gap-xs);
         max-width: 250px;
         height: 38px;
         border: none;
-        background: #ffffff;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        font-size: 14px;
+        background: var(--color-white);
+        box-shadow: var(--shadow-input);
+        font-size: var(--fs-sm);
     }
 
     &__message {
-        color: $main-color;
+        color: var(--color-main);
 
         &_error {
             grid-column: 1 / -1;

@@ -1,12 +1,10 @@
-@use "../variables.scss";
-
 .button {
     min-width: 101px;
-    color: #fff;
+    color: var(--button-text-color);
     text-align: center;
     text-transform: uppercase;
-    font-size: 14px;
-    transition: all 0.3s ease;
+    font-size: var(--fs-sm);
+    transition: all var(--transition-fast);
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -18,10 +16,10 @@
     &:focus-visible {
         // Комбинируем фильтры: яркость + контрастный контур + цветное свечение
         &.button__main {
-            filter: brightness(1.2) drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px variables.$main-color);
+            filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color)) drop-shadow(0 0 5px var(--button-main-bg));
         }
         &.button__secondary {
-            filter: brightness(1.2) drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px variables.$grey);
+            filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color)) drop-shadow(0 0 5px var(--button-secondary-bg));
         }
     }
 
@@ -32,13 +30,13 @@
     }
     .inner {
         position: relative;
-        background-color: variables.$main-color;
-        line-height: 18px;
+        background-color: var(--button-main-bg);
+        line-height: var(--lh-sm);
         padding: 0 18px;
         transition: none;
         display: block;
         &::before {
-            border-color: variables.$main-color transparent;
+            border-color: var(--button-main-bg) transparent;
             border-style: solid;
             border-width: 0 0 10px 10px;
             content: "";
@@ -49,7 +47,7 @@
             transition: none;
         }
         &::after {
-            border-color: variables.$main-color transparent;
+            border-color: var(--button-main-bg) transparent;
             border-style: solid;
             border-width: 0 0 10px 10px;
             content: "";
@@ -64,18 +62,18 @@
     &__main,
     &__secondary {
         &:hover {
-            color: #fff;
+            color: var(--button-text-color);
         }
     }
     &__secondary {
         .inner {
-            background-color: variables.$grey;
+            background-color: var(--button-secondary-bg);
             &::before {
-                border-color: variables.$grey transparent;
+                border-color: var(--button-secondary-bg) transparent;
                 transition: none;
             }
             &::after {
-                border-color: variables.$grey transparent;
+                border-color: var(--button-secondary-bg) transparent;
                 transition: none;
             }
         }
@@ -96,16 +94,16 @@
     }
     &.button__main::before,
     &.button__main::after {
-        background-color: variables.$main-color;
+        background-color: var(--button-main-bg);
     }
     &.button__secondary::before,
     &.button__secondary::after {
-        background-color: variables.$grey;
+        background-color: var(--button-secondary-bg);
     }
 
     &:hover:not(:disabled) {
-        transform: translateY(-5px);
-        filter: brightness(1.2);
+        transform: translateY(var(--hover-lift));
+        filter: brightness(var(--button-hover-brightness));
     }
 
     &:active:not(:disabled) {
