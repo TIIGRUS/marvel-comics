@@ -9,7 +9,7 @@
 
     &__item {
         height: 318px;
-        background-color: var(--color-dark);
+        background-color: var(--char-list-item-bg);
         box-shadow: var(--shadow-card);
         cursor: pointer;
         transition: all var(--transition-fast);
@@ -20,12 +20,11 @@
         }
 
         &:focus-visible {
-            outline: 2px solid var(--color-main);
+            outline: 2px solid var(--char-list-item-focus);
             outline-offset: 4px;
             z-index: 2;
         }
 
-        // Подъём для ховера (только не выбранных) и для фокуса (всех)
         &:not(&_selected):hover,
         &:focus-visible {
             transform: translateY(var(--hover-lift));
@@ -33,11 +32,10 @@
         }
 
         &_selected {
-            box-shadow: 0 5px 20px var(--color-main);
+            box-shadow: 0 5px 20px var(--char-list-item-shadow);
             transform: translateY(-8px);
             cursor: default;
 
-            // Чтобы при табе на выбранный он не "падал" до -5px
             &:focus-visible {
                 transform: translateY(-8px);
             }
@@ -55,7 +53,7 @@
             font-size: var(--fs-lg);
             line-height: var(--lh-lg);
             text-transform: uppercase;
-            color: var(--color-white);
+            color: var(--char-list-item-text);
             padding: var(--gap-sm);
         }
     }

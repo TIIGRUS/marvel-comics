@@ -26,14 +26,14 @@
         font-weight: bold;
         font-size: var(--fs-xl);
         line-height: var(--lh-xl);
-        color: var(--color-main);
+        color: var(--single-item-accent);
     }
     &__back {
         justify-self: end;
         font-weight: bold;
 
         &:hover {
-            color: var(--color-main);
+            color: var(--single-item-accent);
         }
     }
 

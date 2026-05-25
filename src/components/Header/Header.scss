@@ -9,7 +9,7 @@
         transition: opacity var(--transition-fast);
 
         span {
-            color: var(--color-main);
+            color: var(--header-accent);
         }
 
         &:has(span) {
@@ -44,11 +44,11 @@
             transition: color var(--transition-fast);
 
             &:hover {
-                color: var(--color-main);
+                color: var(--header-accent-hover);
             }
 
             &_active {
-                color: var(--color-main);
+                color: var(--header-accent);
                 pointer-events: none;
             }
         }

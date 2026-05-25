@@ -58,7 +58,9 @@ $bp-xl: 1200px;
     // --- Interactive ---
     --hover-lift: -5px;
 
-    // --- Button Component Variables ---
+    // --- Component Variables ---
+    
+    // Button
     --button-text-color: var(--color-white);
     --button-main-bg: var(--color-main);
     --button-main-border: var(--color-main);
@@ -66,4 +68,43 @@ $bp-xl: 1200px;
     --button-secondary-border: var(--color-grey);
     --button-focus-shadow-color: var(--color-white);
     --button-hover-brightness: 1.2;
+
+    // Banner
+    --banner-bg: var(--color-dark);
+    --banner-text: var(--color-white);
+
+    // Character List
+    --char-list-item-bg: var(--color-dark);
+    --char-list-item-text: var(--color-white);
+    --char-list-item-focus: var(--color-main);
+    --char-list-item-shadow: var(--color-main);
+
+    // Character Search
+    --char-search-label-color: #000;
+    --char-search-input-bg: var(--color-white);
+    --char-search-message-color: var(--color-main);
+    --char-search-success-color: #03710e;
+
+    // Header
+    --header-accent: var(--color-main);
+    --header-accent-hover: var(--color-main);
+
+    // Random Character
+    --randomchar-bg: var(--color-dark);
+    --randomchar-text: var(--color-white);
+
+    // Skeleton
+    --skeleton-bg: var(--color-skeleton);
+
+    // Single Item Layout
+    --single-item-accent: var(--color-main);
+
+    // Comics List
+    --comics-list-accent: var(--color-main);
+    --comics-list-item-price-color: rgba(0, 0, 0, 0.6);
+
+    // Character Section
+    --char-section-bg: var(--color-bg);
+    --char-section-close-color: var(--color-dark);
+    --char-section-close-hover: var(--color-main);
 }

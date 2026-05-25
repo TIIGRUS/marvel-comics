@@ -3,7 +3,6 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     grid-auto-rows: 1fr;
     box-shadow: var(--shadow-lg);
-    // container: randomchar / inline-size;
     container-type: inline-size;
 
     &__column {
@@ -15,7 +14,7 @@
     }
 
     &__banner {
-        background-color: var(--color-dark);
+        background-color: var(--randomchar-bg);
         position: relative;
         overflow: hidden;
         z-index: 1;
@@ -23,7 +22,7 @@
         button {
             margin-top: 13px;
         }
-        // @container randomchar (width <= 700px) {
+
         @container (width <= 700px) {
             order: -1;
         }
@@ -33,7 +32,7 @@
         font-size: var(--fs-xl);
         line-height: var(--lh-xl);
         letter-spacing: -0.045em;
-        color: var(--color-white);
+        color: var(--randomchar-text);
         width: calc(100% - 80px);
         &:nth-child(2) {
             margin-top: 33px;

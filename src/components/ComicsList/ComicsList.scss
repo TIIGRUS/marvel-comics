@@ -26,7 +26,7 @@
                 transform: translateY(var(--hover-lift));
 
                 .comics-list__item-name {
-                    color: var(--color-main);
+                    color: var(--comics-list-accent);
                 }
 
                 .comics-list__item-img {
@@ -43,14 +43,14 @@
                 z-index: 2;
 
                 .comics-list__item-img {
-                    outline: 3px solid var(--color-main);
+                    outline: 3px solid var(--comics-list-accent);
                     outline-offset: 3px;
                 }
             }
 
             &_selected {
                 .comics-list__item-img {
-                    outline: 3px solid var(--color-main);
+                    outline: 3px solid var(--comics-list-accent);
                     outline-offset: 3px;
                 }
             }
@@ -78,7 +78,7 @@
             font-weight: bold;
             font-size: var(--fs-sm);
             line-height: var(--lh-sm);
-            color: rgba(0, 0, 0, 0.6);
+            color: var(--comics-list-item-price-color);
             text-transform: uppercase;
         }
     }

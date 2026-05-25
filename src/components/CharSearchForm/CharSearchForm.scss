@@ -10,7 +10,7 @@
 
     &__label {
         display: block;
-        color: #000;
+        color: var(--char-search-label-color);
         grid-column: 1 / -1;
     }
 
@@ -19,19 +19,19 @@
         max-width: 250px;
         height: 38px;
         border: none;
-        background: var(--color-white);
+        background: var(--char-search-input-bg);
         box-shadow: var(--shadow-input);
         font-size: var(--fs-sm);
     }
 
     &__message {
-        color: var(--color-main);
+        color: var(--char-search-message-color);
 
         &_error {
             grid-column: 1 / -1;
         }
         &_success {
-            color: #03710e;
+            color: var(--char-search-success-color);
         }
     }
 }
