@@ -16,12 +16,14 @@ import { Comic, Character } from "../../types/index.ts";
 import { CharactersProvider } from "../../contexts/CharactersContext.tsx";
 import { ComicsProvider } from "../../contexts/ComicsContext.tsx";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   return (
     <Router>
       <Header />
       <SpeedInsights />
+      <Analytics />
       <main className="app__main app__container">
         <CharactersProvider>
           <ComicsProvider>
