@@ -1,6 +1,8 @@
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-menu, 1rem);
     line-height: 1.2;
 
     &__title {
@@ -53,4 +55,11 @@
             }
         }
     }
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-menu);
+    }
 }
+
