@@ -9,7 +9,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <title>404 - Page Not Found</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
+    />
     <style>
       :root {
         --main-color: #9f0013;
@@ -31,7 +34,8 @@
         color: #232222;
       }
 
-      ul, li {
+      ul,
+      li {
         list-style-type: none;
       }
 
@@ -173,7 +177,7 @@
         background-color: var(--main-color);
       }
 
-      .button .inner {
+      .button .button__inner {
         position: relative;
         background-color: var(--main-color);
         line-height: 18px;
@@ -181,7 +185,7 @@
         display: block;
       }
 
-      .button .inner::before {
+      .button .button__inner::before {
         border-color: var(--main-color) transparent;
         border-style: solid;
         border-width: 0 0 10px 10px;
@@ -192,7 +196,7 @@
         top: -10px;
       }
 
-      .button .inner::after {
+      .button .button__inner::after {
         border-color: var(--main-color) transparent;
         border-style: solid;
         border-width: 0 0 10px 10px;
@@ -234,12 +238,16 @@
 
       <main class="app__main app__container">
         <div class="error-message">
-          <img src="/error.gif" class="error-message__img" alt="Robot and its system is in error" />
+          <img
+            src="./error.gif"
+            class="error-message__img"
+            alt="Robot and its system is in error"
+          />
           <div class="error-message__text">
             <h1>404 - Page Not Found</h1>
             <p>Sorry, the page you are looking for does not exist.</p>
             <a href="/" class="button">
-              <span class="inner">Go back to main page</span>
+              <span class="button__inner">Go back to main page</span>
             </a>
           </div>
         </div>
