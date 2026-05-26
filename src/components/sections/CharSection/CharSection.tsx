@@ -40,7 +40,10 @@ const CharSection = () => {
   }, []);
 
   return (
-    <section className="char-section">
+    <section className="char-section" aria-labelledby="char-section-title">
+      <h2 className="visually-hidden" id="char-section-title">
+        Characters
+      </h2>
       <ErrorBoundary>
         <CharList onCharSelected={onCharSelected} />
       </ErrorBoundary>
@@ -81,7 +84,7 @@ const CharSection = () => {
       ></div>
       <img
         src={vision}
-        alt="vision"
+        alt="Decorative image of Vision character"
         className="char-section__decor"
         aria-hidden="true"
       />
