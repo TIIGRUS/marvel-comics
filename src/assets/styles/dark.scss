@@ -1,0 +1,33 @@
+:root.theme-dark {
+    // ============================================
+    // Dark Theme
+    // ============================================
+
+    // --- Colors (Dark Theme) ---
+    --color-main: #ff4444;
+    --color-dark: #2d2d2d;
+    --color-grey: #888888;
+    --color-black: #1a1a1a;
+    --color-skeleton: #333333;
+    --color-bg: #1a1a1a;
+
+    // --- Page ---
+    --page-text: var(--color-white);
+
+    // --- Shadow colors ---
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --overlay-color: rgba(0, 0, 0, 0.7);
+
+    // --- Component Variables (Dark Theme specific) ---
+
+    // ---  Character Search ---
+    --char-search-label-color: #e0e0e0;
+    --char-search-input-bg: #2d2d2d;
+    --char-search-text-color: var(--page-text);
+    --char-search-success-color: #09ab19;
+
+    // --- Comics List ---
+    --comics-list-item-price-color: rgba(224, 224, 224, 0.6);
+
+    background-color: var(--page-bg);
+}

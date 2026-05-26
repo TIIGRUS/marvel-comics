@@ -8,6 +8,7 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    font-family: inherit;
 
     &:focus {
         outline: none;
@@ -29,6 +30,10 @@
         display: block;
         width: 170px;
         margin: 45px auto 0 auto;
+
+        @media (width <= 768px) {
+            margin-top: var(--gap-md);
+        }
     }
     .inner {
         position: relative;

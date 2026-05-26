@@ -59,7 +59,11 @@ $bp-xl: 1200px;
     --hover-lift: -5px;
 
     // --- Component Variables ---
-    
+
+    // Page
+    --page-bg: var(--color-bg);
+    --page-text: var(--color-dark);
+
     // Button
     --button-text-color: var(--color-white);
     --button-main-bg: var(--color-main);
@@ -80,7 +84,7 @@ $bp-xl: 1200px;
     --char-list-item-shadow: var(--color-main);
 
     // Character Search
-    --char-search-label-color: #000;
+    --char-search-text-color: #000;
     --char-search-input-bg: var(--color-white);
     --char-search-message-color: var(--color-main);
     --char-search-success-color: #03710e;
@@ -105,34 +109,12 @@ $bp-xl: 1200px;
 
     // Character Section
     --char-section-bg: var(--color-bg);
-    --char-section-close-color: var(--color-dark);
     --char-section-close-hover: var(--color-main);
-}
 
-// ============================================
-// Dark Theme
-// ============================================
-[data-theme="dark"] {
-    // --- Colors (Dark Theme) ---
-    --color-main: #ff4444;
-    --color-dark: #2d2d2d;
-    --color-grey: #888888;
-    --color-white: #e0e0e0;
-    --color-black: #1a1a1a;
-    --color-skeleton: #333333;
-    --color-bg: #1a1a1a;
-
-    // --- Shadow colors ---
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --overlay-color: rgba(0, 0, 0, 0.7);
-
-    // --- Component Variables (Dark Theme specific) ---
-
-    // Character Search
-    --char-search-label-color: #e0e0e0;
-    --char-search-input-bg: #2d2d2d;
-    --char-search-input-text-color: #e0e0e0;
-
-    // Comics List
-    --comics-list-item-price-color: rgba(224, 224, 224, 0.6);
+    // Theme Switching
+    --theme-toggle-bg-active: var(--color-main);
+    --theme-toggle-text-active: var(--color-white);
+    --theme-toggle-border: var(--color-dark);
+    --theme-toggle-focus-outline: var(--color-main);
+    --theme-toggle-bg-hover: var(--color-main);
 }

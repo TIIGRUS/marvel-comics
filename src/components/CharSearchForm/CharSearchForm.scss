@@ -7,10 +7,10 @@
     font-weight: bold;
     font-size: var(--fs-md);
     line-height: var(--lh-md);
+    color: var(--char-search-text-color);
 
     &__label {
         display: block;
-        color: var(--char-search-label-color);
         grid-column: 1 / -1;
     }
 
@@ -22,6 +22,8 @@
         background: var(--char-search-input-bg);
         box-shadow: var(--shadow-sm);
         font-size: var(--fs-sm);
+        font-family: inherit;
+        color: currentColor;
     }
 
     &__message {

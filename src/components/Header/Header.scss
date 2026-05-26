@@ -1,14 +1,16 @@
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     gap: var(--gap-menu, 1rem);
+    flex-wrap: wrap;
     line-height: 1.2;
 
     &__title {
         font-weight: bold;
         font-size: clamp(18px, 4vw, 28px);
         transition: opacity var(--transition-fast);
+        margin-right: auto;
 
         span {
             color: var(--header-accent);
@@ -62,4 +64,3 @@
         gap: var(--gap-menu);
     }
 }
-

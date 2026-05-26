@@ -85,7 +85,7 @@
             border: none;
             font-size: 20px;
             cursor: pointer;
-            color: var(--char-section-close-color);
+            color: currentColor;
             z-index: 101;
 
             &:hover {

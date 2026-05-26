@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import "./Header.scss";
 import NavLink from "../NavLink/NavLink";
 import { ThemeToggle } from "../ThemeToggle";
+import "./Header.scss";
 
 function Header() {
   return (
@@ -34,9 +34,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <div className="header__controls">
-        <ThemeToggle />
-      </div>
+      <ThemeToggle />
     </header>
   );
 }

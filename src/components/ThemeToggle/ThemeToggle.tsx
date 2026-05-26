@@ -1,44 +1,39 @@
-import React from 'react';
-import { useTheme } from '../../contexts/ThemeContext';
-import './ThemeToggle.scss';
-
-type ThemeValue = 'light' | 'dark' | 'auto';
-
-const THEME_CYCLE: ThemeValue[] = ['light', 'dark', 'auto'];
+import { useTheme, ThemeValue } from "../../hooks/useTheme";
+import "./ThemeToggle.scss";
 
 const THEME_ICONS: Record<ThemeValue, string> = {
-  light: '🌞',
-  dark: '🌙',
-  auto: '⚙️',
+  light: "🌞",
+  dark: "🌙",
+  auto: "⚙️",
 };
 
 const THEME_LABELS: Record<ThemeValue, string> = {
-  light: 'Light',
-  dark: 'Dark',
-  auto: 'Auto',
+  light: "Light",
+  dark: "Dark",
+  auto: "Auto",
 };
 
-export const ThemeToggle: React.FC = () => {
+const THEMES: ThemeValue[] = ["light", "dark", "auto"];
+
+export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
-  const handleToggle = () => {
-    const currentIndex = THEME_CYCLE.indexOf(theme as ThemeValue);
-    const nextIndex = (currentIndex + 1) % THEME_CYCLE.length;
-    setTheme(THEME_CYCLE[nextIndex]);
-  };
-
-  const title = `Current theme: ${THEME_LABELS[theme as ThemeValue]}. Click to cycle.`;
-
   return (
-    <button
-      className="theme-toggle"
-      onClick={handleToggle}
-      title={title}
-      aria-label={`Switch theme. Current: ${THEME_LABELS[theme as ThemeValue]}`}
-    >
-      <span className="theme-toggle__icon">
-        {THEME_ICONS[theme as ThemeValue]}
-      </span>
-    </button>
+    <div className="theme-toggle" role="group" aria-label="Theme switcher">
+      {THEMES.map((themeOption) => (
+        <button
+          key={themeOption}
+          type="button"
+          className={`theme-toggle__button ${theme === themeOption ? "theme-toggle__button_is-active" : ""}`}
+          onClick={() => setTheme(themeOption)}
+          aria-pressed={theme === themeOption}
+          aria-label={`Switch to ${THEME_LABELS[themeOption]} theme`}
+          title={THEME_LABELS[themeOption]}
+          disabled={theme === themeOption}
+        >
+          {THEME_ICONS[themeOption]}
+        </button>
+      ))}
+    </div>
   );
 };
