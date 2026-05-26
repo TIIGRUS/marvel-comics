@@ -34,7 +34,7 @@ const RandomChar = () => {
         </h2>
         <h3 className="randomchar__title">Or choose another one</h3>
         <button
-          className={`button button__main`}
+          className={`button button_theme_main`}
           onClick={updateChar}
           disabled={isLoading}
           type="button"

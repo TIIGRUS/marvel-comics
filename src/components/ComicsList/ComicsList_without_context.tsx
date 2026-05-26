@@ -82,11 +82,11 @@ const ComicsList = () => {
         ),
       })}
       <button
-        className="button button__main button__long"
+        className="button button_theme_main button_size_long"
         onClick={loadMore}
         disabled={isNewLoading || isEnded}
       >
-        <div className="inner">load more</div>
+        <div className="button__inner">load more</div>
       </button>
     </div>
   );

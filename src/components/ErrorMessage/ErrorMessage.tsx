@@ -28,16 +28,16 @@ const ErrorMessage = ({ children, textLink, pathLink }: ErrorMessageProps) => {
           {children ? (
             <>
               {errorText}
-              <Link to={pathLink || "/"} className="button button__main">
-                <span className="inner">{textLink || "Go back"}</span>
+              <Link to={pathLink || "/"} className="button button_theme_main">
+                <span className="button__inner">{textLink || "Go back"}</span>
               </Link>
             </>
           ) : (
             <>
               <p>{errorText}</p>
               {textLink && pathLink && (
-                <Link to={pathLink} className="button button__main">
-                  <span className="inner">{textLink}</span>
+                <Link to={pathLink} className="button button_theme_main">
+                  <span className="button__inner">{textLink}</span>
                 </Link>
               )}
             </>

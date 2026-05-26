@@ -48,9 +48,9 @@ const CharSearchForm = () => {
         </div>
         <Link
           to={`/characters/${char.id}`}
-          className="button button__secondary"
+          className="button button_theme_secondary"
         >
-          <div className="inner">To page</div>
+          <div className="button__inner">To page</div>
         </Link>
       </Fragment>
     ))
@@ -105,10 +105,10 @@ const CharSearchForm = () => {
               />
               <button
                 type="submit"
-                className="button button__main"
+                className="button button_theme_main"
                 disabled={status === "loading"}
               >
-                <div className="inner">find</div>
+                <div className="button__inner">find</div>
               </button>
               <FormikErrorMessage
                 component="div"

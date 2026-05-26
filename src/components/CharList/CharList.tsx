@@ -55,7 +55,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
     // // ...
   };
 
-  const classNameHideBtn = isEnded ? "button_hidden button_disabled" : "";
+  const classNameHideBtn = isEnded ? "button_state_hidden" : "";
   const items = useMemo(() => {
     return arrayChars.map(({ name, thumbnail, id }, index) => {
       const nodeRef = createRef<HTMLLIElement>();
@@ -112,11 +112,11 @@ const CharList = ({ onCharSelected }: CharListProps) => {
         })}
       </ul>
       <button
-        className={`button button__main button__long ${classNameHideBtn}`}
+        className={`button button_theme_main button_size_long ${classNameHideBtn}`}
         disabled={disabled}
         onClick={loadMore}
       >
-        <div className="inner">load more</div>
+        <div className="button__inner">load more</div>
       </button>
     </div>
   );

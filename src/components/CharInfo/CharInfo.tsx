@@ -83,14 +83,14 @@ const View = ({ char }: ViewProps) => {
         <a
           href={homepage}
           aria-label={`Visit ${name}'s homepage`}
-          className="button button__main"
+          className="button button_theme_main"
         >
           <span className="button__inner">homepage</span>
         </a>
         <a
           href={wiki}
           aria-label={`Visit ${name}'s wiki`}
-          className="button button__secondary"
+          className="button button_theme_secondary"
         >
           <span className="button__inner">Wiki</span>
         </a>
