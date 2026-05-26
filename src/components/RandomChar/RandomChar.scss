@@ -13,13 +13,17 @@
         }
     }
 
+    .char-info {
+        order: -1;
+    }
+
     &__banner {
         background-color: var(--randomchar-bg);
         position: relative;
         overflow: hidden;
         z-index: 1;
 
-        button {
+        .button {
             margin-top: 13px;
         }
 
@@ -27,6 +31,7 @@
             order: -1;
         }
     }
+
     &__title {
         font-weight: bold;
         font-size: var(--fs-xl);
@@ -34,10 +39,12 @@
         letter-spacing: -0.045em;
         color: var(--randomchar-text);
         width: calc(100% - 80px);
-        &:nth-child(2) {
+
+        &:not(:first-child) {
             margin-top: 33px;
         }
     }
+
     &__decoration {
         position: absolute;
         bottom: 14px;

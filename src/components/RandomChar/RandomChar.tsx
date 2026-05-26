@@ -26,28 +26,34 @@ const RandomChar = () => {
 
   return (
     <section className="randomchar" aria-labelledby="randomchar-title">
-      <CharInfo
-        className="char-info_short randomchar__column"
-        selectedCharId={selectedCharId}
-        onStatusChange={onStatusChange}
-      />
       <div className="randomchar__banner randomchar__column">
-        <h3 className="randomchar__title" id="randomchar-title">
+        <h2 className="randomchar__title" id="randomchar-title">
           Random character for today!
           <br />
           Do you want to get to know him better?
-        </h3>
+        </h2>
         <h3 className="randomchar__title">Or choose another one</h3>
         <button
           className={`button button__main`}
           onClick={updateChar}
           disabled={isLoading}
           type="button"
+          aria-label="Try it button to get a random character"
         >
-          <span className="inner">try it</span>
+          <span className="button__inner">try it</span>
         </button>
-        <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
+        <img
+          src={mjolnir}
+          alt="mjolnir decoration"
+          aria-hidden
+          className="randomchar__decoration"
+        />
       </div>
+      <CharInfo
+        className="char-info_short randomchar__column"
+        selectedCharId={selectedCharId}
+        onStatusChange={onStatusChange}
+      />
     </section>
   );
 };
