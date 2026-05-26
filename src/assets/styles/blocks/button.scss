@@ -4,36 +4,29 @@
     text-align: center;
     text-transform: uppercase;
     font-size: var(--fs-sm);
-    transition: all var(--transition-fast);
+    transition:
+        transform var(--transition-fast),
+        filter var(--transition-fast),
+        background-color var(--transition-fast);
     border: none;
     background-color: transparent;
     cursor: pointer;
     font-family: inherit;
 
-    &:focus {
-        outline: none;
-    }
-
-    &:focus-visible {
-        // Комбинируем фильтры: яркость + контрастный контур + цветное свечение
-        &.button__main {
-            filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
-                drop-shadow(0 0 5px var(--button-main-bg));
-        }
-        &.button__secondary {
-            filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
-                drop-shadow(0 0 5px var(--button-secondary-bg));
-        }
-    }
-
-    &__long {
+    &:before,
+    &:after {
+        content: "";
         display: block;
-        width: 170px;
-        margin: 45px auto 0 auto;
+        height: 10px;
+        transition: none;
+    }
 
-        @media (width <= 768px) {
-            margin-top: var(--gap-md);
-        }
+    &::before {
+        margin-left: 10px;
+    }
+
+    &::after {
+        margin-right: 10px;
     }
 
     &__inner {
@@ -44,77 +37,78 @@
         transition: none;
         display: block;
 
-        &::before {
+        &:before,
+        &:after {
             border-color: var(--button-main-bg) transparent;
             border-style: solid;
             border-width: 0 0 10px 10px;
             content: "";
             display: block;
             position: absolute;
+            transition: none;
+        }
+
+        &::before {
             left: 0;
             top: -10px;
-            transition: none;
         }
 
         &::after {
-            border-color: var(--button-main-bg) transparent;
-            border-style: solid;
-            border-width: 0 0 10px 10px;
-            content: "";
-            display: block;
-            position: absolute;
             right: 0;
             bottom: -10px;
             transform: rotate(180deg);
-            transition: none;
         }
     }
 
-    &__main,
-    &__secondary {
-        &:hover {
-            color: var(--button-text-color);
-        }
-    }
+    &_theme {
+        &_secondary {
+            .button__inner {
+                background-color: var(--button-secondary-bg);
 
-    &__secondary {
-        .button__inner {
-            background-color: var(--button-secondary-bg);
-            &::before {
-                border-color: var(--button-secondary-bg) transparent;
-                transition: none;
+                &::before {
+                    border-color: var(--button-secondary-bg) transparent;
+                }
+                &::after {
+                    border-color: var(--button-secondary-bg) transparent;
+                }
             }
+
+            &::before,
             &::after {
-                border-color: var(--button-secondary-bg) transparent;
-                transition: none;
+                background-color: var(--button-secondary-bg);
+            }
+
+            &:focus-visible {
+                filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
+                    drop-shadow(0 0 5px var(--button-secondary-bg));
+            }
+        }
+
+        &_main {
+            &::before,
+            &::after {
+                background-color: var(--button-main-bg);
+            }
+
+            &:focus-visible {
+                filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
+                    drop-shadow(0 0 5px var(--button-main-bg));
             }
         }
     }
 
-    &::before {
-        content: "";
+    &_size_long {
         display: block;
-        height: 10px;
-        margin-left: 10px;
-        transition: none;
+        width: 170px;
+        margin: 45px auto 0 auto;
+
+        @media (width <= 768px) {
+            margin-top: var(--gap-md);
+        }
     }
 
-    &::after {
-        content: "";
-        display: block;
-        height: 10px;
-        margin-right: 10px;
-        transition: none;
-    }
-
-    &.button__main::before,
-    &.button__main::after {
-        background-color: var(--button-main-bg);
-    }
-
-    &.button__secondary::before,
-    &.button__secondary::after {
-        background-color: var(--button-secondary-bg);
+    &:hover {
+        color: var(--button-text-color);
     }
 
     &:hover:not(:disabled) {
@@ -122,20 +116,39 @@
         filter: brightness(var(--button-hover-brightness));
     }
 
+    &:focus {
+        outline: none;
+    }
+
     &:active:not(:disabled) {
         transform: translateY(-2px);
     }
 
-    &_disabled,
     &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+
         &:hover {
             transform: none;
         }
     }
 
-    &_hidden {
+    &_state_hidden {
         visibility: hidden;
     }
+
+    // Комбинируем фильтры: яркость + контрастный контур + цветное свечение
+    // &:focus-visible {
+    //     &.button_theme {
+    //         &_main {
+    //             filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
+    //                 drop-shadow(0 0 5px var(--button-main-bg));
+    //         }
+
+    //         &_secondary {
+    //             filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
+    //                 drop-shadow(0 0 5px var(--button-secondary-bg));
+    //         }
+    //     }
+    // }
 }
