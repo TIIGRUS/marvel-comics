@@ -72,15 +72,27 @@ const View = ({ char }: ViewProps) => {
 
   return (
     <>
-      <img src={thumbnail} alt={name} className="char-info__img" />
-      <div className="char-info__name">{name}</div>
-      <div className="char-info__descr">{description}</div>
+      <img
+        src={thumbnail}
+        alt={`Image of ${name}`}
+        className="char-info__img"
+      />
+      <h3 className="char-info__name">{name}</h3>
+      <p className="char-info__descr">{description}</p>
       <div className="char-info__btns">
-        <a href={homepage} className="button button__main">
-          <div className="inner">homepage</div>
+        <a
+          href={homepage}
+          aria-label={`Visit ${name}'s homepage`}
+          className="button button__main"
+        >
+          <span className="button__inner">homepage</span>
         </a>
-        <a href={wiki} className="button button__secondary">
-          <div className="inner">Wiki</div>
+        <a
+          href={wiki}
+          aria-label={`Visit ${name}'s wiki`}
+          className="button button__secondary"
+        >
+          <span className="button__inner">Wiki</span>
         </a>
       </div>
       <div className="char-info__comics">
