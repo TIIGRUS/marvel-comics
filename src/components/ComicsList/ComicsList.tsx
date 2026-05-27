@@ -84,8 +84,8 @@ const ComicsList = () => {
                 alt={title}
                 className="comics-list__item-img"
               />
-              <div className="comics-list__item-name">{title}</div>
-              <div className="comics-list__item-price">{price}$</div>
+              <h3 className="comics-list__item-name">{title}</h3>
+              <p className="comics-list__item-price">{price}$</p>
             </Link>
           </li>
         </CSSTransition>
@@ -94,7 +94,13 @@ const ComicsList = () => {
   };
 
   return (
-    <div className="comics-list">
+    <section
+      className="comics-list app__list"
+      aria-labelledby="title-list-comics"
+    >
+      <h2 className="visually-hidden" id="title-list-comics">
+        All comics
+      </h2>
       {setContent({
         process: status,
         paginationLoading: isNewLoading,
@@ -107,13 +113,14 @@ const ComicsList = () => {
         ),
       })}
       <button
-        className="button button_theme_main button_size_long"
+        className="button button_theme_main button_size_large"
         onClick={loadMore}
         disabled={isNewLoading || isEnded}
+        type="button"
       >
-        <div className="button__inner">load more</div>
+        <span className="button__inner">load more</span>
       </button>
-    </div>
+    </section>
   );
 };
 

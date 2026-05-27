@@ -4,6 +4,7 @@
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         justify-content: space-between;
         gap: 55px;
+        width: 100%;
 
         @media (width <= 1200px) {
             gap: var(--gap-md);

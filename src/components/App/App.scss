@@ -21,6 +21,17 @@
         gap: var(--gap-lg);
     }
 
+    &__list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 45px;
+
+        @media (width <= 768px) {
+            gap: var(--gap-md);
+        }
+    }
+
     @media (width <= 768px) {
         padding: var(--gap-md) 0 var(--gap-md) 0;
         gap: var(--gap-md);

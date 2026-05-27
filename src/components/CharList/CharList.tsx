@@ -86,8 +86,12 @@ const CharList = ({ onCharSelected }: CharListProps) => {
               }
             }}
           >
-            <img src={thumbnail} alt={name} className="char-list__item-img" />
-            <div className="char-list__item-name">{name}</div>
+            <img
+              src={thumbnail}
+              alt={`Image of ${name}`}
+              className="char-list__item-img"
+            />
+            <h3 className="char-list__item-name">{name}</h3>
           </li>
         </CSSTransition>
       );
@@ -95,7 +99,7 @@ const CharList = ({ onCharSelected }: CharListProps) => {
   }, [arrayChars, onCharSelected, setFocusRef]);
 
   return (
-    <div className="char-list">
+    <div className="char-list app__list">
       <ul className="char-list__items">
         {/* {errorMessage}
                 {spinner}
@@ -112,11 +116,12 @@ const CharList = ({ onCharSelected }: CharListProps) => {
         })}
       </ul>
       <button
-        className={`button button_theme_main button_size_long ${classNameHideBtn}`}
+        className={`button button_theme_main button_size_large ${classNameHideBtn}`}
         disabled={disabled}
         onClick={loadMore}
+        type="button"
       >
-        <div className="button__inner">load more</div>
+        <span className="button__inner">load more</span>
       </button>
     </div>
   );

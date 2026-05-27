@@ -97,14 +97,8 @@
         }
     }
 
-    &_size_long {
-        display: block;
+    &_size_large {
         width: 170px;
-        margin: 45px auto 0 auto;
-
-        @media (width <= 768px) {
-            margin-top: var(--gap-md);
-        }
     }
 
     &:hover {
