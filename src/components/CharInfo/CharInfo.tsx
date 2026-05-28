@@ -50,7 +50,9 @@ const CharInfo = ({
   );
 
   useEffect(() => {
-    fetchQuoteByCharacter(char?.name || "").then(setCharQuotes);
+    if (char?.name) {
+      fetchQuoteByCharacter(char.name).then(setCharQuotes);
+    }
   }, [char]);
 
   return (
