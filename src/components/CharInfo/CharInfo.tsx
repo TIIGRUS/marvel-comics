@@ -4,6 +4,8 @@ import classNames from "classnames";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import { Character } from "../../types";
+import { fetchQuoteByCharacter } from "../../api/quotes";
+import { Tables } from "../../types/supabase";
 
 import "./CharInfo.scss";
 
@@ -24,6 +26,7 @@ const CharInfo = ({
 }: CharInfoProps) => {
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
+  const [charQuotes, setCharQuotes] = useState<Tables<"marvel_quotes">[]>([]);
 
   const onCharLoaded = (char: Character) => {
     setChar(char);
@@ -46,6 +49,10 @@ const CharInfo = ({
     [status, onStatusChange],
   );
 
+  useEffect(() => {
+    fetchQuoteByCharacter(char?.name || "").then(setCharQuotes);
+  }, [char]);
+
   return (
     <article
       ref={ref}
@@ -57,7 +64,7 @@ const CharInfo = ({
     >
       {setContent({
         process: status,
-        Component: <View char={char!} />,
+        Component: <View char={char!} charQuotes={charQuotes} />,
       })}
     </article>
   );
@@ -65,9 +72,10 @@ const CharInfo = ({
 
 interface ViewProps {
   char: Character;
+  charQuotes: Tables<"marvel_quotes">[];
 }
 
-const View = ({ char }: ViewProps) => {
+const View = ({ char, charQuotes }: ViewProps) => {
   const { name, description, thumbnail, wiki, homepage, comics } = char;
 
   return (
@@ -79,6 +87,19 @@ const View = ({ char }: ViewProps) => {
       />
       <h3 className="char-info__name">{name}</h3>
       <p className="char-info__descr">{description}</p>
+      <blockquote className="char-info__quotes">
+        {charQuotes.length > 0 ? (
+          charQuotes.map((quote, index) => (
+            <p key={index} className="char-info__quote">
+              "{quote.quote_ru}"
+            </p>
+          ))
+        ) : (
+          <p className="char-info__quote">
+            No quotes available for this character.
+          </p>
+        )}
+      </blockquote>
       <div className="char-info__btns">
         <a
           href={homepage}
