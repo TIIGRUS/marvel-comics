@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
-import { Character } from "../../types";
+import { AsyncStatus, Character } from "../../types";
 import { fetchQuoteByCharacter } from "../../api/quotes";
 import { Tables } from "../../types/supabase";
 
@@ -27,21 +27,47 @@ const CharInfo = ({
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
   const [charQuotes, setCharQuotes] = useState<Tables<"marvel_quotes">[]>([]);
-
-  const onCharLoaded = (char: Character) => {
-    setChar(char);
-  };
+  const [isInfoReady, setIsInfoReady] = useState(false);
 
   useEffect(() => {
-    const updateChar = () => {
+    let isCancelled = false;
+
+    const updateChar = async () => {
       if (!selectedCharId) return;
+
       clearError();
-      getCharacter(selectedCharId).then(onCharLoaded);
+      setIsInfoReady(false);
+      setCharQuotes([]);
+
+      try {
+        const loadedChar = await getCharacter(selectedCharId);
+        let quotes: Tables<"marvel_quotes">[] = [];
+
+        try {
+          quotes = await fetchQuoteByCharacter(loadedChar.name);
+        } catch (error) {
+          console.error("Failed to load character quotes:", error);
+        }
+
+        if (!isCancelled) {
+          setChar(loadedChar);
+          setCharQuotes(quotes);
+          setIsInfoReady(true);
+        }
+      } catch {
+        if (!isCancelled) {
+          setIsInfoReady(false);
+        }
+      }
     };
 
     if (selectedCharId) {
       updateChar();
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [selectedCharId, clearError, getCharacter]);
 
   useEffect(
@@ -49,11 +75,8 @@ const CharInfo = ({
     [status, onStatusChange],
   );
 
-  useEffect(() => {
-    if (char?.name) {
-      fetchQuoteByCharacter(char.name).then(setCharQuotes);
-    }
-  }, [char]);
+  const contentStatus: AsyncStatus =
+    status === "confirmed" && !isInfoReady ? "loading" : status;
 
   return (
     <article
@@ -65,7 +88,7 @@ const CharInfo = ({
       }}
     >
       {setContent({
-        process: status,
+        process: contentStatus,
         Component: <View char={char!} charQuotes={charQuotes} />,
       })}
     </article>
