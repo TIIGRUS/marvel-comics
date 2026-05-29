@@ -1,6 +1,9 @@
 import { Helmet } from "react-helmet-async";
+
 import SingleItemLayout from "../SingleItemLayout/SingleItemLayout";
+import CharacterQuotes from "../CharacterQuotes/CharacterQuotes";
 import { Character } from "../../types";
+import { useCharacterQuotes } from "../../hooks";
 
 interface SingleCharProps {
   data: Character;
@@ -8,6 +11,7 @@ interface SingleCharProps {
 
 const SingleChar = ({ data }: SingleCharProps) => {
   const { name, description, thumbnail } = data || {};
+  const { quotes, isQuotesLoading } = useCharacterQuotes(name);
 
   return (
     <>
@@ -19,7 +23,9 @@ const SingleChar = ({ data }: SingleCharProps) => {
         title={name}
         description={description}
         thumbnail={thumbnail}
-      ></SingleItemLayout>
+      >
+        <CharacterQuotes quotes={quotes} isLoading={isQuotesLoading} />
+      </SingleItemLayout>
     </>
   );
 };

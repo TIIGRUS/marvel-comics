@@ -4,8 +4,9 @@ import classNames from "classnames";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 import { AsyncStatus, Character } from "../../types";
-import { fetchQuoteByCharacter } from "../../api/quotes";
 import { Tables } from "../../types/supabase";
+import CharacterQuotes from "../CharacterQuotes/CharacterQuotes";
+import { useCharacterQuotes } from "../../hooks";
 
 import "./CharInfo.scss";
 
@@ -26,8 +27,11 @@ const CharInfo = ({
 }: CharInfoProps) => {
   const [char, setChar] = useState<Character | null>(null);
   const { status, getCharacter, clearError } = useMarvelService();
-  const [charQuotes, setCharQuotes] = useState<Tables<"marvel_quotes">[]>([]);
-  const [isInfoReady, setIsInfoReady] = useState(false);
+  const {
+    quotes: charQuotes,
+    isQuotesLoading,
+    loadedCharacterName,
+  } = useCharacterQuotes(char?.name);
 
   useEffect(() => {
     let isCancelled = false;
@@ -36,28 +40,16 @@ const CharInfo = ({
       if (!selectedCharId) return;
 
       clearError();
-      setIsInfoReady(false);
-      setCharQuotes([]);
+      setChar(null);
 
       try {
         const loadedChar = await getCharacter(selectedCharId);
-        let quotes: Tables<"marvel_quotes">[] = [];
-
-        try {
-          quotes = await fetchQuoteByCharacter(loadedChar.name);
-        } catch (error) {
-          console.error("Failed to load character quotes:", error);
-        }
 
         if (!isCancelled) {
           setChar(loadedChar);
-          setCharQuotes(quotes);
-          setIsInfoReady(true);
         }
       } catch {
-        if (!isCancelled) {
-          setIsInfoReady(false);
-        }
+        if (!isCancelled) setChar(null);
       }
     };
 
@@ -75,8 +67,12 @@ const CharInfo = ({
     [status, onStatusChange],
   );
 
+  const isQuotesReady =
+    Boolean(char?.name) &&
+    loadedCharacterName === char?.name &&
+    !isQuotesLoading;
   const contentStatus: AsyncStatus =
-    status === "confirmed" && !isInfoReady ? "loading" : status;
+    status === "confirmed" && !isQuotesReady ? "loading" : status;
 
   return (
     <article
@@ -112,19 +108,7 @@ const View = ({ char, charQuotes }: ViewProps) => {
       />
       <h3 className="char-info__name">{name}</h3>
       <p className="char-info__descr">{description}</p>
-      <blockquote className="char-info__quotes">
-        {charQuotes.length > 0 ? (
-          charQuotes.map((quote, index) => (
-            <p key={index} className="char-info__quote">
-              "{quote.quote_en}"
-            </p>
-          ))
-        ) : (
-          <p className="char-info__quote">
-            No quotes available for this character.
-          </p>
-        )}
-      </blockquote>
+      <CharacterQuotes quotes={charQuotes} className="char-info__quotes" />
       <div className="char-info__btns">
         <a
           href={homepage}
