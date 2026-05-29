@@ -116,7 +116,7 @@ const View = ({ char, charQuotes }: ViewProps) => {
         {charQuotes.length > 0 ? (
           charQuotes.map((quote, index) => (
             <p key={index} className="char-info__quote">
-              "{quote.quote_ru}"
+              "{quote.quote_en}"
             </p>
           ))
         ) : (

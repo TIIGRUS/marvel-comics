@@ -1,0 +1,9 @@
+.character-quotes {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    font-size: var(--fs-sm);
+    font-style: italic;
+    padding: 10px 20px;
+    border-left: 5px solid var(--color-main);
+}

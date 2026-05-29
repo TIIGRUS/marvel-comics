@@ -1,8 +1,6 @@
 .char-info {
     $self: &;
 
-    --blockquote-border-color: var(--color-main);
-
     display: grid;
     grid-template-columns: minmax(0, 150px) 1fr;
     grid-template-rows: min-content 1fr min-content;
@@ -92,15 +90,7 @@
     }
 
     &__quotes {
-        display: flex;
-        gap: 10px;
-        flex-direction: column;
-        font-size: var(--fs-sm);
-        // grid-column: 1 / -1;
         grid-area: q;
-        font-style: italic;
-        padding: 10px 20px;
-        border-left: 5px solid var(--blockquote-border-color);
         margin-top: var(--gap-xs);
     }
 
