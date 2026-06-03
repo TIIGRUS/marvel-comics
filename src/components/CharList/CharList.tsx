@@ -1,9 +1,11 @@
-import { useRef, createRef, useMemo } from "react";
+import { useRef, createRef, useMemo, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import setContent from "../../utils/setContent";
 import { useFocusOnNewItems } from "../../hooks/useFocusOnNewItems";
 import { useCharactersContext } from "../../hooks/useCharactersContext";
 import { CHARS_LIMIT } from "../../contexts/CharactersContext";
+import InfiniteScrollToggle from "../InfiniteScrollToggle/InfiniteScrollToggle";
+import { useInfiniteScroll } from "../../hooks";
 import "./CharList.scss";
 
 interface CharListProps {
@@ -22,6 +24,15 @@ const CharList = ({ onCharSelected }: CharListProps) => {
   });
 
   const disabled = isEnded || status === "loading";
+  const [isInfiniteScrollEnabled, setIsInfiniteScrollEnabled] = useState(false);
+  const lastItemRef = useRef<HTMLLIElement | null>(null);
+  useInfiniteScroll({
+    ref: lastItemRef,
+    loadMore,
+    isLoading: isNewLoading,
+    isEnded,
+    enabled: isInfiniteScrollEnabled,
+  });
 
   const setItemsRef = (index: number, ref: HTMLLIElement | null) => {
     // if (ref && !itemRefs.includes(ref)) {
@@ -74,6 +85,10 @@ const CharList = ({ onCharSelected }: CharListProps) => {
               nodeRef.current = el;
               setItemsRef(index, el);
               setFocusRef(index)(el);
+
+              if (index === arrayChars.length - 1) {
+                lastItemRef.current = el;
+              }
             }}
             onClick={() => {
               onCharSelected(id, arrayRefs.current[index]);
@@ -115,14 +130,20 @@ const CharList = ({ onCharSelected }: CharListProps) => {
           ),
         })}
       </ul>
-      <button
-        className={`button button_theme_main button_size_large ${classNameHideBtn}`}
-        disabled={disabled}
-        onClick={loadMore}
-        type="button"
-      >
-        <span className="button__inner">load more</span>
-      </button>
+      <div className="app__list-controls">
+        <InfiniteScrollToggle
+          isInfiniteScrollEnabled={isInfiniteScrollEnabled}
+          setIsInfiniteScrollEnabled={setIsInfiniteScrollEnabled}
+        />
+        <button
+          className={`button button_theme_main button_size_large ${classNameHideBtn}`}
+          disabled={disabled}
+          onClick={loadMore}
+          type="button"
+        >
+          <span className="button__inner">load more</span>
+        </button>
+      </div>
     </div>
   );
 };

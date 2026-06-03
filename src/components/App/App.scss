@@ -32,6 +32,13 @@
         }
     }
 
+    &__list-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-sm);
+    }
+
     @media (width <= 768px) {
         padding: var(--gap-md) 0 var(--gap-md) 0;
         gap: var(--gap-md);
