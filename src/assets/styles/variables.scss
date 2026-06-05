@@ -32,6 +32,7 @@ $bp-xl: 1200px;
 
     // --- Typography ---
     --font-family: "Roboto Condensed", sans-serif;
+    --text-color-main: var(--color-main);
     --fs-sm: 14px;
     --fs-md: 18px;
     --fs-lg: 22px;
@@ -83,15 +84,31 @@ $bp-xl: 1200px;
     --char-list-item-focus: var(--color-main);
     --char-list-item-shadow: var(--color-main);
 
-    // Character Search
-    --char-search-text-color: #000;
-    --char-search-input-bg: var(--color-white);
-    --char-search-message-color: var(--color-main);
-    --char-search-success-color: #03710e;
+    // Form
+    --form-text-color: var(--color-black);
+    --form-surface-bg: var(--color-white);
+    --form-input-bg: var(--color-white);
+    --form-message-color: var(--color-main);
+    --form-success-color: var(--color-success);
+    --form-error-color: #c33;
+    --form-error-bg: #fff5f5;
+    --form-focus-color: var(--color-main);
+    --form-link-text-color: var(--color-grey);
+    --form-link-color: var(--color-main);
 
     // Header
     --header-accent: var(--color-main);
     --header-accent-hover: var(--color-main);
+
+    // Profile Page
+    --profile-page-bg: var(--color-white);
+    --profile-page-text: var(--color-dark);
+    --profile-page-accent: var(--color-main);
+    --profile-page-muted: var(--color-grey);
+    --profile-page-border: rgba(0, 0, 0, 0.12);
+    --profile-page-detail-bg: var(--color-white);
+    --profile-page-avatar-bg: var(--color-dark);
+    --profile-page-avatar-text: var(--color-white);
 
     // Random Character
     --randomchar-bg: var(--color-dark);

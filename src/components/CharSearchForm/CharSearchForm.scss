@@ -1,39 +1,5 @@
 .char-search {
-    display: grid;
-    justify-content: space-between;
-    align-items: center;
-    grid-template-columns: 1fr auto;
-    gap: var(--gap-sm);
-    font-weight: bold;
-    font-size: var(--fs-md);
-    line-height: var(--lh-md);
-    color: var(--char-search-text-color);
-
-    &__label {
-        display: block;
+    .form__label {
         grid-column: 1 / -1;
-    }
-
-    &__input {
-        padding: 0 var(--gap-xs);
-        max-width: 250px;
-        height: 38px;
-        border: none;
-        background: var(--char-search-input-bg);
-        box-shadow: var(--shadow-sm);
-        font-size: var(--fs-sm);
-        font-family: inherit;
-        color: currentColor;
-    }
-
-    &__message {
-        color: var(--char-search-message-color);
-
-        &_error {
-            grid-column: 1 / -1;
-        }
-        &_success {
-            color: var(--char-search-success-color);
-        }
     }
 }

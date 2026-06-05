@@ -1,6 +1,18 @@
 // Async state type used in useHTTP
 export type AsyncStatus = 'waiting' | 'loading' | 'confirmed' | 'error';
 
+// User authentication types
+export interface User {
+    id: string;
+    email: string;
+    user_name: string;
+    first_name?: string;
+    last_name?: string;
+    age?: number;
+    avatar_url?: string;
+    created_at: string;
+}
+
 // Domain types (output of transform functions): Character and Comic
 export interface Character {
     id: number;

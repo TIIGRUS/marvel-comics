@@ -4,6 +4,7 @@ import { useComicsContext } from "./useComicsContext";
 import { useHTTP } from "./useHTTP";
 import { usePagination } from "./usePagination";
 import { useInfiniteScroll } from "./useInfiniteScroll";
+import { useAuthContext } from "./useAuthContext";
 
 export {
   useHTTP,
@@ -12,4 +13,5 @@ export {
   useCharacterQuotes,
   useComicsContext,
   useInfiniteScroll,
+  useAuthContext,
 };

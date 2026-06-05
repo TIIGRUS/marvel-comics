@@ -20,11 +20,21 @@
 
     // --- Component Variables (Dark Theme specific) ---
 
-    // ---  Character Search ---
-    --char-search-label-color: #e0e0e0;
-    --char-search-input-bg: #2d2d2d;
-    --char-search-text-color: var(--page-text);
-    --char-search-success-color: #09ab19;
+    // ---  Form ---
+    --form-text-color: var(--page-text);
+    --form-surface-bg: var(--color-dark);
+    --form-input-bg: var(--color-dark);
+    --form-success-color: #09ab19;
+    --form-error-bg: #3a2020;
+    --form-link-text-color: rgba(255, 255, 255, 0.7);
+
+    // --- Profile Page ---
+    --profile-page-bg: var(--color-dark);
+    --profile-page-text: var(--page-text);
+    --profile-page-muted: rgba(255, 255, 255, 0.7);
+    --profile-page-border: rgba(255, 255, 255, 0.18);
+    --profile-page-detail-bg: #252525;
+    --profile-page-avatar-bg: var(--color-main);
 
     // --- Comics List ---
     --comics-list-item-price-color: rgba(224, 224, 224, 0.6);

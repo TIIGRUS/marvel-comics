@@ -43,7 +43,7 @@ const CharSearchForm = () => {
   const results = !chars ? null : chars.length > 0 ? (
     chars.map((char) => (
       <Fragment key={char.id}>
-        <div className="char-search__message char-search__message_success">
+        <div className="form__message form__message_success">
           There is! Visit {char.name} page?
         </div>
         <Link
@@ -55,7 +55,7 @@ const CharSearchForm = () => {
       </Fragment>
     ))
   ) : (
-    <div className="char-search__message char-search__message_error">
+    <div className="form__message form__message_error form__message_full">
       The character was not found. Check the name and try again.
     </div>
   );
@@ -86,10 +86,10 @@ const CharSearchForm = () => {
         return (
           <>
             <Form
-              className="char-search char-section__aside-inner"
+              className="form form_layout_search char-search char-section__aside-inner"
               name="search-char"
             >
-              <label className="char-search__label" htmlFor="charName">
+              <label className="form__label" htmlFor="charName">
                 Or find a character by name:
               </label>
               <Field
@@ -97,7 +97,7 @@ const CharSearchForm = () => {
                 name="charName"
                 type="text"
                 placeholder="Enter name"
-                className="char-search__input"
+                className="form__input"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   handleChange(e);
                   handleClear();
@@ -112,7 +112,7 @@ const CharSearchForm = () => {
               </button>
               <FormikErrorMessage
                 component="div"
-                className="char-search__message char-search__message_error"
+                className="form__message form__message_error form__message_full"
                 name="charName"
               />
 

@@ -31,6 +31,10 @@
             gap: var(--gap-menu);
             font-weight: bold;
             font-size: clamp(16px, 4vw, 24px);
+
+            &_size_small {
+                font-size: clamp(14px, 3vw, 18px);
+            }
         }
 
         &-item {
@@ -56,6 +60,19 @@
                 pointer-events: none;
             }
         }
+    }
+
+    &__auth {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-menu);
+        font-weight: bold;
+        font-size: clamp(14px, 3vw, 18px);
+    }
+
+    &__user-name {
+        color: var(--text-color-main);
+        opacity: 0.8;
     }
 
     &__controls {
