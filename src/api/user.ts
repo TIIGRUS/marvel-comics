@@ -1,9 +1,11 @@
 import { User as SupabaseUser } from "@supabase/supabase-js";
-import { User as AppUser } from "../types";
+import { User as AppUser, UserProfileUpdates } from "../types";
 import serializeUser from "../utils/serializeUser";
 import { supabase } from "../utils/supabase";
 
 export type UserProfile = AppUser;
+
+const AVATARS_BUCKET = "avatars";
 
 export interface RegisterData {
   email: string;
@@ -205,7 +207,10 @@ const getCurrentUser = async () => {
   }
 };
 
-const updateUserProfile = async (userId: string, updates: Partial<AppUser>) => {
+const updateUserProfile = async (
+  userId: string,
+  updates: UserProfileUpdates,
+) => {
   const { data: userRecord, error } = await supabase
     .from("users")
     .update(updates)
@@ -220,12 +225,93 @@ const updateUserProfile = async (userId: string, updates: Partial<AppUser>) => {
   return serializeUser(userRecord);
 };
 
+const getAvatarExtension = (file: File) => {
+  const extension = file.name.split(".").pop()?.toLowerCase();
+  return extension || file.type.split("/").pop() || "jpg";
+};
+
+const getAvatarStoragePath = (avatarUrl?: string | null) => {
+  if (!avatarUrl) {
+    return null;
+  }
+
+  const bucketPath = `/storage/v1/object/public/${AVATARS_BUCKET}/`;
+  const bucketIndex = avatarUrl.indexOf(bucketPath);
+
+  if (bucketIndex === -1) {
+    return null;
+  }
+
+  return decodeURIComponent(avatarUrl.slice(bucketIndex + bucketPath.length));
+};
+
+const removeAvatar = async (avatarUrl?: string | null) => {
+  const avatarPath = getAvatarStoragePath(avatarUrl);
+
+  if (!avatarPath) {
+    return;
+  }
+
+  const { error } = await supabase.storage
+    .from(AVATARS_BUCKET)
+    .remove([avatarPath]);
+
+  if (error) {
+    console.error("Failed to remove previous avatar:", error);
+  }
+};
+
+const uploadAvatar = async (
+  userId: string,
+  file: File,
+  currentAvatarUrl?: string | null,
+) => {
+  const extension = getAvatarExtension(file);
+  const fileName =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}`;
+  const filePath = `${userId}/${fileName}.${extension}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from(AVATARS_BUCKET)
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (uploadError) {
+    throw uploadError;
+  }
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from(AVATARS_BUCKET).getPublicUrl(filePath);
+
+  const updatedUser = await updateUserProfile(userId, {
+    avatar_url: publicUrl,
+  });
+
+  if (!updatedUser) {
+    await supabase.storage.from(AVATARS_BUCKET).remove([filePath]);
+    throw new Error("Avatar upload failed");
+  }
+
+  const previousAvatarPath = getAvatarStoragePath(currentAvatarUrl);
+  if (previousAvatarPath && previousAvatarPath !== filePath) {
+    await removeAvatar(currentAvatarUrl);
+  }
+
+  return updatedUser;
+};
+
 const userApi = {
   register,
   login,
   logout,
   getCurrentUser,
   updateUserProfile,
+  uploadAvatar,
 };
 
 export default userApi;

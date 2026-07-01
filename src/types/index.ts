@@ -13,6 +13,14 @@ export interface User {
     created_at: string;
 }
 
+export interface UserProfileUpdates {
+    user_name?: string;
+    first_name?: string | null;
+    last_name?: string | null;
+    age?: number | null;
+    avatar_url?: string | null;
+}
+
 // Domain types (output of transform functions): Character and Comic
 export interface Character {
     id: number;

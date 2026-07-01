@@ -1,41 +1,34 @@
 import type { User } from "../../types";
+import {
+  getProfileDisplayName,
+  getProfileFields,
+  getProfileInitials,
+} from "./profileUtils";
 import "./Profile.scss";
-
-const formatDate = (date: string) =>
-  new Intl.DateTimeFormat("en", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(date));
 
 interface ProfileProps {
   user: User;
+  onEdit: () => void;
 }
 
-const Profile = ({ user }: ProfileProps) => {
-  const displayName =
-    [user.first_name, user.last_name].filter(Boolean).join(" ") ||
-    user.user_name;
-  const initials = displayName
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-  const profileFields = [
-    { label: "Email", value: user.email },
-    { label: "Username", value: user.user_name },
-    { label: "First Name", value: user.first_name },
-    { label: "Last Name", value: user.last_name },
-    { label: "Age", value: user.age },
-    { label: "Account Created", value: formatDate(user.created_at) },
-  ].filter(({ value }) => value);
+const Profile = ({ user, onEdit }: ProfileProps) => {
+  const displayName = getProfileDisplayName(user);
+  const initials = getProfileInitials(displayName);
+  const profileFields = getProfileFields(user);
 
   return (
     <section className="profile-page">
       <div className="profile-page__summary">
         <div className="profile-page__avatar" aria-hidden="true">
-          {initials}
+          {user.avatar_url ? (
+            <img
+              className="profile-page__avatar-image"
+              src={user.avatar_url}
+              alt={"Avatar of " + displayName}
+            />
+          ) : (
+            initials
+          )}
         </div>
         <div className="profile-page__heading">
           <h1 className="profile-page__title">User Profile</h1>
@@ -51,6 +44,16 @@ const Profile = ({ user }: ProfileProps) => {
           </div>
         ))}
       </dl>
+
+      <div className="profile-page__actions">
+        <button
+          className="button button_theme_main"
+          type="button"
+          onClick={onEdit}
+        >
+          <span className="button__inner">Edit</span>
+        </button>
+      </div>
     </section>
   );
 };

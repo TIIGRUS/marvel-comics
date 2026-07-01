@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import userApi, { RegisterData, LoginData, UserProfile } from "../api/user";
+import type { UserProfileUpdates } from "../types";
 import { supabase } from "../utils/supabase";
 
 export interface AuthContextType {
@@ -9,6 +10,8 @@ export interface AuthContextType {
   register: (data: RegisterData) => Promise<void>;
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (updates: UserProfileUpdates) => Promise<void>;
+  uploadAvatar: (file: File) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -103,6 +106,52 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const updateProfile = async (updates: UserProfileUpdates) => {
+    if (!user) {
+      throw new Error("Cannot update profile without authenticated user");
+    }
+
+    try {
+      setError(null);
+      const updatedUser = await userApi.updateUserProfile(user.id, updates);
+
+      if (!updatedUser) {
+        throw new Error("Profile update failed");
+      }
+
+      setUser(updatedUser);
+    } catch (err) {
+      const error = err as Error | { message: string };
+      const errorMessage =
+        "message" in error ? error.message : "Profile update failed";
+      setError(errorMessage);
+      throw err;
+    }
+  };
+
+  const uploadAvatar = async (file: File) => {
+    if (!user) {
+      throw new Error("Cannot upload avatar without authenticated user");
+    }
+
+    try {
+      setError(null);
+      const updatedUser = await userApi.uploadAvatar(
+        user.id,
+        file,
+        user.avatar_url,
+      );
+
+      setUser(updatedUser);
+    } catch (err) {
+      const error = err as Error | { message: string };
+      const errorMessage =
+        "message" in error ? error.message : "Avatar upload failed";
+      setError(errorMessage);
+      throw err;
+    }
+  };
+
   const value: AuthContextType = {
     user,
     loading,
@@ -110,6 +159,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     register,
     login,
     logout,
+    updateProfile,
+    uploadAvatar,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
