@@ -46,7 +46,7 @@
         max-width: 250px;
         height: 38px;
         padding: 0 var(--gap-xs);
-        border: none;
+        border: 1px solid transparent;
         background: var(--form-input-bg);
         box-shadow: var(--shadow-sm);
         font-size: var(--fs-sm);
@@ -65,6 +65,17 @@
         &_invalid {
             outline: 2px solid var(--form-error-color);
             background-color: var(--form-error-bg);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            user-select: none;
+            opacity: 0.5;
+        }
+
+        &:disabled:focus,
+        &:disabled:focus-visible {
+            outline: none;
         }
     }
 

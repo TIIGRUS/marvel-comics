@@ -78,7 +78,8 @@
                 background-color: var(--button-secondary-bg);
             }
 
-            &:focus-visible {
+            &:focus-visible,
+            &:has(:focus-visible) {
                 filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
                     drop-shadow(0 0 5px var(--button-secondary-bg));
             }
@@ -90,7 +91,8 @@
                 background-color: var(--button-main-bg);
             }
 
-            &:focus-visible {
+            &:focus-visible,
+            &:has(:focus-visible) {
                 filter: brightness(1.2) drop-shadow(0 0 2px var(--button-focus-shadow-color))
                     drop-shadow(0 0 5px var(--button-main-bg));
             }

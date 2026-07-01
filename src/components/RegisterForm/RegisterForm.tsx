@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import getInputClassName from "../../utils/getInputClassName";
 import "./RegisterForm.scss";
 
 interface RegisterFormValues {
@@ -35,8 +36,6 @@ const validationSchema = Yup.object({
 const RegisterForm = () => {
   const navigate = useNavigate();
   const { register, error: authError } = useAuthContext();
-  const inputClassName = (hasError: boolean) =>
-    `form__input form__input_wide${hasError ? " form__input_invalid" : ""}`;
 
   const formik = useFormik<RegisterFormValues>({
     initialValues: {
@@ -89,7 +88,7 @@ const RegisterForm = () => {
           type="email"
           placeholder="Enter your email"
           {...formik.getFieldProps("email")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.email && formik.errors.email),
           )}
         />
@@ -109,7 +108,7 @@ const RegisterForm = () => {
           type="text"
           placeholder="Choose a username"
           {...formik.getFieldProps("user_name")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.user_name && formik.errors.user_name),
           )}
         />
@@ -129,7 +128,7 @@ const RegisterForm = () => {
           type="password"
           placeholder="Enter your password"
           {...formik.getFieldProps("password")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.password && formik.errors.password),
           )}
         />
@@ -149,7 +148,7 @@ const RegisterForm = () => {
           type="password"
           placeholder="Confirm your password"
           {...formik.getFieldProps("passwordConfirm")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(
               formik.touched.passwordConfirm && formik.errors.passwordConfirm,
             ),
@@ -199,7 +198,7 @@ const RegisterForm = () => {
           type="number"
           placeholder="18"
           {...formik.getFieldProps("age")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.age && formik.errors.age),
           )}
         />

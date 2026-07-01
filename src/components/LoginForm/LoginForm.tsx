@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import getInputClassName from "../../utils/getInputClassName";
 import "./LoginForm.scss";
 
 interface LoginFormValues {
@@ -21,8 +22,6 @@ const validationSchema = Yup.object({
 const LoginForm = () => {
   const navigate = useNavigate();
   const { login, error: authError } = useAuthContext();
-  const inputClassName = (hasError: boolean) =>
-    `form__input form__input_wide${hasError ? " form__input_invalid" : ""}`;
 
   const formik = useFormik<LoginFormValues>({
     initialValues: {
@@ -63,7 +62,7 @@ const LoginForm = () => {
           type="email"
           placeholder="Enter your email"
           {...formik.getFieldProps("email")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.email && formik.errors.email),
           )}
         />
@@ -83,7 +82,7 @@ const LoginForm = () => {
           type="password"
           placeholder="Enter your password"
           {...formik.getFieldProps("password")}
-          className={inputClassName(
+          className={getInputClassName(
             Boolean(formik.touched.password && formik.errors.password),
           )}
         />
