@@ -2,6 +2,37 @@
 export type AsyncStatus = 'waiting' | 'loading' | 'confirmed' | 'error';
 
 // User authentication types
+export interface FavoriteCharacter {
+    id: number;
+    name: string;
+    thumbnail: string;
+}
+
+export interface FavoriteComic {
+    id: number;
+    title: string;
+    thumbnail: string;
+    price: number | string;
+}
+
+export interface FavoriteQuote {
+    id: number;
+    quote_en: string;
+    quote_ru: string;
+    character: string;
+}
+
+export interface UserFavorites {
+    characters: FavoriteCharacter[];
+    comics: FavoriteComic[];
+    quotes: FavoriteQuote[];
+}
+
+export interface ToggleFavoritePayload {
+    type: "characters" | "comics" | "quotes";
+    item: FavoriteCharacter | FavoriteComic | FavoriteQuote;
+}
+
 export interface User {
     id: string;
     email: string;
@@ -11,6 +42,7 @@ export interface User {
     age?: number;
     avatar_url?: string;
     created_at: string;
+    favorites: UserFavorites;
 }
 
 export interface UserProfileUpdates {
@@ -19,6 +51,7 @@ export interface UserProfileUpdates {
     last_name?: string | null;
     age?: number | null;
     avatar_url?: string | null;
+    favorites?: UserFavorites;
 }
 
 // Domain types (output of transform functions): Character and Comic

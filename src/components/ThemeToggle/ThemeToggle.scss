@@ -22,10 +22,13 @@
   border-radius: 50%;
   transition:
     background-color var(--transition-duration, 0.2s) ease,
-    color var(--transition-duration, 0.2s) ease;
+    color var(--transition-duration, 0.2s) ease,
+    outline var(--transition-fast);
   font-size: var(--theme-toggle-icon-size, 16px);
   font-weight: 500;
   position: relative;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 
   &:hover:not(.theme-toggle__button_is-active) {
     background-color: var(--theme-toggle-bg-hover, rgba(0, 0, 0, 0.04));

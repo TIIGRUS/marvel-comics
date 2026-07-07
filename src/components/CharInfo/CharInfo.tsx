@@ -7,6 +7,7 @@ import { AsyncStatus, Character } from "../../types";
 import { Tables } from "../../types/supabase";
 import CharacterQuotes from "../CharacterQuotes/CharacterQuotes";
 import { useCharacterQuotes } from "../../hooks";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 import "./CharInfo.scss";
 
@@ -106,7 +107,14 @@ const View = ({ char, charQuotes }: ViewProps) => {
         alt={`Image of ${name}`}
         className="char-info__img"
       />
-      <h3 className="char-info__name">{name}</h3>
+      <h3 className="char-info__name">
+        {name}
+        <FavoriteButton
+          type="characters"
+          item={{ id: char.id, name, thumbnail }}
+          size={20}
+        />
+      </h3>
       <p className="char-info__descr">{description}</p>
       <CharacterQuotes quotes={charQuotes} className="char-info__quotes" />
       <div className="char-info__btns">

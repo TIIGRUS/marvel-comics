@@ -21,18 +21,38 @@
         font-weight: bold;
         font-size: var(--fs-lg);
         line-height: var(--lh-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--gap-xs);
     }
+
     &__price {
         font-weight: bold;
         font-size: var(--fs-xl);
         line-height: var(--lh-xl);
         color: var(--single-item-accent);
     }
+
     &__back {
         justify-self: end;
         font-weight: bold;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        border-radius: 2px;
+        transition:
+            color var(--transition-fast),
+            outline-offset var(--transition-fast);
 
         &:hover {
+            color: var(--single-item-accent);
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline-color: var(--color-main);
             color: var(--single-item-accent);
         }
     }

@@ -1,7 +1,6 @@
 import classNames from "classnames";
-
 import { Tables } from "../../types/supabase";
-
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 import "./CharacterQuotes.scss";
 
 interface CharacterQuotesProps {
@@ -23,9 +22,19 @@ const CharacterQuotes = ({
     <blockquote className={classNames("character-quotes", className)}>
       {quotes.length > 0 ? (
         quotes.map((quote) => (
-          <p key={quote.id} className="character-quotes__item">
-            "{quote.quote_en}"
-          </p>
+          <div key={quote.id} className="character-quotes__item-wrapper">
+            <p className="character-quotes__item">"{quote.quote_en}"</p>
+            <FavoriteButton
+              type="quotes"
+              item={{
+                id: quote.id,
+                quote_en: quote.quote_en,
+                quote_ru: quote.quote_ru,
+                character: quote.character,
+              }}
+              size={16}
+            />
+          </div>
         ))
       ) : (
         <p className="character-quotes__item">

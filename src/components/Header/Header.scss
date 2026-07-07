@@ -49,15 +49,28 @@
         }
 
         &-link {
-            transition: color var(--transition-fast);
+            transition:
+                color var(--transition-fast),
+                outline var(--transition-fast);
+            outline: 2px solid transparent;
+            outline-offset: 2px;
 
             &:hover {
                 color: var(--header-accent-hover);
             }
 
+            &:focus {
+                outline: none;
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--color-main);
+            }
+
             &_active {
                 color: var(--header-accent);
                 pointer-events: none;
+                user-select: none;
             }
         }
     }

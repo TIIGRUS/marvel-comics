@@ -1,6 +1,11 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import userApi, { RegisterData, LoginData, UserProfile } from "../api/user";
-import type { UserProfileUpdates } from "../types";
+import type {
+  UserProfileUpdates,
+  FavoriteCharacter,
+  FavoriteComic,
+  FavoriteQuote,
+} from "../types";
 import { supabase } from "../utils/supabase";
 
 export interface AuthContextType {
@@ -12,6 +17,10 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   updateProfile: (updates: UserProfileUpdates) => Promise<void>;
   uploadAvatar: (file: File) => Promise<void>;
+  toggleFavorite: (
+    type: "characters" | "comics" | "quotes",
+    item: FavoriteCharacter | FavoriteComic | FavoriteQuote,
+  ) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -152,6 +161,42 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const toggleFavorite = async (
+    type: "characters" | "comics" | "quotes",
+    item: FavoriteCharacter | FavoriteComic | FavoriteQuote,
+  ) => {
+    if (!user) {
+      throw new Error("Cannot toggle favorite without authenticated user");
+    }
+
+    // Задаем базовую структуру, если favorites отсутствует
+    const currentFavorites = user.favorites || {
+      characters: [],
+      comics: [],
+      quotes: [],
+    };
+
+    // 1. Динамически получаем нужный массив по ключу (type)
+    // TypeScript может ругаться на strict-типы внутри массива, поэтому используем any[] для гибкости логики
+    const targetList = currentFavorites[type] as any[];
+
+    // 2. Проверяем наличие элемента (логика едина для всех типов, так как у всех есть .id)
+    const exists = targetList.some((element) => element.id === item.id);
+
+    // 3. Формируем обновленный список (удаляем или добавляем)
+    const updatedList = exists
+      ? targetList.filter((element) => element.id !== item.id)
+      : [...targetList, item];
+
+    // 4. Сохраняем обновленный объект в профиль
+    await updateProfile({
+      favorites: {
+        ...currentFavorites,
+        [type]: updatedList,
+      },
+    });
+  };
+
   const value: AuthContextType = {
     user,
     loading,
@@ -161,6 +206,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     logout,
     updateProfile,
     uploadAvatar,
+    toggleFavorite,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

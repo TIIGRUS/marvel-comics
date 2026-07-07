@@ -35,6 +35,11 @@ const buildUserPayload = (
     last_name: profileData?.last_name || metadata.last_name || null,
     age: profileData?.age ?? metadata.age ?? null,
     avatar_url: null,
+    favorites: {
+      characters: [],
+      comics: [],
+      quotes: [],
+    },
   };
 };
 

@@ -38,10 +38,13 @@
         text-transform: uppercase;
         grid-area: name;
         align-self: start;
+        display: flex;
+        align-items: center;
+        gap: var(--gap-xs);
 
-        @media (width <= 768px) {
-            max-width: calc(100% - 32px);
-        }
+        // @media (width <= 768px) {
+        //     max-width: calc(100% - 32px);
+        // }
     }
 
     &__btns {

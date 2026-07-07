@@ -4,13 +4,14 @@ import SingleItemLayout from "../SingleItemLayout/SingleItemLayout";
 import CharacterQuotes from "../CharacterQuotes/CharacterQuotes";
 import { Character } from "../../types";
 import { useCharacterQuotes } from "../../hooks";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 interface SingleCharProps {
   data: Character;
 }
 
 const SingleChar = ({ data }: SingleCharProps) => {
-  const { name, description, thumbnail } = data || {};
+  const { id, name, description, thumbnail } = data || {};
   const { quotes, isQuotesLoading } = useCharacterQuotes(name);
 
   return (
@@ -23,6 +24,13 @@ const SingleChar = ({ data }: SingleCharProps) => {
         title={name}
         description={description}
         thumbnail={thumbnail}
+        favoriteButton={
+          <FavoriteButton
+            type="characters"
+            item={{ id, name, thumbnail }}
+            size={22}
+          />
+        }
       >
         <CharacterQuotes quotes={quotes} isLoading={isQuotesLoading} />
       </SingleItemLayout>

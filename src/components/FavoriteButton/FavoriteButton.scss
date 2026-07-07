@@ -1,0 +1,42 @@
+.favorite-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--color-grey);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        color var(--transition-fast),
+        transform 0.2s ease,
+        outline-offset 0.1s ease;
+    flex-shrink: 0;
+    outline: 2px solid transparent;
+    outline-offset: 0px;
+
+    &:hover {
+        color: var(--color-main);
+        transform: scale(1.1);
+    }
+
+    // Keyboard focus ring — visible only when navigating by keyboard
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-main);
+        outline-offset: 3px;
+        color: var(--color-main);
+    }
+
+    &_active {
+        color: var(--color-main);
+
+        &:focus-visible {
+            outline-color: var(--color-main);
+        }
+    }
+}
