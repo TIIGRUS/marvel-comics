@@ -18,13 +18,20 @@ import "./Profile.scss";
 interface ProfileProps {
   user: User;
   onEdit: () => void;
+  onChangePassword: () => void;
+  successMessage?: string | null;
 }
 interface RemoveButtonProps {
   onClick: (e: React.MouseEvent) => void;
   className: string;
 }
 
-const Profile = ({ user, onEdit }: ProfileProps) => {
+const Profile = ({
+  user,
+  onEdit,
+  onChangePassword,
+  successMessage,
+}: ProfileProps) => {
   const [activeTab, setActiveTab] = useState<
     "characters" | "comics" | "quotes"
   >("characters");
@@ -116,7 +123,20 @@ const Profile = ({ user, onEdit }: ProfileProps) => {
           ))}
         </dl>
 
+        {successMessage && (
+          <div className="form__alert form__alert_success">
+            {successMessage}
+          </div>
+        )}
+
         <div className="profile-page__actions">
+          <button
+            className="button button_theme_secondary"
+            type="button"
+            onClick={onChangePassword}
+          >
+            <span className="button__inner">Change Password</span>
+          </button>
           <button
             className="button button_theme_main"
             type="button"

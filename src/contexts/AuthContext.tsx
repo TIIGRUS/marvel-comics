@@ -8,6 +8,8 @@ import type {
 } from "../types";
 import { supabase } from "../utils/supabase";
 
+type FavoriteItem = FavoriteCharacter | FavoriteComic | FavoriteQuote;
+
 export interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
@@ -16,6 +18,7 @@ export interface AuthContextType {
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (updates: UserProfileUpdates) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
   uploadAvatar: (file: File) => Promise<void>;
   toggleFavorite: (
     type: "characters" | "comics" | "quotes",
@@ -138,6 +141,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const updatePassword = async (password: string) => {
+    if (!user) {
+      throw new Error("Cannot update password without authenticated user");
+    }
+
+    try {
+      setError(null);
+      await userApi.updatePassword({ password });
+    } catch (err) {
+      const error = err as Error | { message: string };
+      const errorMessage =
+        "message" in error ? error.message : "Password update failed";
+      setError(errorMessage);
+      throw err;
+    }
+  };
+
   const uploadAvatar = async (file: File) => {
     if (!user) {
       throw new Error("Cannot upload avatar without authenticated user");
@@ -177,8 +197,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     };
 
     // 1. Динамически получаем нужный массив по ключу (type)
-    // TypeScript может ругаться на strict-типы внутри массива, поэтому используем any[] для гибкости логики
-    const targetList = currentFavorites[type] as any[];
+    // Все элементы избранного имеют id, поэтому здесь достаточно общего union-типа.
+    const targetList = currentFavorites[type] as FavoriteItem[];
 
     // 2. Проверяем наличие элемента (логика едина для всех типов, так как у всех есть .id)
     const exists = targetList.some((element) => element.id === item.id);
@@ -205,6 +225,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     login,
     logout,
     updateProfile,
+    updatePassword,
     uploadAvatar,
     toggleFavorite,
   };

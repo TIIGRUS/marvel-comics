@@ -21,6 +21,10 @@ export interface LoginData {
   password: string;
 }
 
+export interface UpdatePasswordData {
+  password: string;
+}
+
 const buildUserPayload = (
   authUser: SupabaseUser,
   profileData?: Partial<RegisterData>,
@@ -230,6 +234,16 @@ const updateUserProfile = async (
   return serializeUser(userRecord);
 };
 
+const updatePassword = async ({ password }: UpdatePasswordData) => {
+  const { error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) {
+    throw error;
+  }
+};
+
 const getAvatarExtension = (file: File) => {
   const extension = file.name.split(".").pop()?.toLowerCase();
   return extension || file.type.split("/").pop() || "jpg";
@@ -316,6 +330,7 @@ const userApi = {
   logout,
   getCurrentUser,
   updateUserProfile,
+  updatePassword,
   uploadAvatar,
 };
 

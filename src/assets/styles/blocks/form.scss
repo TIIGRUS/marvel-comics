@@ -114,6 +114,11 @@
         background-color: var(--form-error-bg);
         color: var(--form-error-color);
         font-size: var(--fs-sm);
+
+        &_success {
+            background-color: var(--form-success-bg);
+            color: var(--form-success-color);
+        }
     }
 
     &__submit {

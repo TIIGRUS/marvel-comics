@@ -90,6 +90,7 @@ $bp-xl: 1200px;
     --form-input-bg: var(--color-white);
     --form-message-color: var(--color-main);
     --form-success-color: var(--color-success);
+    --form-success-bg: color-mix(var(--color-success), black 30%);
     --form-error-color: #c33;
     --form-error-bg: #fff5f5;
     --form-focus-color: var(--color-main);

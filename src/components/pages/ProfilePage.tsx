@@ -3,10 +3,15 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import type { UserProfileUpdates } from "../../types";
 import Profile from "../Profile/Profile";
 import ProfileForm from "../Profile/ProfileForm";
+import ProfilePasswordForm from "../Profile/ProfilePasswordForm";
+
+type ProfileMode = "view" | "edit" | "password";
 
 const ProfilePage = () => {
-  const { user, error, updateProfile, uploadAvatar } = useAuthContext();
-  const [isEditing, setIsEditing] = useState(false);
+  const { user, error, updateProfile, updatePassword, uploadAvatar } =
+    useAuthContext();
+  const [mode, setMode] = useState<ProfileMode>("view");
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   if (!user) {
     return null;
@@ -20,18 +25,50 @@ const ProfilePage = () => {
     if (avatarFile) {
       await uploadAvatar(avatarFile);
     }
-    setIsEditing(false);
+    setSuccessMessage("Profile updated successfully.");
+    setMode("view");
   };
 
-  return isEditing ? (
-    <ProfileForm
+  const handlePasswordSubmit = async (password: string) => {
+    await updatePassword(password);
+    setSuccessMessage("Password updated successfully.");
+    setMode("view");
+  };
+
+  if (mode === "edit") {
+    return (
+      <ProfileForm
+        user={user}
+        error={error}
+        onCancel={() => setMode("view")}
+        onSubmit={handleSubmit}
+      />
+    );
+  }
+
+  if (mode === "password") {
+    return (
+      <ProfilePasswordForm
+        error={error}
+        onCancel={() => setMode("view")}
+        onSubmit={handlePasswordSubmit}
+      />
+    );
+  }
+
+  return (
+    <Profile
       user={user}
-      error={error}
-      onCancel={() => setIsEditing(false)}
-      onSubmit={handleSubmit}
+      successMessage={successMessage}
+      onEdit={() => {
+        setSuccessMessage(null);
+        setMode("edit");
+      }}
+      onChangePassword={() => {
+        setSuccessMessage(null);
+        setMode("password");
+      }}
     />
-  ) : (
-    <Profile user={user} onEdit={() => setIsEditing(true)} />
   );
 };
 
